@@ -6,25 +6,88 @@
   <br>
 </h1>
 
-<h4 align="center">A household management app.</h4>
+<h4 align="center">A comprehensive household management app.</h4>
 
 <p align="center">
     <img src="https://img.shields.io/badge/contributors-6-blueviolet?style=plastic">
     <img src="https://img.shields.io/badge/release-none-ff69b4?style=plastic">
-  <img src="https://img.shields.io/badge/platform-~-informational?style=plastic">
+  <img src="https://img.shields.io/badge/platform-IOS/Android-informational?style=plastic">
 </p>
 
 <p align="center">
   <a href="#motivation">Motivation</a> •
   <a href="#installation">Installation</a> •
-  <a href="#contribution">Contribution</a> •
-  <a href="#resources">Resources</a>
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#contribution">Contribution</a>
+</p>
+
+<p align="center">
+  <img src="https://1stwebdesigner.com/wp-content/uploads/2015/10/life-minimal-app.gif" alt="animated" />
 </p>
 
 ## Motivation![image](https://user-images.githubusercontent.com/35664551/189512440-7b840683-7aef-4a8a-a6b2-d7c23eec514c.png)
 
+Tabs is a comprehensive household management mobile app for you and your housemates.
+
+Our vision is to enhance our users' home lives by preventing disorganization, miscommunication, and avoidable situations with their roommates.
+Users are able to seamlessly manage inventory and supplies, create and keep track of schedules and chores, and manage many other accommodations, saving them time and effort.
+
+We hope to help individuals to stay connected to their roommates and improve their experience living with them.
+
 ## Installation![image](https://user-images.githubusercontent.com/35664551/189512452-fb19dbb7-2e2b-407c-aee5-a607dc0c6b88.png)
+
+<a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a> and <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">Node.js</a> must be installed on your computer to clone and run this application. From your command line:
+```bash
+# Clone this repository
+$ git clone https://github.com/UTSCCSCC01/Tabs
+
+# cd into the project directory
+$ cd Tabs/{app location}
+
+# Install dependencies
+$ npm install
+
+# Run the app with Expo
+$ npx expo start
+```
+
+On a mobile device, install the Expo Go app and scan the QR code shown in the terminal.
+
+## Tech Stack![image](https://user-images.githubusercontent.com/35664551/189512440-7b840683-7aef-4a8a-a6b2-d7c23eec514c.png)
+### Frontend
+
+- [React Native](https://reactnative.dev/docs/environment-setup)
+- [Apollo Client](https://www.apollographql.com/docs/react/)
+
+### Backend
+- [mongoose](https://mongoosejs.com/docs/guide.html) for querying the database 
+- [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) as the host for user data
+- [Apollo Server](https://www.apollographql.com/docs/apollo-server/) for HTTP requests
+- [GraphQL](https://graphql.org/) for routing
+
+### Build
+- [Expo](https://docs.expo.dev/)
+
+### Package Management
+- [yarn](https://yarnpkg.com/getting-started/install) or [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [docker](https://www.docker.com/get-started/)
 
 ## Contribution![image](https://user-images.githubusercontent.com/35664551/189512456-a3c195b8-8faf-4130-8451-be603e5fc9d3.png)
 
-## Resources![image](https://user-images.githubusercontent.com/35664551/189512461-6d12d9c0-d8f3-431c-ab5e-7106092f35d3.png)
+### Gitflow
+All contributions should conform to the <a href="https://www.youtube.com/watch?v=1SXpE08hvGs&start=19">Gitflow</a> workflow.
+<ol>
+  <li>Fork this repository</li>
+  <li>Create/Checkout a feature/debug branch</li>
+  <li>Commit and push changes</li>
+  <li>Submit a pull request</li>
+</ol>
+
+### Branch Naming Convention
+Branches should be the Jira ticket number followed by its name, separated by dashes.
+
+- `{ticket#}-{issue name}`
+
+### Ticketing & Pull Requests
+- Jira is used for ticketing
+- All pull requests require 2 approving reviews before merging
