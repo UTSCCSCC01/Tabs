@@ -1,0 +1,21 @@
+# User Stories
+- I as an accommodation admin should be able to add roommates to my home so that they can also interract with the app
+- I as a roommate should be able to add items to the food inventory so that I can let my housemates know I bought them
+- I as a roommate should be able to modify the number of individual items in the food inventory so that I can let my housemates know I used/bought more of them
+- I as a roommate should be able to inform the entire house that I am using an appliance like the washing machine so that they can find out without asking me or checking physically
+- I as a roommate should be able to inform the entire house that I am using the dryer so that they can find out without asking me or checking physically
+- I as a roommate should be able to inform the entire house that I am busy and currently cannot respond to contact so they do not think I am ignoring them
+- I as an accommodation admin should be able to set the monthly rent of all roommates so that we all know who needs to pay what
+- I as an accommodation admin should be able to set a due date for rent so that all roommates can see when they need to pay it
+- I as a roommate should get reminders about rent if it is due soon so that I can remember it before it is due
+- I as a roommate should be able to individually text each of my other roommates so that we can communicate //needs work
+- I as a roommate should be able to send and receive messages in a groupchat with all the other housemates so that we can discuss matters that concern everyone
+- I as a roommte should be able to view a food inventory so that I can know what I should buy at the grocery store
+- I as an accommodation admin should be able to remove roommates from my home so that they can no longer interact with the house on the app after moving out
+- I as an accommodation admin should be able to add/remove appliances like washing machines so that the app accurately reflects the number available
+- I as a roommate should be able to access a menu which states how much money I owe other roommates
+- I as a roommate should be able to access a menu which states how much money other roommates owe me
+- I as a roommate should be able to form debt agreements with other roommates to signify that one of us owes the other money
+- I as a roommate should be able to inform all other roommates a list of items that I am not willing to share so that they know to avoid using them
+- I as a roommate should be able to view lists of items that other roommates are not willing to share so that I can avoid unknowingly using them
+- I as a roommate should be able to create and manage a house event so that all housemates can see details and information about it without having to ask
