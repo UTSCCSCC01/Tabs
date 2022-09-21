@@ -7,6 +7,7 @@ Objective: Build a cross-platform mobile app that allows users to manage communi
 
 - Seven: A 20 year old UofT Student who is renting a townhouse with 4 other students. He is only friends with one of his roommates and finds communication with the other 2 awkward and difficult.
 - Dre: A 42 year old family man with a wife and 2 kids. He recently rented out his basement to 2 university students and has trouble coordinating rent and laundry schedules amongst everyone.
+- Taylor: A 52 year old stay-at-home mother of 7 children. She owns 4 properties, and rents them out to 53 different tenants. At this scale, she is finding it hard to micromanage all of them.
 
 
 
@@ -14,6 +15,7 @@ Objective: Build a cross-platform mobile app that allows users to manage communi
 
 - Seven was running out of vegetables and wanted to buy more. However, the last time this happened one of his roommates also bought vegetables while Seven was at school so when Seven also bought some they had too many and half of them ended up getting spoilt. He wanted a way to notify all of his roommates that he needed vegetables, and also know if they were purchased by the time he got the chance to shop.
 - Dre was at work and wanted to do his laundry today. However, he did not want to go home immediately if the washing machine was already in use. He needs to figure out if anyone in his family is currently using it.
+- Seven people got in an argument in one of Taylor's properties, and she wishes that there was a way to resolve it without physically going there.
 
 
 

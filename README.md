@@ -63,6 +63,8 @@ On a mobile device, install the Expo Go app and scan the QR code shown in the te
 - [mongoose](https://mongoosejs.com/docs/guide.html) for querying the database 
 - [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) as the host for user data
 - [Apollo Server](https://www.apollographql.com/docs/apollo-server/) for HTTP requests
+- [Express.js](https://expressjs.com/)
+  - [Apollo Server Express](https://www.npmjs.com/package/apollo-server-express)
 - [GraphQL](https://graphql.org/) for routing
 
 ### Build
