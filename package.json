@@ -1,0 +1,23 @@
+{
+  "name": "tabs",
+  "version": "1.0.0",
+  "description": "tabs as a household management app",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTSCCSCC01/Tabs.git"
+  },
+  "author": "\"John Ma, Klein Harrigan, Tyler Cong, Gigi Cheang, Crystal Huang, Young Chen\"",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UTSCCSCC01/Tabs/issues"
+  },
+  "homepage": "https://github.com/UTSCCSCC01/Tabs#readme",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "esm-lint": "0.0.0"
+  }
+}

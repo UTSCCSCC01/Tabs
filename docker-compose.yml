@@ -1,0 +1,19 @@
+version: '1.0.0'
+
+services:
+
+  frontend-android:
+    env_file:
+      - .env
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+  backend:
+    ports:
+      - ${PORTS}
+    env_file:
+      - .env
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
