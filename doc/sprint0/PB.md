@@ -18,10 +18,11 @@
 
 
 * I as a roommate should be able to create (weekly, monthly) chores schedule (washing dishes, taking out trash, etc) so my housemates and I can remember who needs to do what on which day
-* I as a roommate should be able to view daily chores/tasks so I can be reminded of what I need to do today
-* I as a roommate should receive reminders to do assigned chores/tasks at a set time
-* I as a roommate should be able to delegate the chore/task to another roommate in the event I am unable to complete it
+* I as a roommate should be able to view daily chores/tasks so that I can be reminded of what I need to do today
+* I as a roommate should receive reminders to do assigned chores/tasks at a set time so that my roommates do not have to waste time reminding me
+* I as a roommate should be able to delegate the chore/task to another roommate in the event I am unable to complete it so that the whole house knows that the delegate needs to do it in my stead
 
+* I as a roommate should be able to sign up and log in to the app using my phone number so that my information can be stored across devices
 
 * I as an accommodation admin should be able to add roommates to my home so that they can also interact with the app
 * I as an accommodation admin should be able to remove roommates from my home so that they can no longer interact with the house on the app after moving out
