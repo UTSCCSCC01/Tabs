@@ -1,0 +1,30 @@
+{
+  "name": "tabs-frontend",
+  "version": "1.0.0",
+  "description": "frontend for tabs",
+  "main": "App.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "android": "expo-cli start --android",
+    "ios": "expo-cli start --ios",
+    "start": "expo-cli start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTSCCSCC01/tabs.git"
+  },
+  "author": "\"Young Chen, Gigi Cheang, Tyler Cong, Klein Harrigan, John Ma, Crystal Huang\"",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UTSCCSCC01/tabs/issues"
+  },
+  "homepage": "https://github.com/UTSCCSCC01/tabs#readme",
+  "dependencies": {
+    "expo": "^46.0.10",
+    "expo-cli": "^6.0.5",
+    "react": "^18.2.0",
+    "react-native": "^0.70.1"
+  }
+}
