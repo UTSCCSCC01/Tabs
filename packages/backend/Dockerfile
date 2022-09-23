@@ -1,11 +1,16 @@
-FROM node:alpine
+FROM node:latest
 
 RUN echo "building backend"
-RUN mkdir tabs
-WORKDIR /tabs
-COPY ./ /tabs/
+RUN mkdir -p tabs/packages/backend
+
+WORKDIR /tabs/packages/backend
+COPY ./ /tabs/packages/backend
+
+RUN ls
+RUN cd /tabs/packages/backend
 RUN npm install
-RUN echo "${DB_HOST} ${DB_USERNAME} ${DB_PASSWORD} ${HTTP_PORT}"
+RUN npm run build
+
 EXPOSE ${PORTS}
 
 CMD ["npm", "dev"]
