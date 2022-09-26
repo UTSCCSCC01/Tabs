@@ -1,6 +1,7 @@
 FROM node:latest
 
 
+
 EXPOSE ${FRONTEND_PORT1}
 EXPOSE ${FRONTEND_PORT2}
 
@@ -13,6 +14,5 @@ COPY package.json .
 
 #RUN npm install
 CMD ["npm", "run", "start"]
-
 
 
