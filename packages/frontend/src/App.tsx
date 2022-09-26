@@ -27,10 +27,10 @@ const TestForm = ()=>{
     const [input] = useState()
     const [signup,  { loading, error }] = useMutation(SIGN_UP)
     if(loading){
-        return <Text style={styles.input}>{'loading failed'} </Text>
+        return  <View style={styles.container}><Text style={styles.input}>{'loading failed'} </Text></View>
     }
     if(error){
-        return <Text style={styles.input}>{'error occured'}</Text>
+        return <View style={styles.container}><Text style={styles.input}>{'error occured'}</Text></View>
     }
     
     const submitHandle = ()=>{
@@ -46,7 +46,7 @@ const TestForm = ()=>{
         onChangeText={input}
         textAlign="center"
         placeholder="TYPE HERE"
-        onSubmitEditing={submitHandle} />
+        onSubmitEditing={submitHandle}/>
         <Button 
         onPress={submitHandle}
         title="CREATE RESOURCE"
@@ -68,6 +68,7 @@ const App = () => (
       justifyContent: 'center'
     },
     input: {
+      color: "#FF0000",
       height: 40,
       margin: 20,
       borderWidth: 10,

@@ -3,5 +3,4 @@ node_modules/
 .expo
 .expo-shared
 lib/
-app.json
 .DS_STORE
