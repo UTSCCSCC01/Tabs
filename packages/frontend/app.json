@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "entryPoint": "./src/App.tsx",
+    "name": "frontend",
+    "slug": "frontend",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "packagerOpts":{
+      "sourceExts": [ "js", "json", "ts", "tsx", "jsx"]
+    }
+  }
+}
