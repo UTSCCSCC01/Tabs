@@ -1,19 +1,6 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "types":["react-native","node"],
-    "jsx":"react-native",
-    "target": "esnext", 
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "sourceMap": true,  
-    "outDir": "./lib",  
-    "rootDir": "./", 
-    "removeComments": true, 
-    "strict": true,     
-    "esModuleInterop": true,
-    "declaration": true
-  },
-  "include": [
-    "./src"
-  ]
+    "strict": true
+  }
 }
