@@ -8,9 +8,9 @@ COPY ./ /tabs/packages/backend
 
 RUN ls
 RUN cd /tabs/packages/backend
-RUN npm install
-RUN npm run build
+RUN npm install && \
+ npm run build
 
-EXPOSE ${PORTS}
+EXPOSE ${BACKEND_PORT}
 
-CMD ["npm", "dev"]
+CMD ["npm", "start"]
