@@ -1,46 +1,27 @@
 {
-  "name": "tabs-frontend",
+  "name": "temp",
   "version": "1.0.0",
-  "description": "frontend for tabs",
-  "main": "./src/App.tsx",
+  "main": "node_modules/expo/AppEntry.js",
   "type": "module",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "android": "expo run:android",
-    "ios": "expo run:ios",
-    "start": "expo start ",
-    "build": "tsc -p tsconfig.json",
-    "initTest": "expo init test"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/UTSCCSCC01/tabs.git"
-  },
-  "author": "\"Young Chen, Gigi Cheang, Tyler Cong, Klein Harrigan, John Ma, Crystal Huang\"",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/UTSCCSCC01/tabs/issues"
-  },
-  "homepage": "https://github.com/UTSCCSCC01/tabs#readme",
   "dependencies": {
     "@apollo/client": "^3.6.9",
-    "@types/react": "^18.0.21",
-    "expo": "^46.0.10",
-    "expo-cli": "^4.3.0",
-    "expo-splash-screen": "~0.16.2",
+    "chokidar": "^3.5.3",
+    "expo": "~46.0.9",
     "expo-status-bar": "~1.4.0",
-    "react": "^18.0.0",
-    "react-dom": "18.0.0",
-    "react-native": "^0.69.5",
-    "react-native-web": "~0.18.7"
+    "react": "18.0.0",
+    "react-native": "0.69.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@types/react-native": "^0.70.3",
-    "esm": "^3.2.25",
-    "tsx": "^3.9.0",
-    "typescript": "^4.8.3"
-  }
+    "@types/react": "~18.0.14",
+    "@types/react-native": "~0.69.1",
+    "typescript": "~4.3.5"
+  },
+  "private": true
 }
