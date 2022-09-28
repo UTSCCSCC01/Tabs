@@ -17,6 +17,7 @@
 <p align="center">
   <a href="#motivation">Motivation</a> •
   <a href="#installation">Installation</a> •
+  <a href="#sprint-0-setup">Sprint 0 Setup</a> •
   <a href="#tech-stack">Tech Stack</a> •
   <a href="#contribution">Contribution</a>
 </p>
@@ -36,22 +37,57 @@ We hope to help individuals to stay connected to their roommates and improve the
 
 ## Installation![image](https://user-images.githubusercontent.com/35664551/189512452-fb19dbb7-2e2b-407c-aee5-a607dc0c6b88.png)
 
-<a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a> and <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">Node.js</a> must be installed on your computer to clone and run this application. From your command line:
+<a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a> and <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">Node.js</a> must be installed on your computer to clone and run this application.
+From your command line:
 ```bash
 # Clone this repository
 $ git clone https://github.com/UTSCCSCC01/Tabs
+```
 
-# cd into the project directory
-$ cd Tabs/{app location}
+### Frontend
+
+[ TODO: add `app.json` file ]
+
+```bash
+# cd into the frontend directory
+$ cd Tabs/packages/frontend
 
 # Install dependencies
 $ npm install
 
 # Run the app with Expo
-$ npx expo start
+$ npm start
+```
+On a mobile device, install the Expo Go app and scan the QR code shown in the terminal.
+
+Alternatively, if you are on macOS and have XCode & XCode Command Line Tools installed:
+```bash
+# Run the app with an iOS simulator
+$ npm run ios
 ```
 
-On a mobile device, install the Expo Go app and scan the QR code shown in the terminal.
+### Backend
+
+Create a `.env` file in the `backend` directory with the variables in `.env.template`. Add your database connection string to the file.
+
+```bash
+# cd into the backend directory
+$ cd Tabs/packages/backend
+
+# Install dependencies
+$ npm install
+
+# Build
+$ npm run build
+
+# Run backend
+$ npm start
+```
+
+### Sprint 0 Setup
+As of Sprint 0, upon running the frontend and backend, the user will see a button and text input. Clicking the button will add a resource to the database.
+
+<img src="https://i.postimg.cc/3wHh5Pdm/button.gif">
 
 ## Tech Stack![image](https://user-images.githubusercontent.com/35664551/189512440-7b840683-7aef-4a8a-a6b2-d7c23eec514c.png)
 ### Frontend
@@ -60,6 +96,7 @@ On a mobile device, install the Expo Go app and scan the QR code shown in the te
 - [Apollo Client](https://www.apollographql.com/docs/react/)
 
 ### Backend
+- [Node.js](https://nodejs.org/en/docs/)
 - [mongoose](https://mongoosejs.com/docs/guide.html) for querying the database 
 - [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) as the host for user data
 - [Apollo Server](https://www.apollographql.com/docs/apollo-server/) for HTTP requests
@@ -71,7 +108,7 @@ On a mobile device, install the Expo Go app and scan the QR code shown in the te
 - [Expo](https://docs.expo.dev/)
 
 ### Package Management
-- [yarn](https://yarnpkg.com/getting-started/install) or [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [docker](https://www.docker.com/get-started/)
 
 ## Contribution![image](https://user-images.githubusercontent.com/35664551/189512456-a3c195b8-8faf-4130-8451-be603e5fc9d3.png)
