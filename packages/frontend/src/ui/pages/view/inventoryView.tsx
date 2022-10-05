@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -7,11 +7,14 @@ import SvgComponent from '../../../assets/images/Vector';
 import { FloatingAction } from "react-native-floating-action";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
 import SVGImg from '../../../assets/images/Vector.svg'
 import { ApolloClient, gql, InMemoryCache, useMutation } from '@apollo/client';
 import { NavigationContainer } from '@react-navigation/native';
 import { Circle } from 'react-native-svg';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import inventoryController from '../controller/inventoryController';
+
 
 
 
@@ -88,6 +91,8 @@ const data = [dbd1, dbd2];
 const folderItem = new FolderItemData("Seven's favourite food");
 const folderItemList = new FolderItemList([folderItem], "Categories");
 
+const invCont = new inventoryController.inventoryController();
+
 
 /*OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
 
@@ -137,36 +142,42 @@ return(
 
       //the background is a gradient so...
       <LinearGradient colors={["#FFFFFF", "#85C4CF", "#127589" ]} style={styles.page} start={[0, 0]} end={[1, 1]} locations={[0.05, 0.1, 1]}>
-        <MyHeader text="Food Inventory"/>    {/* the title of the page plus the back button, could make this more modular but lazy*/}
-        <View style={styles.flexPage}> {/* container for rest of page...*/}
+        <MyHeader text="Food Inventory"/>{// the title of the page plus the back button, could make this more modular but lazy
+        }
+        <View style={styles.flexPage}>{// container for rest of page...
+        }
       
         
           {
           
-            /*OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
-            /* <TextInput
-            style={styles.input}
-            defaultValue={input}
-            value = {input}
-            onChangeText={input}
-            textAlign="center"
-            placeholder="TYPE HERE"
-            onSubmitEditing={submitHandle}/> */}
-            {/* <Button 
-            onPress={submitHandle}
-            title="CREATE RESOURCE"
-            color="red"/> 
+            //OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
+            // <TextInput
+            //style={styles.input}
+            //defaultValue={input}
+            //value = {input}
+            //onChangeText={input}
+            //textAlign="center"
+            //placeholder="TYPE HERE"
+            //onSubmitEditing={submitHandle}/>*/}
+            //* <Button 
+            //onPress={submitHandle}
+            //title="CREATE RESOURCE"
+            //color="red"/>
             
-          END BLOCK OF OLD CODE */}
+          //END BLOCK OF OLD CODE */
+          }
 
-            {/*Boxes of information with own gradient bg, made it a duple cuz i saw on a couple pages there were 2 shown in
-            the same row at once*/}
+            {//Boxes of information with own gradient bg, made it a duple cuz i saw on a couple pages there were 2 shown in
+            //the same row at once
+          }
             <DoubleDescBox data={data}/>
-            {/*I rendered the folder u see across the ui by converting it to a vector image using the 
-            "REACT VECTOR IMAGE CONVERTER SITE: google it cuz i do not remember the link
-            I then rendered the title and list of folder items onto it*/}
+            {//I rendered the folder u see across the ui by converting it to a vector image using the 
+            //"REACT VECTOR IMAGE CONVERTER SITE: google it cuz i do not remember the link
+            //I then rendered the title and list of folder items onto it
+          }
             <FolderSvg list={folderItemList.list} title={folderItemList.title}/>
-             {/*Button in bottom right corner to add something*/}
+             {//Button in bottom right corner to add something
+             }
             <FloatingActionButton/>
 
         </View>
@@ -182,7 +193,7 @@ return(
 
 
 
-const DescBox = (data:DescBoxData) => {
+const DescBox = (data:DescBoxData) =>{
   return (
         <View style={styles.rcorners1}>
             <LinearGradient colors={['#106A7C', '#3E436C']} style={styles.linearGradient1} start={[-0.04, 0]} end={[1.34, 1.34]}>
@@ -192,7 +203,7 @@ const DescBox = (data:DescBoxData) => {
                 //I ignore typescript below so that i can make the name a parameter 
                 //as the icon class is typed only for valid string
                 //@ts-ignore
-                name={data.iconName} ></MaterialCommunityIcons> 
+                name={data.iconName} ></MaterialCommunityIcons>
                 <Text style={styles.whiteText2}>{data.text1}</Text>
                 <Text style={styles.whiteText1}>{data.text2}</Text>
             </LinearGradient>
@@ -202,7 +213,7 @@ const DescBox = (data:DescBoxData) => {
 
 //same as the above but different color, technically i could make the gradient style a 
 //field but right now that is too much work
-const DescBox2 = (data:DescBoxData) => {
+const DescBox2 = (data:DescBoxData) =>{
     return (
           <View style={styles.rcorners1}>
               <LinearGradient colors={['#34ACBC', '#9FD3DE']} style={styles.linearGradient1} start={[-0.04, 0]} end={[1.34, 1.34]}>
@@ -220,7 +231,7 @@ const DescBox2 = (data:DescBoxData) => {
 
 
 //i explained this above
-const DoubleDescBox = (data:DescBoxList) => {
+const DoubleDescBox = (data:DescBoxList) =>{
     return (
         <View style={styles.rowFlex1}>
             <DescBox iconName={data.data[0].iconName} text1={data.data[0].text1} text2={data.data[0].text2}/>
@@ -232,7 +243,7 @@ const DoubleDescBox = (data:DescBoxList) => {
 
 
 //self explanatory
-const MyHeader = (text:TextOBJ) => {
+const MyHeader = (text:TextOBJ) =>{
     return (
         <View style={styles.myHeader}>
 
@@ -249,7 +260,7 @@ const MyHeader = (text:TextOBJ) => {
 }
 
 //doing this to avoid having the style for each text look annoying in the code
-const WhiteText1 = () => {
+const WhiteText1 = () =>{
     return(
         <View>
             <Text style={styles.whiteText1}></Text>
@@ -266,7 +277,10 @@ const FolderSvg = (folderItemList: FolderItemList) =>{
       <SvgComponent zIndex={-1}/>
       <Text style={styles.folderLabel}>{folderItemList.title}</Text>
       <View style={styles.folderList}>
-          <FolderListItem text={folderItemList.list[0].text}/>
+<TouchableOpacity>
+<FolderListItem text={folderItemList.list[0].text}/>
+</TouchableOpacity>
+          
           
         </View>
     </View>
@@ -275,18 +289,18 @@ const FolderSvg = (folderItemList: FolderItemList) =>{
 
 
 //i explained this
-const FloatingActionButton = () => {
+const FloatingActionButton = () =>{
   return (
     <View style={styles.fab}>
-
+      <TouchableOpacity onPress={ () => invCont.touch_item("name", "id")}>
       <FloatingAction color='#FFFFFFCC' floatingIcon={<MaterialCommunityIcons name="plus" size={24}/>}/>
-
+      </TouchableOpacity>
     </View>
   )
 }
 
 //i explained this
-const FolderListItem = (text:TextOBJ) => {
+const FolderListItem = (text:TextOBJ) =>{
   return (
     <View style={styles.folderListItem}>
 
