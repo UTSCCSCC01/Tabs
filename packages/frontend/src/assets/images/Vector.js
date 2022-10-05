@@ -8,11 +8,12 @@ const SvgComponent = (props) => {
 
     <Svg
     width={Dimensions.get('screen').width}
-    height={834}
-    minheight={834}
+    height={1.4*Dimensions.get('screen').height}
+
     viewBox={"0 0 " + 0.96*(Dimensions.get('screen').width) +" " +0.9*(Dimensions.get('screen').height)}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    preserveAspectRatio="none"
     {...props}
     
   >

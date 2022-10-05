@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -14,6 +14,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Circle } from 'react-native-svg';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import inventoryController from '../controller/inventoryController';
+import { Swipeable } from 'react-native-gesture-handler';
+import SwipeUpDown from 'react-native-swipe-up-down';
+import GestureRecognizer from 'react-native-swipe-gestures';
+
 
 
 
@@ -60,9 +64,14 @@ class DescBoxList{
 //the folder image
 class FolderItemData{
   text: string;
-  constructor(text: string){
+  iconName: string;
+  id: string
+  constructor(text: string, iconName: string, id: string){
     this.text = text;
+    this.iconName = iconName;
+    this.id = id;
   }
+  
 }
 
 
@@ -78,6 +87,29 @@ class FolderItemList{
   }
 }
 
+class FunctionObject{
+
+  myFunction: Function;
+  argument: any;
+  name: string;
+  constructor(myFunction:Function, argument:any, name:string){
+    this.myFunction = myFunction;
+    this.argument = argument;
+    this.name=name;
+  }
+
+  
+}
+
+class FolderSvgClass{
+  folder: FolderItemList;
+  swipeFunction: FunctionObject;
+  constructor(folder: FolderItemList, swipeFunction: FunctionObject){
+    this.folder = folder;
+    this.swipeFunction = swipeFunction;
+  }
+}
+
 
 
 //initializing data to pass into this page's components
@@ -88,10 +120,13 @@ const data = [dbd1, dbd2];
 
 
 
-const folderItem = new FolderItemData("Seven's favourite food");
-const folderItemList = new FolderItemList([folderItem], "Categories");
+const folderItem = new FolderItemData("Seven's favourite food", "food-steak", "77777");
+const folderItem2 = new FolderItemData("Seven's least favourite food", "carrot", "77778");
+const folderItemList = new FolderItemList([folderItem, folderItem2], "Categories");
 
 const invCont = new inventoryController.inventoryController();
+
+
 
 
 /*OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
@@ -116,6 +151,7 @@ END BLOCK OF OLD CODE */
 
 //the view in question
 const InvView = ()=>{
+  const [showDoubleDescBox, toggleDoubleDescBox] = useState(true);
 
 
   /*OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
@@ -170,15 +206,22 @@ return(
             {//Boxes of information with own gradient bg, made it a duple cuz i saw on a couple pages there were 2 shown in
             //the same row at once
           }
-            <DoubleDescBox data={data}/>
+
+          
+            {showDoubleDescBox && <DoubleDescBox data={data}/>}
             {//I rendered the folder u see across the ui by converting it to a vector image using the 
             //"REACT VECTOR IMAGE CONVERTER SITE: google it cuz i do not remember the link
             //I then rendered the title and list of folder items onto it
           }
-            <FolderSvg list={folderItemList.list} title={folderItemList.title}/>
+ 
+           
+            <FolderSvg folder={folderItemList} swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}/>
+
+            
              {//Button in bottom right corner to add something
              }
-            <FloatingActionButton/>
+             <Button title={"debug"} onPress={() => toggleDoubleDescBox(showDoubleDescBox)}></Button>
+            <FloatingActionButton name="add category" argument={null} myFunction={() => {invCont.addCategory}}/>
 
         </View>
       </LinearGradient>
@@ -196,7 +239,8 @@ return(
 const DescBox = (data:DescBoxData) =>{
   return (
         <View style={styles.rcorners1}>
-            <LinearGradient colors={['#106A7C', '#3E436C']} style={styles.linearGradient1} start={[-0.04, 0]} end={[1.34, 1.34]}>
+          <TouchableOpacity style={styles.container}>
+          <LinearGradient colors={['#106A7C', '#3E436C']} style={styles.linearGradient1} start={[-0.04, 0]} end={[1.34, 1.34]}>
                 <MaterialCommunityIcons
                 size={24}
                 color={"#FFFFFF"}
@@ -207,6 +251,9 @@ const DescBox = (data:DescBoxData) =>{
                 <Text style={styles.whiteText2}>{data.text1}</Text>
                 <Text style={styles.whiteText1}>{data.text2}</Text>
             </LinearGradient>
+
+          </TouchableOpacity>
+            
         </View>
   );
 }
@@ -215,7 +262,9 @@ const DescBox = (data:DescBoxData) =>{
 //field but right now that is too much work
 const DescBox2 = (data:DescBoxData) =>{
     return (
+      
           <View style={styles.rcorners1}>
+            <TouchableOpacity style={styles.container}>
               <LinearGradient colors={['#34ACBC', '#9FD3DE']} style={styles.linearGradient1} start={[-0.04, 0]} end={[1.34, 1.34]}>
                   <MaterialCommunityIcons
                   size={24}
@@ -225,17 +274,25 @@ const DescBox2 = (data:DescBoxData) =>{
                   <Text style={styles.whiteText2}>{data.text1}</Text>
                   <Text style={styles.whiteText1}>{data.text2}</Text>
               </LinearGradient>
+              </TouchableOpacity>
           </View>
     );
   }
 
 
+
+
 //i explained this above
 const DoubleDescBox = (data:DescBoxList) =>{
+
+ 
     return (
         <View style={styles.rowFlex1}>
+
             <DescBox iconName={data.data[0].iconName} text1={data.data[0].text1} text2={data.data[0].text2}/>
-            <DescBox2 iconName={data.data[1].iconName} text1={data.data[1].text1} text2={data.data[1].text2}/>
+
+
+            <DescBox2 iconName={data.data[0].iconName} text1={data.data[0].text1} text2={data.data[0].text2}/>
         </View>
     )
 }
@@ -249,7 +306,9 @@ const MyHeader = (text:TextOBJ) =>{
 
           <View style={styles.rowFlex2}>
   
-            <MaterialCommunityIcons name="arrow-left" size={24} style={styles.headerIcon}/>
+            <TouchableOpacity style={styles.headerIcon}>
+              <MaterialCommunityIcons name="arrow-left" size={24}/>
+              </TouchableOpacity>
 
             <Text style={styles.myHeaderText}>{text.text}</Text>
 
@@ -271,51 +330,86 @@ const WhiteText1 = () =>{
 
 //explained this already... only thing of note is that i didnt make the list view yet so i only show 1 item at a time
 // z-index of vector is set to -1 so that other stuff is guaranteed to render on top of it
-const FolderSvg = (folderItemList: FolderItemList) =>{
+const FolderSvg = (data: FolderSvgClass) =>{
+
+  console.log(data.swipeFunction.name);
+
   return (
-    <View>
+    <View style={styles.maxContainer}>
       <SvgComponent zIndex={-1}/>
-      <Text style={styles.folderLabel}>{folderItemList.title}</Text>
-      <View style={styles.folderList}>
-<TouchableOpacity>
-<FolderListItem text={folderItemList.list[0].text}/>
-</TouchableOpacity>
+     
+     
+      <GestureRecognizer style={styles.folderLabelHolder} onSwipeDown={() => data.swipeFunction.myFunction(true)} onSwipeUp={() => data.swipeFunction.myFunction(false)}>
+        <View>
+        <Text style={styles.folderLabel}>{folderItemList.title}</Text>
+        </View>
+      </GestureRecognizer>
+
+        <View style={styles.folderList}>
+        
+
+          <SafeAreaView style={styles.container}>
+           <FlatList style={styles.container}
+           data={folderItemList.list}
+           renderItem={({item})=>(<FolderListItem iconName={item.iconName} text={item.text} id={item.id}/>)}
+           keyExtractor={item => item.id}>
+           </FlatList>
+          </SafeAreaView>
+
+
+
+
           
           
         </View>
+
     </View>
   )
 }
 
 
 //i explained this
-const FloatingActionButton = () =>{
+const FloatingActionButton = (myFunction: FunctionObject) =>{
   return (
-    <View style={styles.fab}>
-      <TouchableOpacity onPress={ () => invCont.touch_item("name", "id")}>
-      <FloatingAction color='#FFFFFFCC' floatingIcon={<MaterialCommunityIcons name="plus" size={24}/>}/>
-      </TouchableOpacity>
-    </View>
-  )
-}
+    <TouchableOpacity style={styles.fab}onPress={ () => invCont.touch_item("name", "id")}>
 
-//i explained this
-const FolderListItem = (text:TextOBJ) =>{
-  return (
-    <View style={styles.folderListItem}>
-
-      <View style={styles.iconBorder}>
-        <View style={styles.center}>
-          <MaterialCommunityIcons name="food-steak" size={24} style={styles.splitIcon}/>
-        </View>
-      </View>
       
-  
-      <Text style={styles.splitTextNormal} >{text.text}</Text>
+      <FloatingAction onPressMain={myFunction.myFunction()} color='#FFFFFFCC' floatingIcon={<MaterialCommunityIcons name="plus" size={24}/>}/>
+      
 
-    </View>
+    </TouchableOpacity>
   )
 }
+
+//i explained this
+const FolderListItem = (item:FolderItemData) =>{
+  return (
+    <TouchableOpacity>
+      <View style={styles.folderListItem}>
+
+<View style={styles.iconBorder}>
+  <View style={styles.center}>
+    
+    {/*@ts-ignore*/}
+    <MaterialCommunityIcons name={item.iconName} size={32} style={styles.splitIcon}/>
+  </View>
+</View>
+
+
+<Text style={styles.splitTextNormal} >{item.text}</Text>
+
+</View>
+    </TouchableOpacity>
+    
+  )
+}
+
+const ToggleList = () => {
+
+  
+
+}
+
 
 
 
@@ -323,7 +417,7 @@ const FolderListItem = (text:TextOBJ) =>{
 
 
 //only export, could make this default but eh...
-export {InvView}
+export default InvView
 
 //not explaining the styles there are too many
 //there are probably some unused ones but vs code isn't showing me
@@ -341,7 +435,14 @@ const styles = StyleSheet.create({
     width: "40%",
     margin: "8%",
     
-    boxShadow: '4px 4px 3px rgba(0, 0, 0, 0.25)',
+
+    shadowOffset: {
+      width: 3,
+      height: 3
+    },
+    shadowRadius: 3,
+    shadowOpacity: 0.5
+    
   },
 
   myHeader: {
@@ -351,15 +452,13 @@ const styles = StyleSheet.create({
     width:"100%",
     height: '4%',
 
-
-
   },
 
   myHeaderText: {
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Arial",
-    width: "66%",
+    width: "66.67%",
 
   },
 
@@ -376,7 +475,7 @@ const styles = StyleSheet.create({
   splitTextNormal: {
     width: "66%",
     fontWeight: "normal",
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "Arial"
   },
 
@@ -456,6 +555,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     right:0,
     bottom:0,
+    shadowOffset: {
+      width: 3,
+      height: 3
+    },
+    shadowRadius: 3,
+    shadowOpacity: 0.5,
+    zIndex:1,
   },
 
   flexContainer: {
@@ -496,11 +602,12 @@ const styles = StyleSheet.create({
   },
 
   headerIcon: {
-   width: "33%",
+   width: "23.33%",
   },
 
   folderList: {
     marginTop:"7%",
+
     position: "absolute",
     top:0,
     left:0,
@@ -516,19 +623,27 @@ const styles = StyleSheet.create({
 
   folderListItem: {
     height: "10%",
-    maxHeight: 100,
+    minHeight: 100,
+    maxHeight: 110,
     width: "100%",
+    
     backgroundColor: "#FFFFFFCC",
     borderRadius: 10,
 
     flex:1,
     flexDirection: "row",
     justifyContent:"space-evenly",
-    margin:"4%",
+    marginTop:"4%",
     padding: "4%",
 
     alignContent: "center",
     alignItems: "center",
+    shadowOffset: {
+      width: 3,
+      height: 3
+    },
+    shadowRadius: 3,
+    shadowOpacity: 0.5
 
 
   },
@@ -541,14 +656,25 @@ const styles = StyleSheet.create({
   },
 
   folderLabel: {
-    marginTop:"7%",
+  
+    fontSize: 16,
+    fontFamily: "Arial",
+    color: "#FFFFFF",
+    zIndex: 1
+  },
+
+  folderLabelHolder:{
+    marginTop:"2%",
     padding:"1%",
     position: "absolute",
     top:0,
     left: 15,
-    fontSize: 16,
-    fontFamily: "Arial",
-    color: "#FFFFFF"
+    zIndex: 1
+  },
+
+  maxContainer:{
+    height:"200%",
+    width: "100%"
   }
 
   

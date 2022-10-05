@@ -3,7 +3,7 @@ import { TextInput, View, Text, Button, StyleSheet} from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useMutation } from '@apollo/client';
 import { LinearGradient } from 'expo-linear-gradient';
 import { registerRootComponent } from 'expo';
-import {InvView} from './ui/pages/view/inventoryView'
+import InvView from './ui/pages/view/inventoryView'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
