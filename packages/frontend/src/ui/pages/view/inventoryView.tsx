@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactComponentElement } from 'react';
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -142,15 +142,42 @@ class FolderSvgClass{
 
 class FolderSvgForm{
 
+  folder: FormItemList;
+  swipeFunction: FunctionObject;
+  constructor(folder: FormItemList, swipeFunction: FunctionObject){
+    this.folder = folder;
+    this.swipeFunction = swipeFunction;
+  }
+
 }
 
 class FormItemList{
+  list: FormItem[];
+  title: string;
+
+  constructor(list :FormItem[], title:string){
+    this.list = list;
+    this.title = title;
+  }
   
 }
 
 class FormItem{
 
+  id:string;
+  title: string;
+  component:React.Component;
+  constructor(title: string, id:string, component:React.Component){
+    this.title = title;
+    this.id = id;
+    this.component = component;
+  }
+
 }
+
+
+
+
 
 
 
@@ -216,9 +243,11 @@ const folderItemB = new FolderItemData("Tomatoes", "none", "5033", selItem);
 const folderItemList2 = new FolderItemList([folderItemA, folderItemB], "Items");
 
 const headerData= new HeaderData("Food Inventory", new FunctionObject(seleCat.myFunction, -1, "go back"));
+const [addingCategory, tryToAdd] = useState(0);
 
 
 const [addItem, {loading, error}] = useMutation(ADD_ITEM);
+
 
 
 
@@ -239,11 +268,6 @@ const addItemHandler=(item: InventoryItem) => {
   // }
   // if(error){
   //     return <View style={styles.flexContainer}><Text style={styles.input}>{'error occured'}</Text></View>
-  // }
-  
-  // const submitHandle = ()=>{
-  //     signup({variables: {"email":String(input), "password":'password'}})
-  //     console.log("created resuorce in db")
   // }
 
   END BLOCK OF OLD CODE */
@@ -300,6 +324,8 @@ return(
             itemFunction={new FunctionObject(selectCategory, null, "selectCategory")}
             />}
 
+
+            {}
             
              {//Button in bottom right corner to add something
              }
@@ -441,17 +467,14 @@ const FolderSvg = (data: FolderSvgClass) =>{
            keyExtractor={item => item.id}>
            </FlatList>
           </SafeAreaView>
-
-
-
-
-          
           
         </View>
 
     </View>
   )
 }
+
+
 
 
 //i explained this
@@ -484,6 +507,90 @@ const FolderListItem = (item:FolderItemData) =>{
   )
 }
 
+
+
+
+
+
+const FolderFormListItem = (item:FormItem) =>{
+  const component = item.component
+  return (
+      <View>
+        {component.render()}
+      </View>
+      
+  )
+}
+
+const FolderFormSvg = (data: FolderSvgForm) =>{
+
+  console.log(data.folder.title);
+
+  return (
+    <View style={styles.maxContainer}>
+      <SvgComponent zIndex={-1}/>
+     
+     
+      <GestureRecognizer style={styles.folderLabelHolder} onSwipeDown={() => data.swipeFunction.myFunction(true)} onSwipeUp={() => data.swipeFunction.myFunction(false)}>
+        <View>
+        <Text style={styles.folderLabel}>{data.folder.title}</Text>
+        </View>
+      </GestureRecognizer>
+
+        <View style={styles.folderList}>
+        
+
+          <SafeAreaView style={styles.container}>
+           <FlatList style={styles.container}
+           data={data.folder.list}
+           renderItem={({item})=>(<FolderFormListItem title={item.title} component={item.component} id={item.id}/>)}
+           keyExtractor={item => item.id}>
+           </FlatList>
+          </SafeAreaView>
+          
+        </View>
+
+    </View>
+  )
+}
+
+const TextForm = ({input, title, hintText}: {input:string, title:string, hintText:string}) => {
+  // const [input] = useState()
+  // const [addCategory, {loading, error}] = useMutation(ADD_CATEGORY);
+
+  // const addItemHandler=(item: InventoryCategory) => {
+  //   console.log("Adding item " + item.text + " to the database");
+  //   addCategory({variables: {"categoryName":item.text, "inventoryKey":item.inventoryKey}});
+    
+  // }
+  
+  return(
+    <View style={styles.inputBox}>
+     
+
+      <TextInput
+            style={styles.input}
+            defaultValue={input}
+            value = {input}
+            onChangeText={(input) => {}}
+            textAlign="center"
+            placeholder="TYPE HERE"
+            onSubmitEditing={()=>{}}/>
+
+ 
+    </View>
+  )
+}
+
+
+
+
+
+
+
+
+
+
 const BorderIcon = (iconName: TextOBJ) => {
   return(
 
@@ -512,6 +619,12 @@ const ToggleList = () => {
 const ADD_ITEM=gql`
 mutation AddItem($itemName: string, $capacity: number, $categoryKey: string){
   addItem(itemName: $itemName, capacity: $capacity, categoryKey: $categoryKey)
+}
+`
+
+const ADD_CATEGORY=gql`
+mutation AddCategory($categoryName: string, $inventoryKey: string){
+  addItem(categoryName: $categoryName, inventoryKey: $inventoryKey)
 }
 `
 
@@ -683,6 +796,14 @@ const styles = StyleSheet.create({
     margin: 0,
     borderWidth: 0,
     padding: 0,
+  },
+  inputBox: {
+    height: "10%",
+    width: "100%",
+    backgroundColor: "#FFFFFFFCC",
+    borderRadius: 15,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
   page: {
     width: "100%",
