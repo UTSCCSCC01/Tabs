@@ -1,22 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Ionicons from '@expo/vector-icons/Ionicons';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SvgComponent from '../../../assets/images/Vector';
+import SvgComponentLightBlue from '../../../assets/images/LightBlueVector';
 import { FloatingAction } from "react-native-floating-action";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
-import SVGImg from '../../../assets/images/Vector.svg'
 import { ApolloClient, gql, InMemoryCache, useMutation } from '@apollo/client';
-import { NavigationContainer } from '@react-navigation/native';
-import { Circle } from 'react-native-svg';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+
 import inventoryController from '../controller/inventoryController';
-import { Swipeable } from 'react-native-gesture-handler';
-import SwipeUpDown from 'react-native-swipe-up-down';
+
 import GestureRecognizer from 'react-native-swipe-gestures';
+
 
 
 
@@ -31,6 +27,15 @@ class TextOBJ{
   constructor(){
       this.text = "";
 
+  }
+}
+
+class HeaderData{
+  title: string;
+  backFunction:FunctionObject;
+  constructor(title:string, backFunction:FunctionObject){
+    this.backFunction = backFunction;
+    this.title = title;
   }
 }
 
@@ -66,12 +71,35 @@ class FolderItemData{
   text: string;
   iconName: string;
   id: string
-  constructor(text: string, iconName: string, id: string){
+  touchFunction: FunctionObject;
+  constructor(text: string, iconName: string, id: string, touchFunction: FunctionObject){
     this.text = text;
     this.iconName = iconName;
     this.id = id;
+    this.touchFunction = touchFunction;
   }
   
+}
+
+
+class InventoryItem extends FolderItemData{
+  capacity: number;
+  expirationDate: Date;
+  categoryKey: string;
+  constructor(itemName: string, itemId: string, capacity: number, categoryKey: string){
+    super(itemName, "", itemId, new FunctionObject(() => {}, null, itemName + "'s TouchFunction"), );
+    this.capacity = capacity;
+    this.expirationDate = new Date();
+    this.categoryKey = categoryKey;
+  }
+}
+
+class InventoryCategory extends FolderItemData{
+  inventoryKey: string;
+  constructor(categoryName: string, categoryId: string, inventoryKey: string){
+    super(categoryName, "", categoryId, new FunctionObject(() => {}, null, categoryName + "'s TouchFunction"), );
+    this.inventoryKey = inventoryKey;
+  }
 }
 
 
@@ -104,11 +132,30 @@ class FunctionObject{
 class FolderSvgClass{
   folder: FolderItemList;
   swipeFunction: FunctionObject;
-  constructor(folder: FolderItemList, swipeFunction: FunctionObject){
+  itemFunction: FunctionObject;
+  constructor(folder: FolderItemList, swipeFunction: FunctionObject, itemFunction: FunctionObject){
     this.folder = folder;
     this.swipeFunction = swipeFunction;
+    this.itemFunction = itemFunction;
   }
 }
+
+class FolderSvgForm{
+
+}
+
+class FormItemList{
+  
+}
+
+class FormItem{
+
+}
+
+
+
+
+
 
 
 
@@ -120,9 +167,8 @@ const data = [dbd1, dbd2];
 
 
 
-const folderItem = new FolderItemData("Seven's favourite food", "food-steak", "77777");
-const folderItem2 = new FolderItemData("Seven's least favourite food", "carrot", "77778");
-const folderItemList = new FolderItemList([folderItem, folderItem2], "Categories");
+
+
 
 const invCont = new inventoryController.inventoryController();
 
@@ -151,9 +197,36 @@ END BLOCK OF OLD CODE */
 
 //the view in question
 const InvView = ()=>{
+
+  useEffect(() => {
+   
+  }, []);
   const [showDoubleDescBox, toggleDoubleDescBox] = useState(true);
+  const[chosenCategory, selectCategory] = useState(-1);
+  const[chosenItem, selectItem] = useState(-1);
+  const seleCat =  new FunctionObject(selectCategory, null, "select Category");
+  const selItem =  new FunctionObject(selectItem, null, "select Item");
+
+  const folderItem = new FolderItemData("Seven's favourite food", "food-steak", "77777", seleCat);
+const folderItem2 = new FolderItemData("Seven's least favourite food", "carrot", "77778", seleCat);
+const folderItemList = new FolderItemList([folderItem, folderItem2], "Categories");
+
+const folderItemA = new FolderItemData("Potatoes", "none", "444", selItem);
+const folderItemB = new FolderItemData("Tomatoes", "none", "5033", selItem);
+const folderItemList2 = new FolderItemList([folderItemA, folderItemB], "Items");
+
+const headerData= new HeaderData("Food Inventory", new FunctionObject(seleCat.myFunction, -1, "go back"));
 
 
+const [addItem, {loading, error}] = useMutation(ADD_ITEM);
+
+
+
+const addItemHandler=(item: InventoryItem) => {
+  console.log("Adding item " + item.text + " to the database");
+  addItem({variables: {"itemName":item.text, "capacity":item.capacity, "categoryKey":item.categoryKey}});
+  
+}
   /*OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
 
 
@@ -178,7 +251,7 @@ return(
 
       //the background is a gradient so...
       <LinearGradient colors={["#FFFFFF", "#85C4CF", "#127589" ]} style={styles.page} start={[0, 0]} end={[1, 1]} locations={[0.05, 0.1, 1]}>
-        <MyHeader text="Food Inventory"/>{// the title of the page plus the back button, could make this more modular but lazy
+        <MyHeader backFunction={headerData.backFunction} title={headerData.title}/>{// the title of the page plus the back button, could make this more modular but lazy
         }
         <View style={styles.flexPage}>{// container for rest of page...
         }
@@ -215,13 +288,26 @@ return(
           }
  
            
-            <FolderSvg folder={folderItemList} swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}/>
+            {chosenCategory == -1 &&
+            <FolderSvg folder={folderItemList} 
+            swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}
+            itemFunction={new FunctionObject(selectCategory, null, "selectCategory")}
+            />}
+
+            {chosenCategory != -1 &&
+            <FolderSvg folder={folderItemList2} 
+            swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}
+            itemFunction={new FunctionObject(selectCategory, null, "selectCategory")}
+            />}
 
             
              {//Button in bottom right corner to add something
              }
              <Button title={"debug"} onPress={() => toggleDoubleDescBox(showDoubleDescBox)}></Button>
-            <FloatingActionButton name="add category" argument={null} myFunction={() => {invCont.addCategory}}/>
+            <FloatingActionButton 
+            name="add category" 
+            argument={new InventoryItem("test", "test", 7, "Seven's favourite food")} 
+            myFunction={addItemHandler}/>
 
         </View>
       </LinearGradient>
@@ -292,7 +378,7 @@ const DoubleDescBox = (data:DescBoxList) =>{
             <DescBox iconName={data.data[0].iconName} text1={data.data[0].text1} text2={data.data[0].text2}/>
 
 
-            <DescBox2 iconName={data.data[0].iconName} text1={data.data[0].text1} text2={data.data[0].text2}/>
+            <DescBox2 iconName={data.data[1].iconName} text1={data.data[1].text1} text2={data.data[1].text2}/>
         </View>
     )
 }
@@ -300,17 +386,17 @@ const DoubleDescBox = (data:DescBoxList) =>{
 
 
 //self explanatory
-const MyHeader = (text:TextOBJ) =>{
+const MyHeader = (data:HeaderData) =>{
     return (
         <View style={styles.myHeader}>
 
           <View style={styles.rowFlex2}>
   
-            <TouchableOpacity style={styles.headerIcon}>
+            <TouchableOpacity style={styles.headerIcon} onPress={() => data.backFunction.myFunction(data.backFunction.argument)}>
               <MaterialCommunityIcons name="arrow-left" size={24}/>
               </TouchableOpacity>
 
-            <Text style={styles.myHeaderText}>{text.text}</Text>
+            <Text style={styles.myHeaderText}>{data.title}</Text>
 
           </View>
 
@@ -341,7 +427,7 @@ const FolderSvg = (data: FolderSvgClass) =>{
      
       <GestureRecognizer style={styles.folderLabelHolder} onSwipeDown={() => data.swipeFunction.myFunction(true)} onSwipeUp={() => data.swipeFunction.myFunction(false)}>
         <View>
-        <Text style={styles.folderLabel}>{folderItemList.title}</Text>
+        <Text style={styles.folderLabel}>{data.folder.title}</Text>
         </View>
       </GestureRecognizer>
 
@@ -350,8 +436,8 @@ const FolderSvg = (data: FolderSvgClass) =>{
 
           <SafeAreaView style={styles.container}>
            <FlatList style={styles.container}
-           data={folderItemList.list}
-           renderItem={({item})=>(<FolderListItem iconName={item.iconName} text={item.text} id={item.id}/>)}
+           data={data.folder.list}
+           renderItem={({item})=>(<FolderListItem iconName={item.iconName} text={item.text} id={item.id} touchFunction={new FunctionObject(data.itemFunction.myFunction, item.id, item.text)}/>)}
            keyExtractor={item => item.id}>
            </FlatList>
           </SafeAreaView>
@@ -371,10 +457,10 @@ const FolderSvg = (data: FolderSvgClass) =>{
 //i explained this
 const FloatingActionButton = (myFunction: FunctionObject) =>{
   return (
-    <TouchableOpacity style={styles.fab}onPress={ () => invCont.touch_item("name", "id")}>
+    <TouchableOpacity style={styles.fab} onPress={ () => myFunction.myFunction(myFunction.argument)}>
 
       
-      <FloatingAction onPressMain={myFunction.myFunction()} color='#FFFFFFCC' floatingIcon={<MaterialCommunityIcons name="plus" size={24}/>}/>
+      <MaterialCommunityIcons name="plus" size={32} color={"#767171"}/>
       
 
     </TouchableOpacity>
@@ -384,17 +470,11 @@ const FloatingActionButton = (myFunction: FunctionObject) =>{
 //i explained this
 const FolderListItem = (item:FolderItemData) =>{
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => item.touchFunction.myFunction(item.touchFunction.argument)}>
       <View style={styles.folderListItem}>
-
-<View style={styles.iconBorder}>
-  <View style={styles.center}>
+       {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
+       
     
-    {/*@ts-ignore*/}
-    <MaterialCommunityIcons name={item.iconName} size={32} style={styles.splitIcon}/>
-  </View>
-</View>
-
 
 <Text style={styles.splitTextNormal} >{item.text}</Text>
 
@@ -403,6 +483,21 @@ const FolderListItem = (item:FolderItemData) =>{
     
   )
 }
+
+const BorderIcon = (iconName: TextOBJ) => {
+  return(
+
+    <View style={styles.iconBorder}>
+    <View style={styles.center}>
+      
+      {/*@ts-ignore*/}
+       <MaterialCommunityIcons name={iconName.text} size={32} style={styles.splitIcon}/>
+    </View>
+  </View>
+
+  )
+}
+
 
 const ToggleList = () => {
 
@@ -414,6 +509,11 @@ const ToggleList = () => {
 
 
 
+const ADD_ITEM=gql`
+mutation AddItem($itemName: string, $capacity: number, $categoryKey: string){
+  addItem(itemName: $itemName, capacity: $capacity, categoryKey: $categoryKey)
+}
+`
 
 
 //only export, could make this default but eh...
@@ -561,7 +661,15 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 3,
     shadowOpacity: 0.5,
-    zIndex:1,
+    backgroundColor: '#FFFFFFCC',
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: '#FFFFFFCC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: "2%",
+    padding:"2%"
+      
   },
 
   flexContainer: {
