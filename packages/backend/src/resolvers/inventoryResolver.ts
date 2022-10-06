@@ -1,9 +1,8 @@
 import { InventoryDocument, CategoryDocument } from '../types'
-import Inventory from '../models'
-import Category from '../models'
+import {Inventory, Category} from '../models'
 
 
-async function addCategoryFunc (inventoryId:String, name: String):Promise<String | boolean>{
+async function addCategoryFunc (inventoryId:String, name: String):Promise<String | Boolean>{
     let x;
    const category = await new Promise<CategoryDocument>
     (() => ( Category.create({inventoryId: inventoryId, name: name}))
@@ -19,7 +18,7 @@ async function addCategoryFunc (inventoryId:String, name: String):Promise<String
 
 }
 
-async function deleteCategoryFunc(inventoryId:String, categoryId: String):Promise<boolean>{
+async function deleteCategoryFunc(inventoryId:String, categoryId: String):Promise<Boolean>{
     let x;
     await new Promise<InventoryDocument> 
     (()=>(Inventory.findOneAndUpdate( {inventoryId: inventoryId}, {$pull: {categories: categoryId } })))
@@ -45,13 +44,13 @@ async function createInventory(houseId:String):Promise<String | boolean>{
 const resolvers = {
 
     Mutation: {
-        createInventory: async(root, args: {inventoryId:String, houseId: String}, context):Promise<String |boolean> =>{
+        createInventory: async(root, args: {inventoryId:String, houseId: String}, context):Promise<String |Boolean> =>{
            return createInventory(args.houseId)
         },
-        addCategory: async(root, args: {inventoryId:String, name:String}, context):Promise<String | boolean> =>{
+        addCategory: async(root, args: {inventoryId:String, name:String}, context):Promise<String | Boolean> =>{
             return(addCategoryFunc(args.inventoryId, args.name))
         },
-        deleteCategory: async(root, args: {inventoryId:String, categoryId:String}, context):Promise<boolean> =>{
+        deleteCategory: async(root, args: {inventoryId:String, categoryId:String}, context):Promise<Boolean> =>{
             return deleteCategoryFunc(args.inventoryId, args.categoryId)
         }
 

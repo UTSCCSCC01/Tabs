@@ -1,10 +1,8 @@
 import { CategoryDocument, ItemDocument } from '../types'
-import Category from '../models'
-import Item from '../models'
-import inventory from '../typeDefs/inventory'
+import {Category, Item} from '../models'
 
 
-async function modifyItemNameFunc(itemId:String, name:String):Promise<String | boolean>{
+async function modifyItemNameFunc(itemId:String, name:String):Promise<String | Boolean>{
     let x
     await new Promise<ItemDocument> 
     (() => (Item.findOneAndUpdate({_id:itemId}, { name: name}) ))
@@ -13,7 +11,7 @@ async function modifyItemNameFunc(itemId:String, name:String):Promise<String | b
     return x
 }
 
-async function modifyItemCategoryFunc(itemId: String, category: String ): Promise<String | boolean>{
+async function modifyItemCategoryFunc(itemId: String, category: String ): Promise<String | Boolean>{
     let x
     await new Promise<ItemDocument> 
     (() => (Item.findOneAndUpdate({_id:itemId}, { category: category}) ))
@@ -24,10 +22,10 @@ async function modifyItemCategoryFunc(itemId: String, category: String ): Promis
 const resolvers = {
 
     Mutation: {
-        modifyItemName: async(root, args: {itemId: String, name: String}, context):Promise<String | boolean> =>{
+        modifyItemName: async(root, args: {itemId: String, name: String}, context):Promise<String | Boolean> =>{
            return await modifyItemNameFunc(args.itemId, args.name)
         },
-        modifyItemCategory: async(root, args:{itemId: String, category: String}, context):Promise<String | boolean> =>{
+        modifyItemCategory: async(root, args:{itemId: String, category: String}, context):Promise<String | Boolean> =>{
             return await modifyItemCategoryFunc(args.itemId, args.category)
         }
 
