@@ -56,7 +56,7 @@ const resolvers = {
             args: {categoryId: String, itemId: String}
             ): Promise<Boolean> => {
                 return await delItemFunc(args.categoryId, args.itemId)
-            ,}
+            },
         
         rename: async(
             root,
