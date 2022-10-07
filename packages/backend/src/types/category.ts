@@ -4,5 +4,5 @@ export interface CategoryDocument extends Document {
     inventoryId: String
     categoryId: String
     categoryName: String
-    items: [String]
+    categoryDesc: String
 }

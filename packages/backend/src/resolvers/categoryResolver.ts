@@ -1,16 +1,15 @@
 import { CategoryDocument, ItemDocument } from '../types'
 import { Category, Item } from '../models'
+import { Types } from 'mongoose'
 
+/* Old functions that are no longer in use.
 async function addItemFunc(categoryId: String, itemName: String, quantity: Number): Promise<String> {
-    const item = await new Promise<ItemDocument>
-     (()=>(Item.create({categoryId: categoryId, itemName: itemName, quantity: quantity}))
-     .then(()=>(console.log("Created Item")))
-     .catch(()=>(console.log("Issue adding item"))))
+    const id = new Types.ObjectId(String(categoryId))
+    const item = await Item.create({categoryId: categoryId, itemName: itemName, quantity: quantity})
  
-    await new Promise<CategoryDocument> 
-    (()=>(Category.findOneAndUpdate({categoryId: categoryId}, {$push: {items: item._id} })))
-    .then(()=>(console.log("Added Item to Category")))
-    .catch(()=>{
+    await Category.findOneAndUpdate({_id: id}, {$push:{items: item._id}})
+    .then(() => (console.log("Added item to category")))
+    .catch(() => {
         console.log("Failed to update category")
         return null
     })
@@ -19,31 +18,81 @@ async function addItemFunc(categoryId: String, itemName: String, quantity: Numbe
 }
 
 async function delItemFunc(categoryId: String, itemId: String): Promise<Boolean> {
-    await new Promise<CategoryDocument> 
-    (()=>(Category.findOneAndUpdate({categoryId: categoryId}, {$pull: {items: itemId} })))
-    .then(()=>(console.log("Deleted Item from Category")))
-    .catch(()=>{
-        console.log("Failed to update category")
-        return false
+    let x;
+    const id = new Types.ObjectId(String(categoryId))
+    await Category.findOneAndUpdate({_id: id}, {$pull:{items: itemId}})
+    .then(() => {
+        console.log("Deleted item from category");
+        x=true
+    })
+    .catch(() => {
+        console.log("Failed to update category");
+        x=false
     })
 
-    return true
+    return x
 }
+*/
 
 async function renameFunc(categoryId: String, categoryName: String): Promise<Boolean> {
-    await new Promise<CategoryDocument>
-    (()=>(Category.findOneAndUpdate({categoryId: categoryId}, {$set: {categoryName: categoryName}})))
-    .then(()=>(console.log("Renamed Category")))
-    .catch(()=>{
+    let res;
+    await Category.findOneAndUpdate({categoryId: categoryId}, {$set:{categoryName: categoryName}})
+    .then(() => {
+        console.log("Renamed category")
+        res=true
+    })
+    .catch(() => {
         console.log("Failed to rename category")
-        return false
+        res=false
     })
 
-    return true
+    return res
+}
+
+async function changeDescFunc(categoryId: String, categoryDesc: String): Promise<Boolean> {
+    let res;
+    await Category.findOneAndUpdate({categoryId: categoryId}, {$set:{categoryDesc: categoryDesc}})
+    .then(() => {
+        console.log("Changed category description")
+        res=true
+    })
+    .catch(() => {
+        console.log("Failed to changed category description")
+        res=false})
+    
+    return res
+}
+
+async function findCatsFunc(inventoryId: String): Promise<String[]> {
+    let res: String[];
+    const catIds = await Category.find({inventoryId: inventoryId}, 'categoryId')
+    .then(() => {
+        console.log("Find categoryIds by inventoryId query was successful")
+        for (let i=0; i<catIds.length; i++) {
+            res.push(String(catIds[i]._id))
+        }
+    })
+    .catch(() => {
+        console.log("Find categoryIds by inventoryId query was successful")
+        return null
+    })
+
+    return res
 }
 
 const resolvers = {
+    Query: {
+        findCatByInvIdFunc: async(
+            root,
+            args: {inventoryId: string},
+            ): 
+            Promise<String[]> => {
+                return await findCatsFunc(args.inventoryId)
+            }
+    },
+
     Mutation: {
+        /* Old functions that are no longer in use.
         addItem: async(
             root,
             args: {categoryId: String, itemName: String, quantity: Number}
@@ -57,12 +106,20 @@ const resolvers = {
             ): Promise<Boolean> => {
                 return await delItemFunc(args.categoryId, args.itemId)
             },
-        
-        rename: async(
+        */
+
+        renameCat: async(
             root,
             args: {categoryId: String, categoryName: String}
             ): Promise<Boolean> => {
                 return await renameFunc(args.categoryId, args.categoryName)
+            }
+
+        changeCatDesc: async(
+            root,
+            args: {categoryId: String, categoryDesc: String}
+            ): Promise<Boolean> => {
+                return await changeDescFunc(args.categoryId, args.categoryDesc)
             }
     }
 }

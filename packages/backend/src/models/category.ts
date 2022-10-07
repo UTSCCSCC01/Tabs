@@ -6,7 +6,7 @@ const categorySchema = new Schema(
         inventoryId: String,
         categoryId: String,
         categoryName: String,
-        items: [String]
+        categoryDesc: String
     }
 )
 
