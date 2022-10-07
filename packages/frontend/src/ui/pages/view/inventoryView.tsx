@@ -614,17 +614,22 @@ const ToggleList = () => {
 
 
 
+const CREATE_INVENTORY=gql`
+mutation CreateInventory($houseId: String!) {
+  createInventory(houseId: $houseId)
+}
 
+`
 
 const ADD_ITEM=gql`
-mutation AddItem($itemName: string, $capacity: number, $categoryKey: string){
-  addItem(itemName: $itemName, capacity: $capacity, categoryKey: $categoryKey)
+mutation AddItem($categoryId:String!, $itemName:String!,$quantity:Int!){
+  addItem(categoryId:$categoryId, itemName:$itemName, quantity:$quantity)
 }
 `
 
 const ADD_CATEGORY=gql`
-mutation AddCategory($categoryName: string, $inventoryKey: string){
-  addItem(categoryName: $categoryName, inventoryKey: $inventoryKey)
+mutation AddCategory($inventoryId:String, $name:String){
+  addCategory(inventoryId: $inventoryId, name:$name)
 }
 `
 
