@@ -1,5 +1,5 @@
 import { UserDocument } from '../types'
-import User from '../models'
+import { User } from '../models'
 
 const resolvers = {
     Query: {

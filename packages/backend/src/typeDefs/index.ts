@@ -1,3 +1,4 @@
 import user from './user'
 import root from './root'
-export default [root,user]
+import debt from './debt'
+export default [root,user,debt]

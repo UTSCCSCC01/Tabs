@@ -1,3 +1,4 @@
 import user from './userResolver'
+import debt from './debtResolver'
 
-export default [user]
+export default [user,debt]
