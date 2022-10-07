@@ -4,7 +4,10 @@ import { ItemDocument } from '../types'
 const ItemSchema = new Schema(
     {   
         name: String,
-        categoryId:String
+        categoryId:String,
+        quantity:Number,
+        expiration:String,
+        tags:[String]
     }
 )
 

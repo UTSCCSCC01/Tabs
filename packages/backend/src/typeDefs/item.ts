@@ -5,16 +5,22 @@ export default gql`
   extend type Query{
     findItem(
       itemId: String
-    ): String
+    ): Item
     findItemsByCategory(
       categoryId: String
-      ):[String]
+      ):[Item]
   }
 
   extend type Mutation {
     createItem(
       categoryId: String
-    ),
+    ): String
+    addItem(
+      itemId:String
+    ): String
+    subtractItem(
+      itemId:String
+    ): String
     modifyItemName(
       itemId: String,
       name: String
