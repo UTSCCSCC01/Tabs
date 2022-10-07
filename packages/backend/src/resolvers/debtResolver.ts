@@ -11,11 +11,25 @@ async function modifyAmountFunc(debtId:String, amount:Number):Promise<String | B
 
 const resolvers = {
 
+    Query: {
+        getDebtsTo: async(root,
+            args: {debtTo: String}
+            ):Promise<DebtDocument[]> => {
+            return Debt.find(args);
+        },
+        
+        getDebtsFrom: async(root,
+            args: {debtFrom: String}
+            ):Promise<DebtDocument[]> => {
+            return Debt.find(args);
+        }
+    },
+
     Mutation: {
         addDebt: async(
             root,
             args: {debtId: String, debtTo: String; debtFrom: String, amount: Number, description: String, dateCreated: String}
-        ): Promise<DebtDocument> =>{
+        ): Promise<DebtDocument | Boolean> =>{
 
             const debt = await Debt.create(args)
             console.log("Successfuly added Debt to server")

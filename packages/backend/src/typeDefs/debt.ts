@@ -1,7 +1,20 @@
 import { gql } from 'apollo-server-express'
 
+// for now getDebts just gets all the debts
 
 export default gql`
+    extend type Query {
+        getDebtsTo(
+            debtTo: String!
+        ): [Debt!]!
+    }
+
+    extend type Query {
+        getDebtsFrom(
+            debtFrom: String!
+        ): [Debt!]!
+    }
+
     extend type Mutation {
         addDebt(
             debtTo: String
