@@ -6,7 +6,9 @@ const DebtSchema = new Schema(
         debtId: String,
         debtTo: String,
         debtFrom: String,
-        amount: String,
+        amount: Number,
+        description: String,
+        dateCreated: String,
     }
 )
 

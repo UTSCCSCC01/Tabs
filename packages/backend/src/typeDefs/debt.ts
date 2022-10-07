@@ -6,12 +6,14 @@ export default gql`
         addDebt(
             debtTo: String
             debtFrom: String
-            amount: String
+            amount: Float
+            description: String
+            dateCreated: String
         ):Debt
 
         modifyAmount(
             debtId: String
-            amount: String
+            amount: Float
         ):Boolean
 
     }
@@ -20,7 +22,9 @@ export default gql`
         debtId: String!
         debtTo: String!
         debtFrom: String!
-        amount: String!
+        amount: Float!
+        description: String!
+        dateCreated: String!
     }
         
 `

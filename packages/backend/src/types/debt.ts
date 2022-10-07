@@ -4,5 +4,7 @@ export interface DebtDocument extends Document {
     debtId: String,
     debtTo: String,
     debtFrom: String,
-    amount: String
+    amount: Number,
+    description: String,
+    dateCreated: String,
 }
