@@ -5,7 +5,7 @@ export default gql`
     addItem(
       categoryId: String!
       itemName: String!
-      quantity: Int
+      quantity: Int!
     ): String
 
     deleteItem(
@@ -14,6 +14,7 @@ export default gql`
     ): Boolean
 
     rename(
+      categoryName: String
       categoryId: String!
     ): Boolean
   }

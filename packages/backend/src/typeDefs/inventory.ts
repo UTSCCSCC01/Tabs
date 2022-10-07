@@ -6,9 +6,11 @@ export default gql`
   extend type Mutation {
     createInventory(houseId: String): String!
     addCategory(
-      categoryId: String
+      inventoryId: String
+      name: String
     ):String!
     deleteCategory(
+      inventoryId:String
       categoryId:String
     ):Boolean
   }

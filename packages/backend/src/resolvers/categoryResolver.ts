@@ -1,16 +1,12 @@
 import { CategoryDocument, ItemDocument } from '../types'
 import { Category, Item } from '../models'
+import { Types } from 'mongoose'
 
 async function addItemFunc(categoryId: String, itemName: String, quantity: Number): Promise<String> {
-    const item = await new Promise<ItemDocument>
-     (()=>(Item.create({categoryId: categoryId, itemName: itemName, quantity: quantity}))
-     .then(()=>(console.log("Created Item")))
-     .catch(()=>(console.log("Issue adding item"))))
+    const id = new Types.ObjectId(String(categoryId))
+    const item = await Item.create({categoryId: categoryId, itemName: itemName, quantity: quantity})
  
-    await new Promise<CategoryDocument> 
-    (()=>(Category.findOneAndUpdate({categoryId: categoryId}, {$push: {items: item._id} })))
-    .then(()=>(console.log("Added Item to Category")))
-    .catch(()=>{
+    await Category.findOneAndUpdate({_id: id}, {$push: {items: item._id} }).then(()=>(console.log("Added Item to Category"))).catch(()=>{
         console.log("Failed to update category")
         return null
     })
@@ -19,27 +15,26 @@ async function addItemFunc(categoryId: String, itemName: String, quantity: Numbe
 }
 
 async function delItemFunc(categoryId: String, itemId: String): Promise<Boolean> {
-    await new Promise<CategoryDocument> 
-    (()=>(Category.findOneAndUpdate({categoryId: categoryId}, {$pull: {items: itemId} })))
-    .then(()=>(console.log("Deleted Item from Category")))
+    let x;
+    const id = new Types.ObjectId(String(categoryId))
+    await Category.findOneAndUpdate({_id: id}, {$pull: {items: itemId} })
+    .then(()=>{
+        console.log("Deleted Item from Category");
+        x=true
+    })
     .catch(()=>{
-        console.log("Failed to update category")
-        return false
+        console.log("Failed to update category");
+        x= false
     })
 
-    return true
+    return x
 }
 
 async function renameFunc(categoryId: String, categoryName: String): Promise<Boolean> {
-    await new Promise<CategoryDocument>
-    (()=>(Category.findOneAndUpdate({categoryId: categoryId}, {$set: {categoryName: categoryName}})))
-    .then(()=>(console.log("Renamed Category")))
-    .catch(()=>{
-        console.log("Failed to rename category")
-        return false
-    })
+    let x;
+    await Category.findOneAndUpdate({categoryId: categoryId}, {$set: {categoryName: categoryName}}).then(()=>{x= true}).catch(()=>{x= false})
 
-    return true
+    return x
 }
 
 const resolvers = {
