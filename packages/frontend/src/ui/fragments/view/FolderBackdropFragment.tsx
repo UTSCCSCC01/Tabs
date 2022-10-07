@@ -1,6 +1,12 @@
+
+import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
-import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity, Dimensions } from 'react-native';
 import WebView from 'react-native-webview';
+import { ReactString } from '../../String';
+import { FolderBackdropActionButton, FolderBackdropActionButtonArgument } from './FolderBackdropActionButton';
+import { FolderBackdropTextInputField, FolderBackdropTextInputFieldArgument } from './FolderBackdropTextInputField';
+import { folderCommonStyles } from './FolderCommonStyles';
 
 const folderBackgroundFragmentStyle = StyleSheet.create({
     
@@ -8,27 +14,43 @@ const folderBackgroundFragmentStyle = StyleSheet.create({
 
 
 export const FolderBackdropListFragment = (props: any) => {
-    /*
+    
+    const nameInfo: FolderBackdropTextInputFieldArgument = {
+        title: "Item Name",
+        hint: "My food is called..."
+    }
 
+    const typeInfo: FolderBackdropTextInputFieldArgument = {
+        title: "Type",
+        hint: "The type of my food is..."
+    }
 
+    const expireInfo: FolderBackdropTextInputFieldArgument = {
+        title: "Expiration Date",
+        hint: "My food expires on..."
+    }
 
-        marginTop as temporary spacing element to push folder down
-        probably edit it or remove it most likely just remove it
+    const buttonInfo: FolderBackdropActionButtonArgument = {
+        title: "Add Item"
+    }
 
+    const [checkboxValue, checkboxUI] = useState(false);
 
-
-    */
     return (
-        <View style = {{marginTop: 100}}>
-            <View style = {[folderBackdropListFragmentStyles.column]}>
+        <View style = {{
+            width: "100%",
+            position: "absolute",
+            bottom: 0
+        }}>
+            <View style = {[folderCommonStyles.column]}>
 
                 {/* Title row with folder cutout */}
-                <View style = {[folderBackdropListFragmentStyles.row]}>
+                <View style = {[folderCommonStyles.row]}>
                     <View style = {[folderBackdropListFragmentStyles.corner]}>
 
                     </View>
                     <Text style = {[folderBackdropListFragmentStyles.text]}>
-                        {"Title placeholder"}
+                        {"               "}
                     </Text>
                     <View style = {[folderBackdropListFragmentStyles.triangle]}>
 
@@ -36,33 +58,35 @@ export const FolderBackdropListFragment = (props: any) => {
                 </View>
 
                 <View style = {[folderBackdropListFragmentStyles.container]}>
-                    <Text>
-                        {"Paco"}
-                    </Text>
-                    <Text>
-                        {"Paco"}
-                    </Text>
-                    <Text>
-                        {"Paco"}
-                    </Text>
-                    <Text>
-                        {"Paco"}
-                    </Text>
-                    <Text>
-                        {"Paco"}
-                    </Text>
-                    <Text>
-                        {"Paco"}
-                    </Text>
-                    <Text>
-                        {"Paco"}
-                    </Text>
-                    <Text>
-                        {"Paco"}
-                    </Text>
-                    <Text>
-                        {"Paco"}
-                    </Text>
+                    <FolderBackdropTextInputField info={nameInfo}/>
+
+                    <FolderBackdropTextInputField info={typeInfo}/>
+
+                    <FolderBackdropTextInputField info={expireInfo}/>
+                    
+                    <View style = {[folderCommonStyles.row, {marginTop: 40, justifyContent: "center"}]}>
+                        <Checkbox
+                        style = {{
+                            padding: 15,
+                            backgroundColor: "white"
+                        }}
+                        value={checkboxValue}
+                        onValueChange = {checkboxUI}
+                        >
+                        </Checkbox>
+
+                        <Text style = {{
+                            fontSize: 19,
+                            marginTop: 3,
+                            paddingLeft: 20
+                        }}>
+                            {"Add to \"do not use\" list"}
+                        </Text>
+                    </View>
+
+                    <FolderBackdropActionButton info = {buttonInfo}>
+
+                    </FolderBackdropActionButton>
                 </View>
             </View>
         </View>
@@ -70,22 +94,14 @@ export const FolderBackdropListFragment = (props: any) => {
 }
 
 const folderBackdropListFragmentStyles = StyleSheet.create({
-    row: {
-        flexDirection: "row"
-    },
-
-    column: {
-        flexDirection: "column"
-    },
-
     corner: {
         padding: 20,
-        backgroundColor: "#8888ff",
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
         borderTopLeftRadius: 20
     },
 
     text: {
-        backgroundColor: "#8888ff",
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
         height: 40,
         paddingTop: 10,
         color: "white",
@@ -94,8 +110,8 @@ const folderBackdropListFragmentStyles = StyleSheet.create({
 
     container: {
         borderTopRightRadius: 10,
-        backgroundColor: "#8888ff",
-        height: 2000
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        paddingBottom: 40
     },
 
     triangle: {
@@ -104,7 +120,7 @@ const folderBackdropListFragmentStyles = StyleSheet.create({
         borderRightWidth:40,
         borderRightColor:"transparent",
         borderBottomWidth:40,
-        borderBottomColor:"#8888ff"
+        borderBottomColor:'rgba(255, 255, 255, 0.7)'
     }
 
 })

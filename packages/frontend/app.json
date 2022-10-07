@@ -1,6 +1,6 @@
 {
   "expo": {
-    "entryPoint": "./src/ui/pages/view/AddFoodItemView.tsx",
+    "entryPoint": "./src/App.tsx",
     "name": "frontend",
     "slug": "frontend",
     "version": "1.0.0",
