@@ -1,4 +1,5 @@
 
+import { gql, useMutation } from '@apollo/client';
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity, Dimensions } from 'react-native';
@@ -7,6 +8,13 @@ import { ReactString } from '../../String';
 import { FolderBackdropActionButton, FolderBackdropActionButtonArgument } from './FolderBackdropActionButton';
 import { FolderBackdropTextInputField, FolderBackdropTextInputFieldArgument } from './FolderBackdropTextInputField';
 import { folderCommonStyles } from './FolderCommonStyles';
+import { InventoryItem } from './InventoryItem';
+
+const ADD_ITEM=gql`
+mutation AddItem($itemName: string, $capacity: number, $categoryKey: string){
+  addItem(itemName: $itemName, capacity: $capacity, categoryKey: $categoryKey)
+}
+`
 
 const folderBackgroundFragmentStyle = StyleSheet.create({
     
@@ -35,6 +43,17 @@ export const FolderBackdropListFragment = (props: any) => {
     }
 
     const [checkboxValue, checkboxUI] = useState(false);
+    const [itemName, itemNameFunc] = useState("");
+    const [itemType, itemTypeFunc] = useState("");
+    const [itemExpirationDate, itemExpirationDateFunc] = useState("");
+
+    const [addItem, {loading, error}] = useMutation(ADD_ITEM);
+    const addItemHandler=(item: InventoryItem) => {
+      console.log("Adding item " + item.text + " to the database");
+      addItem({variables: {"itemName":item.text, "capacity":item.capacity, "categoryKey":item.categoryKey}});
+      props.goBack(false);
+      
+    }
 
     return (
         <View style = {{
@@ -58,11 +77,11 @@ export const FolderBackdropListFragment = (props: any) => {
                 </View>
 
                 <View style = {[folderBackdropListFragmentStyles.container]}>
-                    <FolderBackdropTextInputField info={nameInfo}/>
+                    <FolderBackdropTextInputField backRefFunction={itemNameFunc} info={nameInfo}/>
 
-                    <FolderBackdropTextInputField info={typeInfo}/>
+                    <FolderBackdropTextInputField backRefFunction={itemTypeFunc} info={typeInfo}/>
 
-                    <FolderBackdropTextInputField info={expireInfo}/>
+                    <FolderBackdropTextInputField backRefFunction={itemExpirationDateFunc} info={expireInfo}/>
                     
                     <View style = {[folderCommonStyles.row, {marginTop: 40, justifyContent: "center"}]}>
                         <Checkbox
@@ -84,9 +103,8 @@ export const FolderBackdropListFragment = (props: any) => {
                         </Text>
                     </View>
 
-                    <FolderBackdropActionButton info = {buttonInfo}>
+                    <FolderBackdropActionButton info = {buttonInfo} buttonFunction={addItemHandler} argument={new InventoryItem(itemName, itemType, itemExpirationDate, "test")}/>
 
-                    </FolderBackdropActionButton>
                 </View>
             </View>
         </View>
