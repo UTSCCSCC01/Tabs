@@ -2,13 +2,19 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
   extend type Query {
-    findCatByInvId(
+    findCatsByInvId(
       inventoryId: String
     ): [String]
   }
 
   extend type Mutation {
-    renameCat(
+    addCat(
+      inventoryId: String
+      categoryName: String
+      categoryDesc: String
+    ): String
+
+    changeCatName(
       categoryId: String
       categoryName: String
     ): Boolean

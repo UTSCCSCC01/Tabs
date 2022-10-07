@@ -8,7 +8,9 @@ async function addItemFunc(categoryId: String, itemName: String, quantity: Numbe
     const item = await Item.create({categoryId: categoryId, itemName: itemName, quantity: quantity})
  
     await Category.findOneAndUpdate({_id: id}, {$push:{items: item._id}})
-    .then(() => (console.log("Added item to category")))
+    .then(() => {
+        console.log("Added item to category")
+    })
     .catch(() => {
         console.log("Failed to update category")
         return null
@@ -33,8 +35,20 @@ async function delItemFunc(categoryId: String, itemId: String): Promise<Boolean>
     return x
 }
 */
+async function addCatFunc(inventoryId: String, categoryName: String, categoryDesc: String): Promise<String> {
+    const res = await Category.create({inventoryId: inventoryId, categoryName: categoryName, categoryDesc: categoryDesc})
+    .then(() => {
+        console.log("Added category")
+    })
+    .catch(() => {
+        console.log("Failed to add category")
+        return null
+    })
+    
+    return String(res._id)
+}
 
-async function renameFunc(categoryId: String, categoryName: String): Promise<Boolean> {
+async function changeCatNameFunc(categoryId: String, categoryName: String): Promise<Boolean> {
     let res;
     await Category.findOneAndUpdate({categoryId: categoryId}, {$set:{categoryName: categoryName}})
     .then(() => {
@@ -49,7 +63,7 @@ async function renameFunc(categoryId: String, categoryName: String): Promise<Boo
     return res
 }
 
-async function changeDescFunc(categoryId: String, categoryDesc: String): Promise<Boolean> {
+async function changeCatDescFunc(categoryId: String, categoryDesc: String): Promise<Boolean> {
     let res;
     await Category.findOneAndUpdate({categoryId: categoryId}, {$set:{categoryDesc: categoryDesc}})
     .then(() => {
@@ -63,7 +77,7 @@ async function changeDescFunc(categoryId: String, categoryDesc: String): Promise
     return res
 }
 
-async function findCatsFunc(inventoryId: String): Promise<String[]> {
+async function findCatsByInvIdFunc(inventoryId: String): Promise<String[]> {
     let res: String[];
     const catIds = await Category.find({inventoryId: inventoryId}, 'categoryId')
     .then(() => {
@@ -73,7 +87,7 @@ async function findCatsFunc(inventoryId: String): Promise<String[]> {
         }
     })
     .catch(() => {
-        console.log("Find categoryIds by inventoryId query was successful")
+        console.log("Find categoryIds by inventoryId query was unsuccessful")
         return null
     })
 
@@ -82,12 +96,12 @@ async function findCatsFunc(inventoryId: String): Promise<String[]> {
 
 const resolvers = {
     Query: {
-        findCatByInvId: async(
+        findCatsByInvId: async(
             root,
             args: {inventoryId: string},
             ): 
             Promise<String[]> => {
-                return await findCatsFunc(args.inventoryId)
+                return await findCatsByInvIdFunc(args.inventoryId)
             }
     },
 
@@ -107,19 +121,25 @@ const resolvers = {
                 return await delItemFunc(args.categoryId, args.itemId)
             },
         */
+        addCat: async(
+            root,
+            args: {inventoryId: String, categoryName: String, categoryDesc: String}
+            ): Promise<String> =>{
+                return await addCatFunc(args.inventoryId, args.categoryName, args.categoryDesc)
+            },
 
-        renameCat: async(
+        changeCatName: async(
             root,
             args: {categoryId: String, categoryName: String}
             ): Promise<Boolean> => {
-                return await renameFunc(args.categoryId, args.categoryName)
+                return await changeCatNameFunc(args.categoryId, args.categoryName)
             },
 
         changeCatDesc: async(
             root,
             args: {categoryId: String, categoryDesc: String}
             ): Promise<Boolean> => {
-                return await changeDescFunc(args.categoryId, args.categoryDesc)
+                return await changeCatDescFunc(args.categoryId, args.categoryDesc)
             }
     }
 }
