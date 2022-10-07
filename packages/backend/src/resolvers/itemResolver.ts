@@ -11,7 +11,7 @@ async function findItemFunc(itemId:String):Promise<ItemDocument | void> {
 }
 async function findItemsByCategoryFunc(categoryId:String):Promise<String[]>{
 
-    const items = await Item.find({category:categoryId}, "_id")
+    const items = await Item.find({categoryId:categoryId}, "_id")
     let i = 0;
     let Items: Array<String>= []
     if (items.length > 0){
