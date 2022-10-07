@@ -113,7 +113,7 @@ const resolvers = {
             args: {categoryId: String, categoryName: String}
             ): Promise<Boolean> => {
                 return await renameFunc(args.categoryId, args.categoryName)
-            }
+            },
 
         changeCatDesc: async(
             root,
