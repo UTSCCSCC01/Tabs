@@ -17,7 +17,6 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 
 
 
-
 //react wouldn't let me pass a string into a component without this
 class TextOBJ{
   text: string;
@@ -348,8 +347,9 @@ return(
             {}
             
              {//Button in bottom right corner to add something
+                          <Button title={"debug"} onPress={() => toggleDoubleDescBox(showDoubleDescBox)}></Button>
+
              }
-             <Button title={"debug"} onPress={() => toggleDoubleDescBox(showDoubleDescBox)}></Button>
             {addingCategory== 0 && <FloatingActionButton 
             name="add category" 
             argument={1} 
