@@ -18,12 +18,12 @@ async function findInventory(houseId:String):Promise<String[]>{
     return inv
 
 }
-async function createInventory(houseId:String):Promise<String | Boolean>{ 
+async function createInventory(houseId:String):Promise<String>{ 
     let x;
     // const inventory = await Inventory.create({houseId:houseId})
     // return String(inventory._id)
     const id = new Types.ObjectId(String(houseId))
-    await Inventory.create({houseId:id}).then((inventory)=> {console.log("Successfully created inventory"); x= String(inventory._id)}).catch(()=>{console.log("Failure to create inventory"); x= false}) 
+    await Inventory.create({houseId:id}).then((inventory)=> {console.log("Successfully created inventory"); x= String(inventory._id)}).catch(()=>{console.log("Failure to create inventory"); x= ""}) 
     return x
 }
 const resolvers = {
@@ -35,7 +35,7 @@ const resolvers = {
     },
 
     Mutation: {
-        createInventory: async(root, args: {houseId: String}, context):Promise<String |Boolean> =>{
+        createInventory: async(root, args: {houseId: String}, context):Promise<String> =>{
            return await createInventory(args.houseId)
         }
 
