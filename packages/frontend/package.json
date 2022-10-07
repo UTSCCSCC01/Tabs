@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
+    "@react-navigation/bottom-tabs": "^6.4.0",
+    "@react-navigation/native": "^6.0.13",
     "chokidar": "^3.5.3",
     "expo": "~46.0.9",
     "expo-status-bar": "~1.4.0",
