@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactComponentElement, ReactElement } from 'react';
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -142,15 +142,42 @@ class FolderSvgClass{
 
 class FolderSvgForm{
 
+  folder: FormItemList;
+  swipeFunction: FunctionObject;
+  constructor(folder: FormItemList, swipeFunction: FunctionObject){
+    this.folder = folder;
+    this.swipeFunction = swipeFunction;
+  }
+
 }
 
 class FormItemList{
+  list: FormItem[];
+  title: string;
+
+  constructor(list :FormItem[], title:string){
+    this.list = list;
+    this.title = title;
+  }
   
 }
 
 class FormItem{
 
+  id:string;
+  title: string;
+  component:ReactElement;
+  constructor(title: string, id:string, component:ReactElement){
+    this.title = title;
+    this.id = id;
+    this.component = component;
+  }
+
 }
+
+
+
+
 
 
 
@@ -204,6 +231,12 @@ const InvView = ()=>{
   const [showDoubleDescBox, toggleDoubleDescBox] = useState(true);
   const[chosenCategory, selectCategory] = useState(-1);
   const[chosenItem, selectItem] = useState(-1);
+  const [addingCategory, tryToAdd] = useState(0);
+
+
+const [addItem, {loading, error}] = useMutation(ADD_ITEM);
+
+  const backButton = () => {selectItem(0); selectCategory(-1); tryToAdd(0);}
   const seleCat =  new FunctionObject(selectCategory, null, "select Category");
   const selItem =  new FunctionObject(selectItem, null, "select Item");
 
@@ -215,10 +248,21 @@ const folderItemA = new FolderItemData("Potatoes", "none", "444", selItem);
 const folderItemB = new FolderItemData("Tomatoes", "none", "5033", selItem);
 const folderItemList2 = new FolderItemList([folderItemA, folderItemB], "Items");
 
-const headerData= new HeaderData("Food Inventory", new FunctionObject(seleCat.myFunction, -1, "go back"));
+const [categoryFormNameInput, setName] = useState("Name");
+const [categoryFormDescInput, setDesc] = useState("Description");
+const categoryFormName = <TextForm input={categoryFormNameInput} title={ "Category Name "} hintText={"My Category"} setText={setName}/>
+const categoryFormDesc = <TextForm input={categoryFormDescInput} title={ "Description"} hintText={"My Category"} setText={setDesc}/>
+const categoryFormButton = <TouchableOpacity></TouchableOpacity>
 
+const formItemA = new FormItem("Category Name", "idk", categoryFormName);
+const formItemB = new FormItem("Description", "idk2", categoryFormDesc);
 
-const [addItem, {loading, error}] = useMutation(ADD_ITEM);
+const formItemList = new FormItemList([formItemA, formItemB], "Add Category");
+
+const folderFormData = new FolderSvgForm(formItemList, seleCat);
+
+const headerData= new HeaderData("Food Inventory", new FunctionObject(backButton, -1, "go back"));
+
 
 
 
@@ -239,11 +283,6 @@ const addItemHandler=(item: InventoryItem) => {
   // }
   // if(error){
   //     return <View style={styles.flexContainer}><Text style={styles.input}>{'error occured'}</Text></View>
-  // }
-  
-  // const submitHandle = ()=>{
-  //     signup({variables: {"email":String(input), "password":'password'}})
-  //     console.log("created resuorce in db")
   // }
 
   END BLOCK OF OLD CODE */
@@ -288,10 +327,16 @@ return(
           }
  
            
-            {chosenCategory == -1 &&
+            {chosenCategory == -1 && addingCategory == 0 && //This is the category folder
             <FolderSvg folder={folderItemList} 
             swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}
             itemFunction={new FunctionObject(selectCategory, null, "selectCategory")}
+            />}
+
+            {//this is the add category folder
+            chosenCategory == -1 && addingCategory != 0 &&  <FolderFormSvg
+            folder={folderFormData.folder}
+            swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}
             />}
 
             {chosenCategory != -1 &&
@@ -300,14 +345,16 @@ return(
             itemFunction={new FunctionObject(selectCategory, null, "selectCategory")}
             />}
 
+
+            {}
             
              {//Button in bottom right corner to add something
              }
              <Button title={"debug"} onPress={() => toggleDoubleDescBox(showDoubleDescBox)}></Button>
-            <FloatingActionButton 
+            {addingCategory== 0 && <FloatingActionButton 
             name="add category" 
-            argument={new InventoryItem("test", "test", 7, "Seven's favourite food")} 
-            myFunction={addItemHandler}/>
+            argument={1} 
+            myFunction={tryToAdd}/>}
 
         </View>
       </LinearGradient>
@@ -392,6 +439,7 @@ const MyHeader = (data:HeaderData) =>{
 
           <View style={styles.rowFlex2}>
   
+
             <TouchableOpacity style={styles.headerIcon} onPress={() => data.backFunction.myFunction(data.backFunction.argument)}>
               <MaterialCommunityIcons name="arrow-left" size={24}/>
               </TouchableOpacity>
@@ -441,17 +489,14 @@ const FolderSvg = (data: FolderSvgClass) =>{
            keyExtractor={item => item.id}>
            </FlatList>
           </SafeAreaView>
-
-
-
-
-          
           
         </View>
 
     </View>
   )
 }
+
+
 
 
 //i explained this
@@ -484,6 +529,94 @@ const FolderListItem = (item:FolderItemData) =>{
   )
 }
 
+
+
+
+
+
+const FolderFormListItem = (item:FormItem) =>{
+  const component = item.component
+  return (
+      <View>
+        {component}
+      </View>
+      
+  )
+}
+
+const FolderFormSvg = (data: FolderSvgForm) =>{
+
+  console.log(data.folder.title);
+
+  return (
+    <View style={styles.maxContainer}>
+      <SvgComponentLightBlue zIndex={-1}/>
+     
+     
+      <GestureRecognizer style={styles.folderLabelHolder} onSwipeDown={() => data.swipeFunction.myFunction(true)} onSwipeUp={() => data.swipeFunction.myFunction(false)}>
+        <View>
+        <Text style={styles.folderLabelBlack}>{data.folder.title}</Text>
+        </View>
+      </GestureRecognizer>
+
+        <View style={styles.folderList}>
+        
+
+          <SafeAreaView style={styles.container}>
+           <FlatList style={styles.container}
+           data={data.folder.list}
+           renderItem={({item})=>(<FolderFormListItem title={item.title} component={item.component} id={item.id}/>)}
+           keyExtractor={item => item.id}>
+           </FlatList>
+          </SafeAreaView>
+          
+        </View>
+
+    </View>
+  )
+}
+
+const TextForm = ({input, title, hintText, setText}: {input:string, title:string, hintText:string, setText:Function}) => {
+  // const [input] = useState()
+  // const [addCategory, {loading, error}] = useMutation(ADD_CATEGORY);
+
+  // const addItemHandler=(item: InventoryCategory) => {
+  //   console.log("Adding item " + item.text + " to the database");
+  //   addCategory({variables: {"categoryName":item.text, "inventoryKey":item.inventoryKey}});
+    
+  // }
+  
+  return(
+    
+    <View>
+      <Text>{title}</Text>
+     <View style={styles.inputBox}>
+      
+      <TextInput
+            style={styles.input}
+            defaultValue={input}
+            value = {input}
+            onChangeText={(inputText) => {setText(inputText)}}
+            textAlign="center"
+            placeholder="TYPE HERE"
+            onSubmitEditing={()=>{}}/>
+
+    </View>
+
+ 
+    </View>
+  )
+}
+
+
+
+
+
+
+
+
+
+
 const BorderIcon = (iconName: TextOBJ) => {
   return(
 
@@ -512,6 +645,12 @@ const ToggleList = () => {
 const ADD_ITEM=gql`
 mutation AddItem($itemName: string, $capacity: number, $categoryKey: string){
   addItem(itemName: $itemName, capacity: $capacity, categoryKey: $categoryKey)
+}
+`
+
+const ADD_CATEGORY=gql`
+mutation AddCategory($categoryName: string, $inventoryKey: string){
+  addItem(categoryName: $categoryName, inventoryKey: $inventoryKey)
 }
 `
 
@@ -678,17 +817,53 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   input: {
-    color: "#FF0000",
-    height: 0,
-    margin: 0,
-    borderWidth: 0,
-    padding: 0,
+    color: "#000000",
+
+    
+  },
+  inputBox: {
+    height: "100%",
+    minHeight: 30,
+    maxHeight: 80,
+    width: "100%",
+    backgroundColor: "#FFFFFF90",
+    borderRadius: 15,
+    alignContent: 'center',
+    justifyContent: 'center',
+    shadowOffset: {
+      width: 0.5,
+      height: 2
+    },
+    shadowRadius: 0.5,
+    shadowOpacity: 0.5,
+
+ 
+
+    
+  },
+
+  marginContainer: {
+    width:"100%",
+    height:"100%",
+
+  },
+  inputBoxBox:{
+    borderRadius: 15,
+    alignContent: 'center',
+    justifyContent: 'center',
+    shadowOffset: {
+      width: 3,
+      height: 3
+    },
+    shadowRadius: 3,
+    shadowOpacity: 0.5,
+
   },
   page: {
     width: "100%",
     height: "100%",
 
-  },
+  }, 
 
   page2: {
     width: "100%",
@@ -768,6 +943,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Arial",
     color: "#FFFFFF",
+    zIndex: 1
+  },
+
+  folderLabelBlack: {
+  
+    fontSize: 16,
+    fontFamily: "Arial",
+    color: "#000000",
     zIndex: 1
   },
 
