@@ -10,24 +10,32 @@ interface FolderBackdropActionButtonArgumentFields {
     info: FolderBackdropActionButtonArgument
 }
 
-export const FolderBackdropActionButton = ({info}: FolderBackdropActionButtonArgumentFields) => {
+export const FolderBackdropActionButton = ({info, buttonFunction, argument}: {info: FolderBackdropActionButtonArgument, buttonFunction:Function, argument:any}) => {
     return (
         <View style = {[folderCommonStyles.row, {
             justifyContent: "center",
             width: "100%",
-            marginTop: 40
+            marginTop: 30
         }]}>
            <TouchableOpacity style = {{
-                padding: 10,
+                padding: 6,
                 backgroundColor: "#127589",
                 borderRadius: 30,
                 paddingRight: 70,
                 paddingLeft: 70,
-                width: "100%"
-           }}>
+                width: "100%",
+                minWidth: 300,
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: 80,
+                
+                
+                
+           }}
+           onPress={() => {buttonFunction(argument)}}>
                 <Text style = {{
                     color: "white",
-                    fontSize: 35
+                    fontSize: 28
                 }}>
                     {info.title}
                 </Text>
