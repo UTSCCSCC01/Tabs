@@ -82,7 +82,7 @@ async function findCatsFunc(inventoryId: String): Promise<String[]> {
 
 const resolvers = {
     Query: {
-        findCatByInvIdFunc: async(
+        findCatByInvId: async(
             root,
             args: {inventoryId: string},
             ): 
