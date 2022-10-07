@@ -5,10 +5,10 @@ export default gql`
   extend type Query{
     findItem(
       itemId: String
-    ): [Item]
+    ): String
     findItemsByCategory(
       categoryId: String
-      ):[Item]
+      ):[String]
   }
 
   extend type Mutation {
@@ -26,7 +26,6 @@ export default gql`
   }
   type Item {
     categoryId: String
-    itemId: String!
     name: String
   }
         
