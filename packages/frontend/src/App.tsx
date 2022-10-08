@@ -22,7 +22,6 @@ const client = new ApolloClient({
     version: '0'
 });
 
-
   const myTheme = {
     dark: false,
     colors: {
