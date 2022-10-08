@@ -39,15 +39,14 @@ async function createItemfunc(categoryId:String, name:String, expiration:String)
 }
 async function modifyItemNameFunc(itemId:String, name:String):Promise<String>{
     let x
-    const id = new Types.ObjectId(String(itemId))
     await Item.findByIdAndUpdate(itemId, { name: name}) .then(()=>{console.log("Successfully modified item name"); x= name}).catch(()=>{console.log("Failed to modify item name"); x= ""})
     return x
 }
 
-async function modifyItemCategoryFunc(itemId: String, category: String ): Promise<String>{
+async function modifyItemCategoryFunc(itemId: String, categoryId: String ): Promise<String>{
     let x
    
-    await Item.findByIdAndUpdate(itemId, { category: category}).then(()=>{console.log("Successfully modified item name"); x= category}).catch(()=>{console.log("Failed to modify item name"); x= ""})
+    await Item.findByIdAndUpdate(itemId, { categoryId: categoryId}).then(()=>{console.log("Successfully modified item name"); x= categoryId}).catch(()=>{console.log("Failed to modify item name"); x= ""})
     return x
 }
 const resolvers = {
