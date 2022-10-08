@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SvgComponent from '../../../assets/images/Vector';
-import SvgComponentLightBlue from '../../../assets/images/vectorLightBlue';
+import SvgComponentLightBlue from '../../../assets/images/LightBlueVector';
 import { FloatingAction } from "react-native-floating-action";
 
 import { ApolloClient, gql, InMemoryCache, useMutation } from '@apollo/client';
@@ -54,7 +54,7 @@ class DescBoxData{
 }
 
 
-//react wouldnt let me pass a normal list of the box data class so 
+//react wouldnt let me pass a normal list of the box data class so
 //i had to make another class just to hold the list and pass that
 class DescBoxList{
   data:DescBoxData[];
@@ -78,7 +78,7 @@ class FolderItemData{
     this.id = id;
     this.touchFunction = touchFunction;
   }
-  
+
 }
 
 
@@ -126,7 +126,7 @@ class FunctionObject{
     this.name=name;
   }
 
-  
+
 }
 
 class FolderSvgClass{
@@ -159,7 +159,7 @@ class FormItemList{
     this.list = list;
     this.title = title;
   }
-  
+
 }
 
 class FormItem{
@@ -203,6 +203,7 @@ const invCont = new inventoryController.inventoryController();
 
 
 /*OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
+
 // const SIGN_UP = gql`
 // mutation signUp($email: String!, $password: String!) {
 //   signUp(email: $email, password: $password){
@@ -210,12 +211,14 @@ const invCont = new inventoryController.inventoryController();
 //   }
 // }
 // `
+
 // const client = new ApolloClient({
 //     uri: 'http://localhost:8000/graphql',
 //     name: 'test',
 //     cache: new InMemoryCache(),
 //     version: '0'
 //   });
+
 END BLOCK OF OLD CODE */
 
 
@@ -223,7 +226,7 @@ END BLOCK OF OLD CODE */
 const InvView = ()=>{
 
   useEffect(() => {
-   
+
   }, []);
   const [showDoubleDescBox, toggleDoubleDescBox] = useState(true);
   const[chosenCategory, selectCategory] = useState(-1);
@@ -266,10 +269,13 @@ const headerData= new HeaderData("Food Inventory", new FunctionObject(backButton
 const addItemHandler=(item: InventoryItem) => {
   console.log("Adding item " + item.text + " to the database");
   addItem({variables: {"itemName":item.text, "capacity":item.capacity, "categoryKey":item.categoryKey}});
-  
+
 }
   /*OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
+
+
   // console.log(data[1].iconName)
+
   // const [input] = useState()
   // const [signup,  { loading, error }] = useMutation(SIGN_UP)
   // if(loading){
@@ -278,6 +284,7 @@ const addItemHandler=(item: InventoryItem) => {
   // if(error){
   //     return <View style={styles.flexContainer}><Text style={styles.input}>{'error occured'}</Text></View>
   // }
+
   END BLOCK OF OLD CODE */
 return(
 
@@ -287,10 +294,10 @@ return(
         }
         <View style={styles.flexPage}>{// container for rest of page...
         }
-      
-        
+
+
           {
-          
+
             //OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
             // <TextInput
             //style={styles.input}
@@ -300,11 +307,11 @@ return(
             //textAlign="center"
             //placeholder="TYPE HERE"
             //onSubmitEditing={submitHandle}/>*/}
-            //* <Button 
+            //* <Button
             //onPress={submitHandle}
             //title="CREATE RESOURCE"
             //color="red"/>
-            
+
           //END BLOCK OF OLD CODE */
           }
 
@@ -312,16 +319,16 @@ return(
             //the same row at once
           }
 
-          
+
             {showDoubleDescBox && <DoubleDescBox data={data}/>}
-            {//I rendered the folder u see across the ui by converting it to a vector image using the 
+            {//I rendered the folder u see across the ui by converting it to a vector image using the
             //"REACT VECTOR IMAGE CONVERTER SITE: google it cuz i do not remember the link
             //I then rendered the title and list of folder items onto it
           }
- 
-           
+
+
             {chosenCategory == -1 && addingCategory == 0 && //This is the category folder
-            <FolderSvg folder={folderItemList} 
+            <FolderSvg folder={folderItemList}
             swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}
             itemFunction={new FunctionObject(selectCategory, null, "selectCategory")}
             />}
@@ -333,26 +340,26 @@ return(
             />}
 
             {chosenCategory != -1 &&
-            <FolderSvg folder={folderItemList2} 
+            <FolderSvg folder={folderItemList2}
             swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}
             itemFunction={new FunctionObject(selectCategory, null, "selectCategory")}
             />}
 
 
             {}
-            
+
              {//Button in bottom right corner to add something
              }
              <Button title={"debug"} onPress={() => toggleDoubleDescBox(showDoubleDescBox)}></Button>
-            {addingCategory== 0 && <FloatingActionButton 
-            name="add category" 
-            argument={1} 
+            {addingCategory== 0 && <FloatingActionButton
+            name="add category"
+            argument={1}
             myFunction={tryToAdd}/>}
 
         </View>
       </LinearGradient>
-      
- 
+
+
 )
 }
 
@@ -370,7 +377,7 @@ const DescBox = (data:DescBoxData) =>{
                 <MaterialCommunityIcons
                 size={24}
                 color={"#FFFFFF"}
-                //I ignore typescript below so that i can make the name a parameter 
+                //I ignore typescript below so that i can make the name a parameter
                 //as the icon class is typed only for valid string
                 //@ts-ignore
                 name={data.iconName} ></MaterialCommunityIcons>
@@ -379,16 +386,16 @@ const DescBox = (data:DescBoxData) =>{
             </LinearGradient>
 
           </TouchableOpacity>
-            
+
         </View>
   );
 }
 
-//same as the above but different color, technically i could make the gradient style a 
+//same as the above but different color, technically i could make the gradient style a
 //field but right now that is too much work
 const DescBox2 = (data:DescBoxData) =>{
     return (
-      
+
           <View style={styles.rcorners1}>
             <TouchableOpacity style={styles.container}>
               <LinearGradient colors={['#34ACBC', '#9FD3DE']} style={styles.linearGradient1} start={[-0.04, 0]} end={[1.34, 1.34]}>
@@ -411,7 +418,7 @@ const DescBox2 = (data:DescBoxData) =>{
 //i explained this above
 const DoubleDescBox = (data:DescBoxList) =>{
 
- 
+
     return (
         <View style={styles.rowFlex1}>
 
@@ -431,7 +438,7 @@ const MyHeader = (data:HeaderData) =>{
         <View style={styles.myHeader}>
 
           <View style={styles.rowFlex2}>
-  
+
 
             <TouchableOpacity style={styles.headerIcon} onPress={() => data.backFunction.myFunction(data.backFunction.argument)}>
               <MaterialCommunityIcons name="arrow-left" size={24}/>
@@ -464,8 +471,8 @@ const FolderSvg = (data: FolderSvgClass) =>{
   return (
     <View style={styles.maxContainer}>
       <SvgComponent zIndex={-1}/>
-     
-     
+
+
       <GestureRecognizer style={styles.folderLabelHolder} onSwipeDown={() => data.swipeFunction.myFunction(true)} onSwipeUp={() => data.swipeFunction.myFunction(false)}>
         <View>
         <Text style={styles.folderLabel}>{data.folder.title}</Text>
@@ -473,7 +480,7 @@ const FolderSvg = (data: FolderSvgClass) =>{
       </GestureRecognizer>
 
         <View style={styles.folderList}>
-        
+
 
           <SafeAreaView style={styles.container}>
            <FlatList style={styles.container}
@@ -482,7 +489,7 @@ const FolderSvg = (data: FolderSvgClass) =>{
            keyExtractor={item => item.id}>
            </FlatList>
           </SafeAreaView>
-          
+
         </View>
 
     </View>
@@ -497,9 +504,9 @@ const FloatingActionButton = (myFunction: FunctionObject) =>{
   return (
     <TouchableOpacity style={styles.fab} onPress={ () => myFunction.myFunction(myFunction.argument)}>
 
-      
+
       <MaterialCommunityIcons name="plus" size={32} color={"#767171"}/>
-      
+
 
     </TouchableOpacity>
   )
@@ -511,14 +518,14 @@ const FolderListItem = (item:FolderItemData) =>{
     <TouchableOpacity onPress={() => item.touchFunction.myFunction(item.touchFunction.argument)}>
       <View style={styles.folderListItem}>
        {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
-       
-    
+
+
 
 <Text style={styles.splitTextNormal} >{item.text}</Text>
 
 </View>
     </TouchableOpacity>
-    
+
   )
 }
 
@@ -533,7 +540,7 @@ const FolderFormListItem = (item:FormItem) =>{
       <View>
         {component}
       </View>
-      
+
   )
 }
 
@@ -544,8 +551,8 @@ const FolderFormSvg = (data: FolderSvgForm) =>{
   return (
     <View style={styles.maxContainer}>
       <SvgComponentLightBlue zIndex={-1}/>
-     
-     
+
+
       <GestureRecognizer style={styles.folderLabelHolder} onSwipeDown={() => data.swipeFunction.myFunction(true)} onSwipeUp={() => data.swipeFunction.myFunction(false)}>
         <View>
         <Text style={styles.folderLabelBlack}>{data.folder.title}</Text>
@@ -553,7 +560,7 @@ const FolderFormSvg = (data: FolderSvgForm) =>{
       </GestureRecognizer>
 
         <View style={styles.folderList}>
-        
+
 
           <SafeAreaView style={styles.container}>
            <FlatList style={styles.container}
@@ -562,7 +569,7 @@ const FolderFormSvg = (data: FolderSvgForm) =>{
            keyExtractor={item => item.id}>
            </FlatList>
           </SafeAreaView>
-          
+
         </View>
 
     </View>
@@ -576,15 +583,15 @@ const TextForm = ({input, title, hintText, setText}: {input:string, title:string
   // const addItemHandler=(item: InventoryCategory) => {
   //   console.log("Adding item " + item.text + " to the database");
   //   addCategory({variables: {"categoryName":item.text, "inventoryKey":item.inventoryKey}});
-    
+
   // }
-  
+
   return(
-    
+
     <View>
       <Text>{title}</Text>
      <View style={styles.inputBox}>
-      
+
       <TextInput
             style={styles.input}
             defaultValue={input}
@@ -596,7 +603,7 @@ const TextForm = ({input, title, hintText, setText}: {input:string, title:string
 
     </View>
 
- 
+
     </View>
   )
 }
@@ -615,7 +622,7 @@ const BorderIcon = (iconName: TextOBJ) => {
 
     <View style={styles.iconBorder}>
     <View style={styles.center}>
-      
+
       {/*@ts-ignore*/}
        <MaterialCommunityIcons name={iconName.text} size={32} style={styles.splitIcon}/>
     </View>
@@ -627,7 +634,7 @@ const BorderIcon = (iconName: TextOBJ) => {
 
 const ToggleList = () => {
 
-  
+
 
 }
 
@@ -666,7 +673,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "40%",
     margin: "8%",
-    
+
 
     shadowOffset: {
       width: 3,
@@ -674,7 +681,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 3,
     shadowOpacity: 0.5
-    
+
   },
 
   myHeader: {
@@ -711,7 +718,7 @@ const styles = StyleSheet.create({
     fontFamily: "Arial"
   },
 
-  
+
   linearGradient1: {
 
     width:"100%",
@@ -723,7 +730,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: 'flex-start',
     justifyContent: 'space-around',
-    
+
   },
 
   whiteText1: {
@@ -731,7 +738,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "Arial",
     color: "#FFFFFF",
-    
+
   },
 
   whiteText2: {
@@ -739,7 +746,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "Arial",
     color: "#FFFFFF",
-    
+
   },
 
   whiteIcon1: {
@@ -768,16 +775,16 @@ const styles = StyleSheet.create({
   bg1Page: {
     width: "100%",
     height: "100%",
-    
+
   },
 
   svgContainer: {
     width: "100%",
     height: "100%",
     zIndex: -1,
-    
+
   },
-  
+
   container: {
     width:"100%",
     height:"100%",
@@ -801,7 +808,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: "2%",
     padding:"2%"
-      
+
   },
 
   flexContainer: {
@@ -812,7 +819,7 @@ const styles = StyleSheet.create({
   input: {
     color: "#000000",
 
-    
+
   },
   inputBox: {
     height: "100%",
@@ -830,9 +837,9 @@ const styles = StyleSheet.create({
     shadowRadius: 0.5,
     shadowOpacity: 0.5,
 
- 
 
-    
+
+
   },
 
   marginContainer: {
@@ -856,7 +863,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
 
-  }, 
+  },
 
   page2: {
     width: "100%",
@@ -873,7 +880,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start'
 
-    
+
 
   },
 
@@ -902,7 +909,7 @@ const styles = StyleSheet.create({
     minHeight: 100,
     maxHeight: 110,
     width: "100%",
-    
+
     backgroundColor: "#FFFFFFCC",
     borderRadius: 10,
 
@@ -932,7 +939,7 @@ const styles = StyleSheet.create({
   },
 
   folderLabel: {
-  
+
     fontSize: 16,
     fontFamily: "Arial",
     color: "#FFFFFF",
@@ -940,7 +947,7 @@ const styles = StyleSheet.create({
   },
 
   folderLabelBlack: {
-  
+
     fontSize: 16,
     fontFamily: "Arial",
     color: "#000000",
@@ -961,7 +968,7 @@ const styles = StyleSheet.create({
     width: "100%"
   }
 
-  
+
 
 
 
