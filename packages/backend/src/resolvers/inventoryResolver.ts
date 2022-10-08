@@ -22,8 +22,8 @@ async function createInventory(houseId:String):Promise<String>{
     let x;
     // const inventory = await Inventory.create({houseId:houseId})
     // return String(inventory._id)
-    const id = new Types.ObjectId(String(houseId))
-    await Inventory.create({houseId:id}).then((inventory)=> {console.log("Successfully created inventory"); x= String(inventory._id)}).catch(()=>{console.log("Failure to create inventory"); x= ""}) 
+
+    await Inventory.create({houseId:houseId}).then((inventory)=> {console.log("Successfully created inventory"); x= String(inventory._id)}).catch(()=>{console.log("Failure to create inventory"); x= ""}) 
     return x
 }
 const resolvers = {
