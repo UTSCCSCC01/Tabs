@@ -1,5 +1,5 @@
-import { InventoryDocument, CategoryDocument } from '../types'
-import {Inventory, Category} from '../models'
+import { InventoryDocument } from '../types'
+import {Inventory} from '../models'
 import { Types } from 'mongoose';
 
 
