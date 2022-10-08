@@ -6,7 +6,7 @@ const resolvers = {
         me: async(
             root,
             args: {username:string},
-            ): 
+            ):
             Promise<UserDocument | null> =>{
                 return await User.findById(args).exec()
             }
