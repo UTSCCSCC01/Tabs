@@ -13,6 +13,7 @@
     "@apollo/client": "^3.6.9",
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/native": "^6.0.13",
+    "@react-navigation/native-stack": "^6.9.0",
     "chokidar": "^3.5.3",
     "css-tree": "^2.2.1",
     "expo": "~46.0.9",
@@ -29,7 +30,8 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-swipe-up-down": "^1.2.0",
-    "react-native-webview": "^11.23.1"
+    "react-native-webview": "^11.23.1",
+    "react-navigation": "^4.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

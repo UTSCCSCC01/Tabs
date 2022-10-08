@@ -3,7 +3,7 @@ import { TextInput, View, Text, Button, StyleSheet} from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useMutation } from '@apollo/client';
 import { LinearGradient } from 'expo-linear-gradient';
 import { registerRootComponent } from 'expo';
-import InvView from './ui/pages/view/inventoryView'
+import FullInvView from './ui/pages/view/inventoryView'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -55,14 +55,13 @@ const App = () => (
   function MyTabs() {
     return (
       <Tab.Navigator screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Calendar" component={InvView} options={{tabBarIcon: () =>
+        <Tab.Screen name="Calendar" component={FullInvView} options={{tabBarIcon: () => 
           (<View><MaterialCommunityIcons name="calendar" size={24} color={"#E6E6E6B0"}/></View>)}}/>
 
-
-        <Tab.Screen name="Home" component={InvView} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Home" component={FullInvView} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
-        <Tab.Screen name="Notifications" component={InvView} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Notifications" component={FullInvView} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
       </Tab.Navigator>

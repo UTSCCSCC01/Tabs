@@ -11,7 +11,7 @@ interface FolderBackdropTextInputFieldArgumentFields {
     info: FolderBackdropTextInputFieldArgument
 }
 
-export const FolderBackdropTextInputField = ({info}: FolderBackdropTextInputFieldArgumentFields) => {
+export const FolderBackdropTextInputField = ({info, backRefFunction}: {info:FolderBackdropTextInputFieldArgument, backRefFunction: Function}) => {
     return (
         <View style = {[folderCommonStyles.row, {
                 justifyContent: "center",
@@ -32,6 +32,7 @@ export const FolderBackdropTextInputField = ({info}: FolderBackdropTextInputFiel
                 <TextInput
                     style = {[folderBackdropTextInputFieldStyles.text]}
                     placeholder = {info.hint}
+                    onChange={(input)=>backRefFunction(input)}
                 />
             </View>
         </View>

@@ -13,7 +13,7 @@ import NotificationsPage from './notificationsPage';
 import AppliancesPage from './appliancesPage';
 import ToDoListPage from './ToDoListPage';
 
-const HomePage = ( {navigation} ) => {
+const HomePage = ( {navigation}:{navigation:any} ) => {
     return (
         <View style={styles.mainView}>
             <View style={styles.folderBack}>
