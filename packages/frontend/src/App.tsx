@@ -1,10 +1,14 @@
-import React, { useState }from "react"
-import { View } from "react-native"
+import React, { useState } from "react"
+import { TextInput, View, Text, Button, StyleSheet} from 'react-native';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql, useMutation } from '@apollo/client';
+import { LinearGradient } from 'expo-linear-gradient';
 import { registerRootComponent } from 'expo';
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import InvView from './ui/pages/view/inventoryView'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+
 
 import RentScreen from "./ui/pages/view/RentScreen";
 
@@ -20,13 +24,24 @@ const myTheme = {
     colors: {
       primary: '#E6E6E6B0',
       background: '#373737',
-    
+
+  const myTheme = {
+    dark: false,
+    colors: {
+      primary: '#E6E6E6B0',
+      background: '#373737',
+
       card: '#373737',
       text: '#E6E6E6B0',
       border: '#373737',
       notification: 'rgb(255, 69, 58)',
     },
   };
+
+
+
+
+
 
 const App = () => (
     <ApolloProvider client={client}>
@@ -37,25 +52,27 @@ const App = () => (
     </ApolloProvider>
   );
 
+
   const Tab = createBottomTabNavigator();
 
   function MyTabs() {
     return (
       <Tab.Navigator screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Calendar" component={RentScreen} options={{tabBarIcon: () => 
+        <Tab.Screen name="Calendar" component={InvView} options={{tabBarIcon: () =>
           (<View><MaterialCommunityIcons name="calendar" size={24} color={"#E6E6E6B0"}/></View>)}}/>
-          
 
-        <Tab.Screen name="Home" component={RentScreen} options={{tabBarIcon: () => (<View>
+
+        <Tab.Screen name="Home" component={InvView} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
-        <Tab.Screen name="Notifications" component={RentScreen} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Notifications" component={InvView} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
       </Tab.Navigator>
     );
   }
-  
+
+
 
 
 export default registerRootComponent(App)

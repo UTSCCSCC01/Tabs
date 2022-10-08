@@ -1,12 +1,12 @@
 import { UserDocument } from '../types'
-import { User } from '../models'
+import {User} from '../models'
 
 const resolvers = {
     Query: {
         me: async(
             root,
             args: {username:string},
-            ): 
+            ):
             Promise<UserDocument | null> =>{
                 return await User.findById(args).exec()
             }
