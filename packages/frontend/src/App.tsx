@@ -59,7 +59,6 @@ const App = () => (
         <Tab.Screen name="Calendar" component={FullInvView} options={{tabBarIcon: () => 
           (<View><MaterialCommunityIcons name="calendar" size={24} color={"#E6E6E6B0"}/></View>)}}/>
 
-
         <Tab.Screen name="Home" component={FullInvView} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>

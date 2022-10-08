@@ -300,7 +300,6 @@ return(
 
 
 
-
 const ADD_CATEGORY=gql`
 mutation AddCategory($categoryName: string, $inventoryKey: string){
   addCategory(categoryName: $categoryName, inventoryKey: $inventoryKey)
@@ -310,6 +309,5 @@ mutation AddCategory($categoryName: string, $inventoryKey: string){
 
 //only export, could make this default but eh...
 export default FullInvView
-
 
 
