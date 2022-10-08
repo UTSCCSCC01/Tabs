@@ -4,7 +4,7 @@ export default gql`
   extend type Query {
     findCatsByInvId(
       inventoryId: String
-    ): [String]
+    ): [Category]
   }
 
   extend type Mutation {
@@ -26,6 +26,7 @@ export default gql`
   }
 
   type Category {
+    id: ID
     inventoryId: String
     categoryId: String
     categoryName: String

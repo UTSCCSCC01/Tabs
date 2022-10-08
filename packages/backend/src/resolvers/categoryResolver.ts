@@ -36,16 +36,18 @@ async function delItemFunc(categoryId: String, itemId: String): Promise<Boolean>
 }
 */
 async function addCatFunc(inventoryId: String, categoryName: String, categoryDesc: String): Promise<String> {
+    let x;
     const res = await Category.create({inventoryId: inventoryId, categoryName: categoryName, categoryDesc: categoryDesc})
-    .then(() => {
+    .then((res) => {
         console.log("Added category")
+        x=String(res._id)
     })
     .catch(() => {
         console.log("Failed to add category")
-        return null
+        x=null
     })
     
-    return String(res._id)
+    return x
 }
 
 async function changeCatNameFunc(categoryId: String, categoryName: String): Promise<Boolean> {
@@ -77,21 +79,19 @@ async function changeCatDescFunc(categoryId: String, categoryDesc: String): Prom
     return res
 }
 
-async function findCatsByInvIdFunc(inventoryId: String): Promise<String[]> {
+async function findCatsByInvIdFunc(inventoryId: String): Promise<CategoryDocument[]> {
     let res: String[];
     const catIds = await Category.find({inventoryId: inventoryId}, '_id')
-    .then(() => {
+    .then((catIds) => {
         console.log("Find categoryIds by inventoryId query was successful")
-        for (let i=0; i<catIds.length; i++) {
-            res.push(String(catIds[i]._id))
-        }
+        return catIds
     })
     .catch(() => {
         console.log("Find categoryIds by inventoryId query was unsuccessful")
         return null
     })
 
-    return res
+    return catIds
 }
 
 const resolvers = {
@@ -100,7 +100,7 @@ const resolvers = {
             root,
             args: {inventoryId: string},
             ): 
-            Promise<String[]> => {
+            Promise<CategoryDocument[]> => {
                 return await findCatsByInvIdFunc(args.inventoryId)
             }
     },
