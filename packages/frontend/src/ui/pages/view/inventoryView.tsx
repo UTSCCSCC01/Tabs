@@ -173,7 +173,6 @@ const addToItemButton = <FolderBackdropActionButton buttonFunction={(filler:any)
 const subtractFromItemButton = <FolderBackdropActionButton buttonFunction={(filler:any) =>{}} argument={new InventoryCategory(categoryFormNameInput, categoryFormDescInput, "testInv")} info = {buttonInfo4}/>
 
 
-
 const formHeader = new FormItem("", "idkidk", selItemData);
 const formItemD = new FormItem("", "idk4", editItemButton);
 const formItemE = new FormItem("", "idk5", addToItemButton);
@@ -217,10 +216,10 @@ return(
         }
         <View style={styles.flexPage}>{// container for rest of page...
         }
-      
-        
+
+
           {
-          
+
             //OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
             // <TextInput
             //style={styles.input}
@@ -230,11 +229,11 @@ return(
             //textAlign="center"
             //placeholder="TYPE HERE"
             //onSubmitEditing={submitHandle}/>*/}
-            //* <Button 
+            //* <Button
             //onPress={submitHandle}
             //title="CREATE RESOURCE"
             //color="red"/>
-            
+
           //END BLOCK OF OLD CODE */
           }
 
@@ -242,9 +241,9 @@ return(
             //the same row at once
           }
 
-          
+
             {showDoubleDescBox && <DoubleDescBox data={data}/>}
-            {//I rendered the folder u see across the ui by converting it to a vector image using the 
+            {//I rendered the folder u see across the ui by converting it to a vector image using the
             //"REACT VECTOR IMAGE CONVERTER SITE: google it cuz i do not remember the link
             //I then rendered the title and list of folder items onto it
           }
@@ -311,5 +310,6 @@ mutation AddCategory($categoryName: string, $inventoryKey: string){
 
 //only export, could make this default but eh...
 export default FullInvView
+
 
 
