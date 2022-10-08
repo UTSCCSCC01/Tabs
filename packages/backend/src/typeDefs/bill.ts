@@ -2,6 +2,12 @@ import { gql } from 'apollo-server-express'
 
 
 export default gql`
+    extend type Query {
+        getBill(
+            houseId: String!
+        ): [Bill!]!
+    }
+
     extend type Mutation {
         addBill(
             houseId: String
@@ -9,6 +15,7 @@ export default gql`
             amount: Float
             split: [String]
             dateCreated: String
+            dateDue: String
             status: String
         ):Bill
 
@@ -25,6 +32,7 @@ export default gql`
         amount: Float!
         split: [String!]
         dateCreated: String!
+        dateDue: String!
         status: String
     }
         

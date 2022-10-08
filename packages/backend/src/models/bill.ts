@@ -9,6 +9,7 @@ const BillSchema = new Schema(
         amount: Number,
         split: [String],
         dateCreated: String,
+        dateDue: String,
         status: String,
     }
 )

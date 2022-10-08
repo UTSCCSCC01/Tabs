@@ -11,10 +11,18 @@ async function modifyAmountFunc(billId:String, amount:Number):Promise<String | B
 
 const resolvers = {
 
+    Query: {
+        getBill: async(root,
+            args: {houseId: String}
+            ):Promise<BillDocument[]> => {
+            return Bill.find(args);
+        },
+    },
+
     Mutation: {
         addBill: async(
             root,
-            args: {billId: String, houseId: String; name: String, amount: Number, split: [String], dateCreated: String, status: String}
+            args: {billId: String, houseId: String; name: String, amount: Number, split: [String], dateCreated: String, dateDue: String, status: String}
         ): Promise<BillDocument> =>{
 
             const bill = await Bill.create(args)

@@ -7,5 +7,6 @@ export interface BillDocument extends Document {
     amount: Number,
     split: [String],
     dateCreated: String,
+    dateDue: String,
     status: String
 }

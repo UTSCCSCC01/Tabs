@@ -4,12 +4,21 @@ import React from 'react';
 import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar} from 'react-native';
 import HeaderComponent from '../../fragments/view/HeaderComponent';
 import OweContainer from '../../fragments/view/OweComponent';
+import UpcomingRentComponent from '../../fragments/view/UpcomingRentComponent';
 
 const GET_DEBTS_FROM =
 gql`
 query GetDebtsFrom($debtFrom: String!) {
     getDebtsFrom(debtFrom: $debtFrom) {
       debtId, debtTo, debtFrom, amount
+    }
+}`
+
+const GET_BILL =
+gql`
+query GetBill($houseId: String!) {
+    getBill(houseId: $houseId) {
+      amount
     }
 }`
 
@@ -50,27 +59,25 @@ function debtFunc() {
         debtList[index] = debt;
         index++;
     }
-        console.log(debtList);
+        // console.log(debtList);
         return debtList;
 }
   
-const RentScreen: React.FC = () => {
+// export function BillFunc() {
+//     const { fetchMore, loading, data } = useQuery(GET_BILL, {
+//         // variables: { houseId: '123' },
+//     });
+// }
 
+const RentScreen: React.FC = () => {
+    
     const DATA = debtFunc();
 
     // currently need to refresh app to see changes
     return (
         <View style={styles.container}>
             <HeaderComponent screenName='Rent & Finance'/>
-            <View style={styles.rentContainer}>
-                <View style={[styles.upcomingRentContainer, styles.roundedContainer]}>
-                    <Text style={styles.upcomingLabel}>Upcoming Rent</Text>
-                    <Text style={styles.amountLabel}>$380.00</Text>
-                </View>
-                <View style={styles.rentDueContainer}>
-                    <Text style={styles.dueLabel}>Due Monday, Oct. 3</Text>
-                </View>
-            </View>
+            <UpcomingRentComponent amount={360} dateDue={'Wednesday, Oct. 12'}/>
 
             <SafeAreaView style={styles.scrollContainer}>
                 <FlatList
@@ -96,63 +103,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#DCF6FB',
     height: '100%',
     width: '100%',
-  },
-  
-  rentContainer: {
-    top: '5%',
-    height: '30%',
-    left: '2%',
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-
-  roundedContainer: {
-    width: '95%',
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-
-  upcomingRentContainer: {
-    bottom: '25%',
-    height: '60%',
-    backgroundColor: '#34ACBC',
-  },
-
-  rentDueContainer: {
-    position: 'absolute',
-    left: '10%',
-    bottom: '33%',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    height: '24%',
-    width: '75%',
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-  
-  upcomingLabel : {
-    fontSize: 15,
-    color: 'white',
-    marginLeft: '10%',
-  },
-
-  amountLabel: {
-    fontSize: 30,
-    marginTop: '3%',
-    marginLeft: '10%',
-    paddingBottom: '3%',
-    textAlign: 'left',
-    color: 'white',
-  },
-
-  dueLabel: {
-    fontSize: 16,
-    paddingLeft: '10%',
-    textAlign: 'left',
-    fontWeight: '500',
-    color: '#8B3B3B',
   },
 
   scrollContainer: {
