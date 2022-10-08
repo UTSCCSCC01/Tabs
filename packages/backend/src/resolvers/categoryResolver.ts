@@ -50,7 +50,7 @@ async function addCatFunc(inventoryId: String, categoryName: String, categoryDes
 
 async function changeCatNameFunc(categoryId: String, categoryName: String): Promise<Boolean> {
     let res;
-    await Category.findOneAndUpdate({categoryId: categoryId}, {$set:{categoryName: categoryName}})
+    await Category.findByIdAndUpdate(categoryId, {$set:{categoryName: categoryName}})
     .then(() => {
         console.log("Renamed category")
         res=true
@@ -65,7 +65,7 @@ async function changeCatNameFunc(categoryId: String, categoryName: String): Prom
 
 async function changeCatDescFunc(categoryId: String, categoryDesc: String): Promise<Boolean> {
     let res;
-    await Category.findOneAndUpdate({categoryId: categoryId}, {$set:{categoryDesc: categoryDesc}})
+    await Category.findByIdAndUpdate(categoryId, {$set:{categoryDesc: categoryDesc}})
     .then(() => {
         console.log("Changed category description")
         res=true
@@ -79,7 +79,7 @@ async function changeCatDescFunc(categoryId: String, categoryDesc: String): Prom
 
 async function findCatsByInvIdFunc(inventoryId: String): Promise<String[]> {
     let res: String[];
-    const catIds = await Category.find({inventoryId: inventoryId}, 'categoryId')
+    const catIds = await Category.find({inventoryId: inventoryId}, '_id')
     .then(() => {
         console.log("Find categoryIds by inventoryId query was successful")
         for (let i=0; i<catIds.length; i++) {
