@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server-express'
-
+//schema
 
 export default gql`
   extend type Query{

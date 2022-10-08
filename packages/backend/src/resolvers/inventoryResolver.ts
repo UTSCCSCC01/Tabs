@@ -1,7 +1,7 @@
 import { InventoryDocument } from '../types'
 import {Inventory} from '../models'
 import { Types } from 'mongoose';
-
+//resolver
 
 
 async function findInventory(houseId:String):Promise<String[]>{
