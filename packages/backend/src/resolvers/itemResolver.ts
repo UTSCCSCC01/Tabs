@@ -7,13 +7,11 @@ import {Types} from 'mongoose'
 
 
 async function findItemFunc(itemId:String):Promise<ItemDocument> {
-    const id = new Types.ObjectId(String(itemId))
-    const item = await Item.findById(id)
+    const item = await Item.findById(itemId)
     return item
 }
 
 async function findItemsByCategoryFunc(categoryId:String):Promise<ItemDocument[]>{
-
     const items = await Item.find({categoryId:categoryId})
     return items
 
@@ -21,35 +19,35 @@ async function findItemsByCategoryFunc(categoryId:String):Promise<ItemDocument[]
 
 async function addItemFunc(itemId:String):Promise<String> {
     let x
-    await Item.findOneAndUpdate({_id:itemId}, {$inc:{quantity:1}}).then(()=>{x="Success"}).then(()=>(x="Failure"))
+    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x="Success"}).then(()=>(x="Failure"))
 
     return x
     
 }
 async function subtractItemFunc(itemId:String):Promise<String> {
     let x
-    await Item.findOneAndUpdate({_id:itemId}, {$inc:{quantity:-1}}).then(()=>{x="Success"}).then(()=>(x="Failure"))
+    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x="Success"}).then(()=>(x="Failure"))
     return x
     
 }
 
-async function createItemfunc(categoryId:String, name:String):Promise<String>{
+async function createItemfunc(categoryId:String, name:String, expiration:String):Promise<String>{
     let x;
-    await Item.create({categoryId:categoryId, name:name}).then(()=>{console.log("Created  Item"); x= true}).catch(()=>{console.log("Failed to create Item"); x= false})
+    await Item.create({categoryId:categoryId, name:name, expiration:expiration}).then(()=>{console.log("Created  Item"); x= true}).catch(()=>{console.log("Failed to create Item"); x= false})
     return x
 
 }
 async function modifyItemNameFunc(itemId:String, name:String):Promise<String>{
     let x
     const id = new Types.ObjectId(String(itemId))
-    await Item.findOneAndUpdate({_id:id}, { name: name}) .then(()=>{console.log("Successfully modified item name"); x= name}).catch(()=>{console.log("Failed to modify item name"); x= ""})
+    await Item.findByIdAndUpdate(itemId, { name: name}) .then(()=>{console.log("Successfully modified item name"); x= name}).catch(()=>{console.log("Failed to modify item name"); x= ""})
     return x
 }
 
 async function modifyItemCategoryFunc(itemId: String, category: String ): Promise<String>{
     let x
-    const id = new Types.ObjectId(String(itemId))
-    await Item.findOneAndUpdate({_id:id}, { category: category}).then(()=>{console.log("Successfully modified item name"); x= category}).catch(()=>{console.log("Failed to modify item name"); x= ""})
+   
+    await Item.findByIdAndUpdate(itemId, { category: category}).then(()=>{console.log("Successfully modified item name"); x= category}).catch(()=>{console.log("Failed to modify item name"); x= ""})
     return x
 }
 const resolvers = {
@@ -70,8 +68,8 @@ const resolvers = {
         subtractItem: async(root, args:{itemId:String}, context):Promise<String> => {
             return await subtractItemFunc(args.itemId)
         },
-        createItem: async(root, args:{categoryId:String, name:String}, context):Promise<String> =>{
-            return await createItemfunc(args.categoryId, args.name)
+        createItem: async(root, args:{categoryId:String, name:String, expiration:String}, context):Promise<String> =>{
+            return await createItemfunc(args.categoryId, args.name, args.expiration)
         },
         modifyItemName: async(root, args: {itemId: String, name: String}, context):Promise<String> =>{
            return await modifyItemNameFunc(args.itemId, args.name)

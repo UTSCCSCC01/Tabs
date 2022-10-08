@@ -13,7 +13,9 @@ export default gql`
 
   extend type Mutation {
     createItem(
-      categoryId: String
+      categoryId: String,
+      name: String,
+      expiration: String
     ): String
     addItem(
       itemId:String
@@ -31,7 +33,11 @@ export default gql`
     ): String
   }
   type Item {
-    categoryId: String
+    id: String,
+    quantity:Int,
+    expiration:String,
+    tags:[String]
+    categoryId: String,
     name: String
   }
         
