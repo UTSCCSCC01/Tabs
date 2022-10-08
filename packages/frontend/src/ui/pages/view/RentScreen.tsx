@@ -1,29 +1,67 @@
+import { gql, InMemoryCache, useLazyQuery, useQuery } from '@apollo/client';
+import ApolloClient from 'apollo-client';
 import React from 'react';
 import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar} from 'react-native';
 import HeaderComponent from '../../fragments/view/HeaderComponent';
 import OweContainer from '../../fragments/view/OweComponent';
 
+const GET_DEBTS_FROM =
+gql`
+query GetDebtsFrom($debtFrom: String!) {
+    getDebtsFrom(debtFrom: $debtFrom) {
+      debtId, debtTo, debtFrom, amount
+    }
+}`
+
+function debtFunc() {
+    const { loading, error, data } = useQuery(GET_DEBTS_FROM, {
+      variables: { debtFrom: 'Seven Abou' },
+    });
+    if (loading) return <Text>Loading ...</Text>;
+    let debt: any = {
+        type: '',
+        debtId: '',
+        debtTo: '',
+        debtFrom: '',
+        amount: 0,
+        id: 0
+      };
+      
+    let debtList: typeof debt[] = []
+    let index: number = 0;
+
+    for (let i = 0; i < data.getDebtsFrom.length; i++) {
+
+        debt = {
+            type: '',
+            debtId: '',
+            debtTo: '',
+            debtFrom: '',
+            amount: 0,
+        };
+
+        let j = 0;
+
+        Object.keys(debt).forEach(key => {
+        debt[key] = Object.values(data.getDebtsFrom[i])[j];
+        j++;
+        });
+        
+        debtList[index] = debt;
+        index++;
+    }
+        console.log(debtList);
+        return debtList;
+}
+  
 const RentScreen: React.FC = () => {
 
-    const renderItem = () => (
-        <OweContainer/>
-    );
+    const DATA = debtFunc();
 
-    const DATA = [
-        {
-          id: 'a'
-        },
-        {
-          id: 'b',
-        },
-        {
-          id: 'c',
-        },
-      ];
-
+    // currently need to refresh app to see changes
     return (
         <View style={styles.container}>
-            <HeaderComponent/>
+            <HeaderComponent screenName='Rent & Finance'/>
             <View style={styles.rentContainer}>
                 <View style={[styles.upcomingRentContainer, styles.roundedContainer]}>
                     <Text style={styles.upcomingLabel}>Upcoming Rent</Text>
@@ -37,11 +75,17 @@ const RentScreen: React.FC = () => {
             <SafeAreaView style={styles.scrollContainer}>
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 20 }}
-                    data={DATA}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
+                    data={DATA as readonly any[] | null | undefined}
+                    renderItem={({item}) => <OweContainer from={item.debtTo} amount={item.amount} whoOwes={"You owe"}/> }
+                    // keyExtractor={item => item.id}
                 />
             </SafeAreaView>
+
+            {/* <Button
+                title='Refresh'
+                onPress={refreshFeed}
+            /> */}
+
         </View>
   );
 };
@@ -114,9 +158,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     height: '50%',
   }
-
-
-  
 });
 
 export default RentScreen;

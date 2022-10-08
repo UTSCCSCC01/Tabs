@@ -32,12 +32,12 @@ export default gql`
     }
   
     type Debt {
-        debtId: String!
-        debtTo: String!
-        debtFrom: String!
-        amount: Float!
-        description: String!
-        dateCreated: String!
+        debtId: String
+        debtTo: String
+        debtFrom: String
+        amount: Float
+        description: String
+        dateCreated: String
     }
         
 `

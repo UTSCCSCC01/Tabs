@@ -1,20 +1,30 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View, Image } from 'react-native';
+import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 
-const OweContainer: React.FC = () => {
+export type Props = {
+    from: string; // roomate name
+    amount: number;
+    whoOwes: string;
+};
+
+const OweContainer: React.FC<Props> = ({
+    from,
+    amount,
+    whoOwes,
+}) => {
   return (
       <View style={[styles.roundedContainer, styles.moneyContainer]}>
         <View style={styles.pfpContainer}>
             {/* <Image source={require('')}/> */}
         </View>
         
-        <Text style={styles.nameLabel}>Bob Jones</Text>
-        <Text style={styles.oweLabel}>You owe</Text>
-        <Text style={styles.oweAmountLabel}>$30</Text>
-        <Button
+        <Text style={styles.nameLabel}>{from}</Text>
+        <Text style={styles.oweLabel}>{whoOwes}</Text>
+        <Text style={styles.oweAmountLabel}>${amount}</Text>
+        {/* <Button
             title="View"
-            // onPress={() => Alert.alert('Simple Button pressed')}
-        />
+        /> */}
+        <Text style={styles.viewButton}>View</Text>
     </View>
   );
 };
@@ -71,8 +81,11 @@ const styles = StyleSheet.create({
     color: '#34ACBC',
   },
 
-  Button: {
-    left: '20%'
+  viewButton: {
+    left: '80%',
+    top: '30%',
+    fontSize: 16,
+    color: '#007aff',
   }
 
 });

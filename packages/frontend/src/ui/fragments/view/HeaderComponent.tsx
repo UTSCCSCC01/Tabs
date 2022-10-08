@@ -2,9 +2,15 @@ import React from 'react';
 import { Button, StyleSheet, Text, View, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+export type Props = {
+    screenName: string;
+  };
+
 // from klein's inventory main screen
 
-const HeaderComponent: React.FC = () => {
+const HeaderComponent: React.FC<Props> = ({
+    screenName
+}) => {
   return (
     <View style={styles.myHeader}>
 
@@ -12,7 +18,7 @@ const HeaderComponent: React.FC = () => {
 
         <MaterialCommunityIcons name="arrow-left" size={24} style={styles.headerIcon}/>
 
-        <Text style={styles.myHeaderText}>TEST</Text>
+        <Text style={styles.myHeaderText}>{screenName}</Text>
 
         </View>
 
@@ -29,6 +35,7 @@ const styles = StyleSheet.create({
       },
     
       myHeaderText: {
+        textAlign: 'left',
         fontWeight: "bold",
         fontSize: 18,
         fontFamily: "Arial",
