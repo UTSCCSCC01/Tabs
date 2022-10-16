@@ -11,9 +11,9 @@ Documentation generator made for the Tabs project.
 | @see | (Optional) Other functions/classes or reference material related to the class. |
 | @in | (Optional) The parent class that this method/class belongs to. |
 
-> Note: Tag descriptions must be one line as of the current version.
+### Note: Tag descriptions must be one line as of the current version.
 
-> Note: All tags other than @name are optional.
+### Note: All tags other than @name are optional.
 
 ## Documenting Functions/Methods
 
