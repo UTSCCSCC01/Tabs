@@ -127,8 +127,10 @@ class DocumentationParser:
             if has_tag:
                 break
 
-            if not len(line) == 0:
+            if not len(line.strip()) == 0:
                 doc.description += line
+                doc.description += '\n'
+            else:
                 doc.description += '\n'
 
         if len(doc.description) > 0:
