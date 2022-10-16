@@ -197,8 +197,7 @@ class DocumentationWriter:
         build_path = os.path.join(build_dir, DOC_DIR)
         os.makedirs(build_path)
 
-        get_key = operator.attrgetter('name')
-        docs.sort(key = get_key)
+        docs.sort(key = lambda x: x.name.lower())
 
         for doc in docs:
             relative_path = doc.source.replace('../', './')
