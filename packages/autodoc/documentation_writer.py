@@ -67,7 +67,7 @@ Throws
 
 EXTENDS = '''
 Extends
-------
+-------
 
 .. list-table::
     :width: 615
