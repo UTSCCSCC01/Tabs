@@ -90,7 +90,7 @@ The documentation can be built and found in `doc_build/html/index.html` of the r
 
 ```bash
 # Install dependencies
-$ pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 
 # Build documentation
 $ sh build_doc.sh
