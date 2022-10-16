@@ -1,5 +1,7 @@
 # Autodocs
 
+Documentation generator made for the Tabs project.
+
 ## Usage
 
 ```bash
@@ -8,8 +10,6 @@ $ python3 autodoc.py path/to/source/typescript/files/src path/to/output/rst/file
 # To include the source directory filename in the documentation
 $ python3 autodoc.py path/to/source/typescript/files/src path/to/output/rst/files src
 ```
-
-Documentation generator made for the Tabs project.
 
 ### Universal tags
 
