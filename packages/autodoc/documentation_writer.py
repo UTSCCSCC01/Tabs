@@ -362,7 +362,7 @@ class DocumentationWriter:
                 method_list = ''
                 for method in element.method:
                     method_list += ONE_COLUMN_ROW.format(
-                        title = '`' + raw_name + ' ' + method + '`_'
+                        title = ':ref:`' + element.name + ' ' + method + '`'
                     )
                 
                 element_method = METHODS.format(methods = method_list)

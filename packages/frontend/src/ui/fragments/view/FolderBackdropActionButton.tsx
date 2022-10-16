@@ -52,3 +52,17 @@ export const FolderBackdropActionButton = ({info, buttonFunction, argument}: {in
     )
 }
 
+/**
+ * Paco
+ * 
+ * @name Paco
+ * @method pacos_child
+ */
+
+/**
+ * Laco
+ * 
+ * @name pacos_child
+ * @in Paco
+ * @param OWOWO
+ */
