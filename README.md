@@ -86,7 +86,7 @@ $ npm start
 
 ### Documentation
 
-The documentation can be built and found in `doc_build/index.html` of the root directory with the following.
+The documentation can be built and found in `doc_build/html/index.html` of the root directory with the following.
 
 ```bash
 # Install dependencies
