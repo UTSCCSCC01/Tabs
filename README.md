@@ -84,6 +84,19 @@ $ npm run build
 $ npm start
 ```
 
+### Documentation
+
+The documentation can be built and found in `doc_build/index.html` of the root directory with the following.
+
+```bash
+# Install dependencies
+$ pip install -r requirements.txt
+
+# Build documentation
+$ sh build_doc.sh
+
+```
+
 ### Sprint 0 Setup
 As of Sprint 0, upon running the frontend and backend, the user will see a button and text input. Clicking the button will add a resource to the database.
 
