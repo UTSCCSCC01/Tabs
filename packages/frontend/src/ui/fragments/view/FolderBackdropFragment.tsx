@@ -20,7 +20,13 @@ const folderBackgroundFragmentStyle = StyleSheet.create({
     
 })
 
-
+/**
+ * Backdrop container styled to look like a folder
+ * 
+ * @name FolderBackdropListFragment
+ * @param props Fragment configuration
+ * @returns React element for the function
+ */
 export const FolderBackdropListFragment = (props: any) => {
     
     const nameInfo: FolderBackdropTextInputFieldArgument = {

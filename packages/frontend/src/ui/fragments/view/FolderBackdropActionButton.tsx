@@ -10,6 +10,14 @@ interface FolderBackdropActionButtonArgumentFields {
     info: FolderBackdropActionButtonArgument
 }
 
+/**
+ *  Button styled for a folder backdrop
+ * 
+ *  @name FolderBackdropActionButton
+ *  @param info Title of the button
+ *  @param buttonFunction Callback function
+ *  @param argument Argument to pass into callback function
+ */
 export const FolderBackdropActionButton = ({info, buttonFunction, argument}: {info: FolderBackdropActionButtonArgument, buttonFunction:Function, argument:any}) => {
     return (
         <View style = {[folderCommonStyles.row, {
@@ -43,3 +51,4 @@ export const FolderBackdropActionButton = ({info, buttonFunction, argument}: {in
         </View>
     )
 }
+
