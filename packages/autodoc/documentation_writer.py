@@ -1,4 +1,5 @@
 
+import operator
 from distutils.command.build import build
 import os
 from pydoc import describe
@@ -172,7 +173,7 @@ class DocFileReference:
 
 class DocumentationWriter:
     def write_docs(self, docs, build_dir):
-        docs_to_write = {} # Key is filename
+        docs_to_write = []
         for file_of_docs in docs:
             for doc in file_of_docs:
                 docstring = self.generate_doc_string(doc)
@@ -186,7 +187,7 @@ class DocumentationWriter:
 
                     reference = DocFileReference(doc.name, modifed_source, 
                         os.path.join(modifed_source, doc.name.replace('.', '_') + '.'), docstring)
-                    docs_to_write[doc.name] = reference
+                    docs_to_write.append(reference)
                     
                     print('Generating doc for: ' + reference.name)
         
@@ -196,8 +197,10 @@ class DocumentationWriter:
         build_path = os.path.join(build_dir, DOC_DIR)
         os.makedirs(build_path)
 
-        for key in docs:
-            doc = docs[key]
+        get_key = operator.attrgetter('name')
+        docs.sort(key = get_key)
+
+        for doc in docs:
             relative_path = doc.source.replace('../', './')
 
             directory_path = relative_path[:doc.source.rindex('/')]
@@ -219,8 +222,7 @@ class DocumentationWriter:
         
         contents = ''
 
-        for key in docs:
-            doc = docs[key]
+        for doc in docs:
             
             filename = doc.source.replace('./', DOC_DIR + '/').replace('.', '').strip()
             contents += TABBED.format(content = filename)
