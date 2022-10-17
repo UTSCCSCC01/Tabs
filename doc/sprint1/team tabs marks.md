@@ -47,7 +47,7 @@ Planning Meetings Total Mark: 5 / 5
   - 1 mark = At least 2 group members or more have not sent their updates or is low-quality
   - 0 marks = At least 3 group members or more have not sent their updates or is low-quality
 
-Daily Stand-ups Total Mark: 0 / 10
+Daily Stand-ups Total Mark: 5 / 10
 
 ---
 
@@ -162,9 +162,9 @@ Your Mark: 2
   - 1 mark = at least one branch is not named after the associated single ticket number
   - 0 marks = most branch names are not named after the associated single ticket number
 
-  Your Mark: 0
+  Your Mark: 2
 
-Tracking on Jira Total Mark: 17/20
+Tracking on Jira Total Mark: 19/20
 
 ---
 
@@ -248,4 +248,4 @@ Note: This mark will be updated after the demo is presented
 
 ## Total Mark
 
-61 / 89
+68 / 89
