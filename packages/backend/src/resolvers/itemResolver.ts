@@ -19,14 +19,14 @@ async function findItemsByCategoryFunc(categoryId:String):Promise<ItemDocument[]
 
 async function addItemFunc(itemId:String):Promise<String> {
     let x
-    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x="Success"}).then(()=>(x="Failure"))
+    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
 
     return x
     
 }
 async function subtractItemFunc(itemId:String):Promise<String> {
     let x
-    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x="Success"}).then(()=>(x="Failure"))
+    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
     return x
     
 }
@@ -46,7 +46,7 @@ async function modifyItemNameFunc(itemId:String, name:String):Promise<String>{
 async function modifyItemCategoryFunc(itemId: String, categoryId: String ): Promise<String>{
     let x
    
-    await Item.findByIdAndUpdate(itemId, { categoryId: categoryId}).then(()=>{console.log("Successfully modified item name"); x= categoryId}).catch(()=>{console.log("Failed to modify item name"); x= ""})
+    await Item.findByIdAndUpdate(itemId, { categoryId: categoryId}).then(()=>{console.log("Successfully modified item category"); x= categoryId}).catch(()=>{console.log("Failed to modify item category"); x= ""})
     return x
 }
 const resolvers = {
@@ -73,8 +73,8 @@ const resolvers = {
         modifyItemName: async(root, args: {itemId: String, name: String}, context):Promise<String> =>{
            return await modifyItemNameFunc(args.itemId, args.name)
         },
-        modifyItemCategory: async(root, args:{itemId: String, category: String}, context):Promise<String> =>{
-            return await modifyItemCategoryFunc(args.itemId, args.category)
+        modifyItemCategory: async(root, args:{itemId: String, categoryId: String}, context):Promise<String> =>{
+            return await modifyItemCategoryFunc(args.itemId, args.categoryId)
         }
 
     }
