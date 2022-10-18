@@ -23,7 +23,12 @@ export default gql`
             description: String
             dateCreated: String
         ):Debt
-
+        acceptRequest(
+            debtId: String
+        ):Debt|Boolean
+        rejectRequest(
+            debtId: String
+        ):Debt|Boolean
         modifyAmount(
             debtId: String
             amount: Float
@@ -38,6 +43,7 @@ export default gql`
         amount: Float
         description: String
         dateCreated: String
+        requestAccepted:Boolean
     }
         
 `

@@ -21,21 +21,28 @@ const resolvers = {
         getDebtsFrom: async(root,
             args: {debtFrom: String}
             ):Promise<DebtDocument[]> => {
-            return Debt.find(args);
+            return Debt.find(args)
         }
     },
 
     Mutation: {
         addDebt: async(
             root,
-            args: {debtId: String, debtTo: String; debtFrom: String, amount: Number, description: String, dateCreated: String}
+            args: {debtId: String, debtTo: String; debtFrom: String, amount: Number, description: String, dateCreated: String, requestAccepted: Boolean}
         ): Promise<DebtDocument | Boolean> =>{
-
+            args.requestAccepted = false;
             const debt = await Debt.create(args)
             console.log("Successfuly added Debt to server")
             return debt
         },
-        
+        acceptRequest: async(root, args:{debtId: String}):Promise<DebtDocument |String> => {
+            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: true}).catch(()=>{return 'fail'})
+            return debt
+        },
+        rejectRequest: async(root, args:{debtId: String}):Promise<DebtDocument |String> => {
+            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: false}).catch(()=>{return 'fail'})
+            return debt
+        },
         modifyAmount: async(root, args: {debtId: String, amount: Number}):Promise<String | Boolean> =>{
            return await modifyAmountFunc(args.debtId, args.amount)
         },

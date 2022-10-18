@@ -7,4 +7,5 @@ export interface DebtDocument extends Document {
     amount: Number,
     description: String,
     dateCreated: String,
+    requestAccepted:Boolean
 }
