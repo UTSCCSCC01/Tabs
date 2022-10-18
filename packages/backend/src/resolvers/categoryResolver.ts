@@ -81,7 +81,7 @@ async function changeCatDescFunc(categoryId: String, categoryDesc: String): Prom
 
 async function findCatsByInvIdFunc(inventoryId: String): Promise<CategoryDocument[]> {
     let res: String[];
-    const catIds = await Category.find({inventoryId: inventoryId}, '_id')
+    const catIds = await Category.find({inventoryId: inventoryId})
     .then((catIds) => {
         console.log("Find categoryIds by inventoryId query was successful")
         return catIds
