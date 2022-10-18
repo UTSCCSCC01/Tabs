@@ -7,3 +7,4 @@ lib/
 __pycache__
 doc_build
 doc_source/docs/api
+package-lock.json

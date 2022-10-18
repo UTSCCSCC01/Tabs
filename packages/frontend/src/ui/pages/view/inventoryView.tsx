@@ -10,24 +10,7 @@ import inventoryController from '../controller/inventoryController';
 
 
 import AddItemView from './AddFoodItemView';
-import { MyHeader } from '../../fragments/view/MyHeader';
-import { FunctionObject } from '../../fragments/view/FunctionObject';
-import { HeaderData } from '../../fragments/view/HeaderData';
-import { DescBoxData } from '../../fragments/view/DescBoxData';
-import { FolderItemData } from '../../fragments/view/FolderItemData';
-import { InventoryItem } from '../../fragments/view/InventoryItem';
-import { FolderItemList } from '../../fragments/view/FolderItemList';
-import { FolderSvgForm } from '../../fragments/view/FolderSvgForm';
-import { FormItemList } from '../../fragments/view/FormItemList';
-import { FormItem } from '../../fragments/view/FormItem';
-import { styles } from '../../fragments/view/mainViewStyles';
-import { TextForm } from '../../fragments/view/TextForm';
-import { FolderFormSvg } from '../../fragments/view/FolderFormSvg';
-import { FloatingActionButton } from '../../fragments/view/FloatingActionButton';
-import { FolderSvg } from '../../fragments/view/FolderSvg';
-import { DoubleDescBox } from '../../fragments/view/DoubleDescBox';
-import { FolderBackdropActionButton, FolderBackdropActionButtonArgument } from '../../fragments/view/FolderBackdropActionButton';
-import { InventoryCategory } from '../../fragments/view/InventoryCategory';
+import {MyHeader, FunctionObject, HeaderData, DescBoxData, FolderItemData, InventoryItem,FolderItemList,FolderSvgForm,FormItemList,FormItem, styles, TextForm, FolderFormSvg, FloatingActionButton, FolderSvg,DoubleDescBox,FolderBackdropActionButton, FolderBackdropActionButtonArgument,InventoryCategory} from '../../fragments/view'
 
 
 
