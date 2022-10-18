@@ -53,7 +53,7 @@ const DebtListComponent: React.FC<Props> = ({
         const DATA = data.getDebts;
 
         return (
-            <FlatList
+            <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     data={DATA as readonly any[] | null | undefined}
                     renderItem={({item}) => <OweContainer from={findNameDisplay(item.debtTo, item.debtFrom)} amount={item.amount} whoOwes={findWhoOwes(item.debtTo)}/> }
@@ -66,5 +66,13 @@ const DebtListComponent: React.FC<Props> = ({
       })[0];
 
 }
+
+const styles = StyleSheet.create({
+    listContainer: {
+        position: 'absolute',
+        height: '120%',
+        width: '100%',
+      },
+});
 
 export default DebtListComponent;
