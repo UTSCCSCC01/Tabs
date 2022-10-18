@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
-import React from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 
 export type Props = {
@@ -14,6 +15,7 @@ query GetBill($houseId: String!) {
     }
 }`
 
+
 const UpcomingRentComponent: React.FC<Props> = ({
     houseId
 }) => {
@@ -22,7 +24,13 @@ const UpcomingRentComponent: React.FC<Props> = ({
         // houseId variable here
         variables: { houseId: houseId},
     });
-    
+
+    useFocusEffect(
+        React.useCallback(() => {
+          refetch();
+        }, []),
+      );
+
     if (loading) return <Text>Loading ...</Text>;
 
     return data.getBill.map((element: { amount: number, dateDue: string}) => {
