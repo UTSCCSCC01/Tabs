@@ -35,18 +35,6 @@ const data = [dbd1, dbd2];
 
 
 
-
-
-const invCont = new inventoryController.inventoryController();
-
-const client = new ApolloClient({
-  uri: 'http://localhost:8000/graphql',
-  name: 'test',
-  cache: new InMemoryCache(),
-  version: '0'
-});
-
-
 /*OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
 
 // const SIGN_UP = gql`
@@ -78,9 +66,6 @@ const FullInvView = () => {
 //the view in question
 const InvView = ({switchViewFunction} : {switchViewFunction:Function})=>{
 
-  useEffect(() => {
-   
-  }, []);
   const [showDoubleDescBox, toggleDoubleDescBox] = useState(true);
   const[chosenCategory, selectCategory] = useState(-1);
   const[chosenItem, selectItem] = useState(-1);
@@ -95,16 +80,13 @@ const InvView = ({switchViewFunction} : {switchViewFunction:Function})=>{
    
   }
 
-  
-
-
 
 const [addCategory, {loading, error}] = useMutation(ADD_CATEGORY);
 const addCategoryHandler=(item: InventoryCategory) => {
   console.log("Adding category " + item.text + " to the database");
   addCategory({variables: {"categoryName":item.text, "inventoryKey":item.inventoryKey}});
-  selectItem(0);
-  selectCategory(0);
+  selectItem(-1);
+  selectCategory(-1);
   tryToAdd(0);
 }
 
@@ -168,31 +150,7 @@ const folderFormData = new FolderSvgForm(formItemList, seleCat);
 
 const headerData= new HeaderData("Food Inventory", new FunctionObject(backButton, -1, "go back"));
 
-
-
-
-
-
-
-  /*OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
-
-
-  // console.log(data[1].iconName)
-
-  // const [input] = useState()
-  // const [signup,  { loading, error }] = useMutation(SIGN_UP)
-  // if(loading){
-  //     return  <View style={styles.flexContainer}><Text style={styles.input}>{'loading failed'} </Text></View>
-  // }
-  // if(error){
-  //     return <View style={styles.flexContainer}><Text style={styles.input}>{'error occured'}</Text></View>
-  // }
-
-  END BLOCK OF OLD CODE */
 return(
-
-
-
       //the background is a gradient so...
       <LinearGradient colors={["#FFFFFF", "#85C4CF", "#127589" ]} style={styles.page} start={[0, 0]} end={[1, 1]} locations={[0.05, 0.1, 1]}>
         <MyHeader backFunction={headerData.backFunction} title={headerData.title}/>{// the title of the page plus the back button, could make this more modular but lazy
@@ -200,25 +158,6 @@ return(
         <View style={styles.flexPage}>{// container for rest of page...
         }
 
-
-          {
-
-            //OLD CODE THAT I DO NOT WANT TO DELETE SO THAT I CAN COPY IT LATER
-            // <TextInput
-            //style={styles.input}
-            //defaultValue={input}
-            //value = {input}
-            //onChangeText={input}
-            //textAlign="center"
-            //placeholder="TYPE HERE"
-            //onSubmitEditing={submitHandle}/>*/}
-            //* <Button
-            //onPress={submitHandle}
-            //title="CREATE RESOURCE"
-            //color="red"/>
-
-          //END BLOCK OF OLD CODE */
-          }
 
             {//Boxes of information with own gradient bg, made it a duple cuz i saw on a couple pages there were 2 shown in
             //the same row at once
@@ -244,28 +183,27 @@ return(
             swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}
             />}
 
-            {chosenCategory != -1 && chosenItem == -1 &&
+            {//this is the view items folder
+            chosenCategory != -1 && chosenItem == -1 &&
             <FolderSvg folder={folderItemList2} 
             swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")}
             itemFunction={new FunctionObject(chooseItem, null, "selectItem")}
             />}
 
-              {chosenItem != -1 && <FolderFormSvg folder={folderFormData2.folder} 
+              {//this is the add item view
+              chosenItem != -1 && <FolderFormSvg folder={folderFormData2.folder} 
               swipeFunction={new FunctionObject(toggleDoubleDescBox, !showDoubleDescBox, "toggle box")} 
               />}
 
-            {}
-            
-             {/* {//Button in bottom right corner to add something
-                          <Button title={"debug"} onPress={() => toggleDoubleDescBox(showDoubleDescBox)}></Button>
-
-             } */}
-            {addingCategory== 0 && chosenCategory == -1 && chosenItem==-1 && <FloatingActionButton 
+          
+            {//add category button
+            addingCategory== 0 && chosenCategory == -1 && chosenItem==-1 && <FloatingActionButton 
             name="add category" 
             argument={1} 
             myFunction={tryToAdd}/>}
 
-            {addingCategory== 0 && chosenCategory != -1 && chosenItem==-1 && <FloatingActionButton 
+            {//add item button
+            addingCategory== 0 && chosenCategory != -1 && chosenItem==-1 && <FloatingActionButton 
             name="add item" 
             argument={1} 
             myFunction={switchViewFunction}/>}  
@@ -288,6 +226,12 @@ mutation AddCategory($categoryName: string, $inventoryKey: string){
   addCategory(categoryName: $categoryName, inventoryKey: $inventoryKey)
 }
 `
+
+const FIND_CATS = gql`
+query findCategoriesByInventoryId($inventoryId: String!) {
+  findCatsByInvId(input: $input)
+}
+`;
 
 
 //only export, could make this default but eh...

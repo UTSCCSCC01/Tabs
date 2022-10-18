@@ -4,7 +4,6 @@ import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity, Dimensions } from 'react-native';
 import WebView from 'react-native-webview';
-import { ReactString } from '../../String';
 import { FolderBackdropActionButton, FolderBackdropActionButtonArgument } from './FolderBackdropActionButton';
 import { FolderBackdropTextInputField, FolderBackdropTextInputFieldArgument } from './FolderBackdropTextInputField';
 import { folderCommonStyles } from './FolderCommonStyles';
