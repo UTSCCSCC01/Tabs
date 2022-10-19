@@ -4,13 +4,15 @@ import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar, Refr
 import HeaderComponent from '../../fragments/view/HeaderComponent';
 import { FloatingActionButton } from '../../fragments/view/FloatingActionButton';
 import RentListComponent from '../../fragments/view/RentListComponent';
+import AddRentPopUpComponent from '../../fragments/view/AddRentPopUpComponent';
 
-const switchView = () => {
-    console.log('pressed add debt, popup');
-}
 
-const RentAdminScreen: React.FC = (
-) => {
+const RentAdminScreen: React.FC = () => {
+
+    const [isAddingRent, setIsAddingRent] = React.useState(false);
+    const handleAddRent = () =>
+        setIsAddingRent(!isAddingRent);
+        
     // MOCK data update this with backend connection in future sprint
     return (
         <View style={styles.container}>
@@ -20,10 +22,12 @@ const RentAdminScreen: React.FC = (
                 <RentListComponent userId='Seven Abou'/>
             </SafeAreaView>
             
-            <FloatingActionButton 
-            name="add item" 
-            argument={1} 
-            myFunction={switchView}/>  
+            <FloatingActionButton name="add item" argument={1} myFunction={handleAddRent}/>
+
+            {isAddingRent &&
+            <AddRentPopUpComponent isAddingRent={isAddingRent} setIsAddingRent={setIsAddingRent}/>
+            }
+            
         </View>
   );
 };
