@@ -2,6 +2,11 @@ import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, T
 import { ReactString } from '../../String';
 import { folderCommonStyles } from './FolderCommonStyles';
 
+/**
+ * @name FolderBackdropTextInputFieldArgument
+ * @field title Title of the text field
+ * @field hint Hint for the text field
+ */
 export interface FolderBackdropTextInputFieldArgument {
     title: string
     hint: string
@@ -11,7 +16,15 @@ interface FolderBackdropTextInputFieldArgumentFields {
     info: FolderBackdropTextInputFieldArgument
 }
 
-export const FolderBackdropTextInputField = ({info, backRefFunction}: {info:FolderBackdropTextInputFieldArgument, backRefFunction: Function}) => {
+/**
+ * Text field styled for a folder backdrop.
+ * 
+ * @name FolderBackdropTextInputField
+ * @param info Hint and title of the text field
+ * @param backRefFunction Callback function when textfield is edited
+ * @returns Text field React element
+ */
+export const FolderBackdropTextInputField = ({info, backRefFunction}: {info: FolderBackdropTextInputFieldArgument, backRefFunction: Function}) => {
     return (
         <View style = {[folderCommonStyles.row, {
                 justifyContent: "center",
@@ -32,7 +45,7 @@ export const FolderBackdropTextInputField = ({info, backRefFunction}: {info:Fold
                 <TextInput
                     style = {[folderBackdropTextInputFieldStyles.text]}
                     placeholder = {info.hint}
-                    onChange={(input)=>backRefFunction(input)}
+                    onChange = {(input) => backRefFunction(input)}
                 />
             </View>
         </View>

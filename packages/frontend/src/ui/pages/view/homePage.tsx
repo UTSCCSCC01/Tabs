@@ -12,6 +12,7 @@ import CalendarPage from './calendarPage';
 import NotificationsPage from './notificationsPage';
 import AppliancesPage from './appliancesPage';
 import ToDoListPage from './ToDoListPage';
+import RentScreen from './RentScreen';
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
     return (
@@ -103,7 +104,7 @@ const Home = () => {
             <Stack.Navigator initialRouteName='HomePage'>
                 <Stack.Screen name = 'Home' component = {HomePage}/>
                 <Stack.Screen name = 'Inventory' component = {InvView} />
-                <Stack.Screen name = 'Rent' component = {RentPage} />
+                <Stack.Screen name = 'Rent' component = {RentScreen} />
                 <Stack.Screen name = 'Notifications' component = {NotificationsPage} />
                 <Stack.Screen name = 'Calendar' component = {CalendarPage} />
                 <Stack.Screen name = 'Appliances' component = {AppliancesPage} />
