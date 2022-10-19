@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
   extend type Query {
-    findInventory(inventoryId:String):String
+    findInventory(inventoryId:String):[String]
 
   }
 
@@ -11,7 +11,7 @@ export default gql`
     createInventory(houseId: String): String
   }
   type Inventory {
-    houseId: String!
+    houseId: String
   }
         
 `

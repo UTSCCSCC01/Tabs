@@ -18,18 +18,18 @@ export default gql`
     ): String
     addItem(
       itemId:String
-    ): String
+    ): Boolean
     subtractItem(
       itemId:String
-    ): String
+    ): Boolean
     modifyItemName(
       itemId: String,
       name: String
-    ): String 
+    ): Boolean 
     modifyItemCategory(
       itemId:String,
       categoryId:String
-    ): String
+    ): Boolean
   }
   type Item {
     id: String,
