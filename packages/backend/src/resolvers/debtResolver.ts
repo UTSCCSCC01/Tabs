@@ -28,9 +28,9 @@ const resolvers = {
     Mutation: {
         addDebt: async(
             root,
-            args: {debtId: String, debtTo: String; debtFrom: String, amount: Number, description: String, dateCreated: String, requestAccepted: Boolean}
+            args: {debtId: String, debtTo: String; debtFrom: String, amount: Number, description: String, dateCreated: String, requestAccepted?: Boolean}
         ): Promise<DebtDocument | Boolean> =>{
-            args.requestAccepted = false;
+            args.requestAccepted = null;
             const debt = await Debt.create(args)
             console.log("Successfuly added Debt to server")
             return debt
