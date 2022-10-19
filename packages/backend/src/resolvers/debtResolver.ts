@@ -35,12 +35,25 @@ const resolvers = {
             console.log("Successfuly added Debt to server")
             return debt
         },
-        acceptRequest: async(root, args:{debtId: String}):Promise<DebtDocument |String> => {
+        acceptRequest: async(root, args:{debtId: String, requestAccepted: Boolean}):Promise<DebtDocument |String> => {
+            if (args.requestAccepted != null){
+                return 'fail requestAccepted already set'
+            }
             const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: true}).catch(()=>{return 'fail'})
             return debt
         },
-        rejectRequest: async(root, args:{debtId: String}):Promise<DebtDocument |String> => {
+        rejectRequest: async(root, args:{debtId: String, requestAccepted: Boolean}):Promise<DebtDocument |String> => {
+            if (args.requestAccepted != null){
+                return 'fail requestAccepted already set'
+            }
             const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: false}).catch(()=>{return 'fail'})
+            return debt
+        },
+        undoRequest: async(root, args:{debtId:String, requestAccepted: Boolean}): Promise<DebtDocument | String> =>{
+            if (args.requestAccepted == null){
+                return 'value already null'
+            }
+            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: null}).catch(()=>{return 'fail'})
             return debt
         },
         modifyAmount: async(root, args: {debtId: String, amount: Number}):Promise<String | Boolean> =>{
