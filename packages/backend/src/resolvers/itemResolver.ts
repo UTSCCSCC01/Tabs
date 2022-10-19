@@ -21,12 +21,14 @@ async function addItemFunc(itemId:String):Promise<Boolean> {
     let x
     await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x=true}).catch(()=>(x=false))
 
+
     return x
     
 }
 async function subtractItemFunc(itemId:String):Promise<Boolean> {
     let x
     await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x=true}).catch(()=>(x=false))
+
     return x
     
 }
@@ -45,8 +47,8 @@ async function modifyItemNameFunc(itemId:String, name:String):Promise<Boolean>{
 
 async function modifyItemCategoryFunc(itemId: String, categoryId: String ): Promise<Boolean>{
     let x
-   
     await Item.findByIdAndUpdate(itemId, { categoryId: categoryId}).then(()=>{console.log("Successfully modified item category"); x=true}).catch(()=>{console.log("Failed to modify item category"); x=false})
+
     return x
 }
 const resolvers = {
@@ -74,6 +76,7 @@ const resolvers = {
            return await modifyItemNameFunc(args.itemId, args.name)
         },
         modifyItemCategory: async(root, args:{itemId: String, categoryId: String}, context):Promise<Boolean> =>{
+
             return await modifyItemCategoryFunc(args.itemId, args.categoryId)
         }
 
