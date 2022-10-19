@@ -15,6 +15,13 @@ export default gql`
         ): [Debt!]!
     }
 
+    extend type Query {
+        getDebts(
+            debtFrom: String!
+            debtTo: String!
+        ): [Debt!]!
+    }
+
     extend type Mutation {
         addDebt(
             debtTo: String
