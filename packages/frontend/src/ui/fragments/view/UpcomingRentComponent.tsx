@@ -20,8 +20,9 @@ const UpcomingRentComponent: React.FC<Props> = ({
     houseId
 }) => {
 
-    const { loading, data, refetch } = useQuery(GET_BILL, {
+    const { loading, data, refetch, error } = useQuery(GET_BILL, {
         // houseId variable here
+        fetchPolicy: 'network-only',
         variables: { houseId: houseId},
     });
 
@@ -32,9 +33,9 @@ const UpcomingRentComponent: React.FC<Props> = ({
       );
 
     if (loading) return <Text>Loading ...</Text>;
+    if (error) return <Text>Error</Text>;
 
     return data.getBill.map((element: { amount: number, dateDue: string}) => {
-        refetch();
         return (
             <View style={styles.rentContainer}>
                 <View style={[styles.upcomingRentContainer, styles.roundedContainer]}>

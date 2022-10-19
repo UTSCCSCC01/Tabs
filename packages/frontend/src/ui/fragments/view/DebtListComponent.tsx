@@ -23,7 +23,7 @@ const DebtListComponent: React.FC<Props> = ({
     userId
 }) => {
 
-    const { loading, data, refetch } = useQuery(GET_DEBTS, {
+    const { loading, data, refetch, error } = useQuery(GET_DEBTS, {
         variables: { debtTo: userId, debtFrom: userId},
     });
 
@@ -35,6 +35,7 @@ const DebtListComponent: React.FC<Props> = ({
       }, []);
 
     if (loading) return <Text>Loading ...</Text>;
+    if (error) return <Text>{error.message}</Text>;
 
     return data.getDebts.map((element: { debtTo: string, debtFrom: string, amount: number}) => {
 
