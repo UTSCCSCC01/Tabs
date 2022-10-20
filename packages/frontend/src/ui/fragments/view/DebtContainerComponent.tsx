@@ -1,48 +1,79 @@
 import React from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { acceptDebt, rejectDebt } from '../controller/DebtRequestController';
 import { folderCommonStyles } from './FolderCommonStyles';
 
 export type Props = {
-    user: string; // roomate name
+    debtId: string;
+    debtFrom: string;
     amount: number;
 };
 
 const DebtContainerComponent: React.FC<Props> = ({
-    user,
-    amount
+  debtId,  
+  debtFrom,
+  amount
 }) => {
+  console.log('Debt container created')
   return (
-      <View style={[styles.roundedContainer, styles.moneyContainer, folderCommonStyles.column]}>
-        <View style={styles.pfpContainer}>
+      <View style={[styles.roundedContainer, folderCommonStyles.column, {
+        backgroundColor: 'white',
+        opacity: 0.8,
+        marginBottom: 20
+      }]}>
+        <View style = {[folderCommonStyles.row]}>
+          <View style={styles.pfpContainer}/>
+          <Text style={styles.nameLabel}>{debtFrom}</Text>
         </View>
-        
-               
-        <Text style={styles.nameLabel}>{user}</Text>
-        <Text style={styles.oweLabel}>Requested Debt</Text>
-        <Text style={styles.oweAmountLabel}>${amount}</Text>
+
+        <View style = {[folderCommonStyles.row]}>
+          <Text style={styles.oweLabel}>Requested Debt</Text>
+        </View>
+
+        <View style = {[folderCommonStyles.row]}>
+          <Text style={styles.oweAmountLabel}>${amount}</Text>
+        </View>
 
 
-        <Pressable onPress={() => {}} style={({ pressed }) => ({
-            left: '77%',
-            top: '33%',
-            width: '16%',
-            height: '15%',
-            backgroundColor: '#f55858',
-            opacity: pressed ? 0.5 : 1
-        })}>
-            <Text style={styles.viewButton}>Reject</Text>
-        </Pressable>
+        <View style = {[folderCommonStyles.row, {
+            paddingTop: 10,
+            width: '100%',
+            justifyContent: 'center'
+          }]}>
 
-        <Pressable onPress={() => {}} style={({ pressed }) => ({
-            left: '77%',
-            top: '33%',
-            width: '16%',
-            height: '15%',
-            backgroundColor: '#58f594',
-            opacity: pressed ? 0.5 : 1
-        })}>
-            <Text style={styles.viewButton}>Accept</Text>
-        </Pressable>
+            <Pressable onPress={() => {
+              rejectDebt(debtId)
+            }} style={({ pressed }) => ({
+              backgroundColor: '#f55858',
+              opacity: pressed ? 0.5 : 1,
+              borderRadius: 15,
+              padding: 5,
+              paddingBottom: 7,
+              paddingHorizontal: 20
+            })}>
+              <Text style={styles.viewButton}>Reject</Text>
+            </Pressable>
+
+            <View style ={{
+              width: 30
+            }}>
+
+            </View>
+
+            <Pressable onPress={() => {
+              acceptDebt(debtId)
+            }} style={({ pressed }) => ({
+              backgroundColor: '#58f594',
+              opacity: pressed ? 0.5 : 1,
+              borderRadius: 15,
+              padding: 5,
+              paddingBottom: 7,
+              paddingHorizontal: 20
+            })}>
+              <Text style={styles.viewButton}>Accept</Text>
+            </Pressable>
+          </View>
+
     </View>
   );
 };
@@ -50,9 +81,11 @@ const DebtContainerComponent: React.FC<Props> = ({
 const styles = StyleSheet.create({
   roundedContainer: {
     width: '95%',
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 25,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignContent: 'center',
+
   },
 
   // i dont know what to call these containers !! proly shouldnt be money thogh
@@ -63,37 +96,27 @@ const styles = StyleSheet.create({
   },
 
   pfpContainer: {
-    top: '11%',
-    left: '7%',
-    position: 'absolute',
-    height: '40%',
-    backgroundColor: '#2493A1',
+    height: 50,
+    width: 50,
     borderRadius: 15,
-    aspectRatio: 1,
+    backgroundColor: '#2493A1'
   },
 
   nameLabel: {
-    position: 'absolute',
-    top: '23%',
-    left: '28%',
+    left: 10,
+    top: '3.8%',
     textAlign: 'left',
     fontWeight: '500',
     fontSize: 19,
   },
 
   oweLabel: {
-    left: '7%',
-    position: 'absolute',
-    top: '56%',
+    paddingTop: 5,
     fontSize: 15,
     color: 'rgb(33, 33, 33, 0.54)',
   },
 
   oweAmountLabel: {
-    textAlign: 'center',
-    position: 'absolute',
-    left: '7%',
-    top: '70%',
     fontSize: 28,
     fontWeight: '500',
     color: '#34ACBC',
@@ -101,7 +124,7 @@ const styles = StyleSheet.create({
 
   viewButton: {
     fontSize: 16,
-    color: 'gray',
+    color: 'black',
   }
 
 });

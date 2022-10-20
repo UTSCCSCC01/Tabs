@@ -15,6 +15,12 @@ const handleRequestDebt = () => {
 
 }
 
+/**
+ * Debt requests page view
+ * 
+ * @name DebtRequestsView
+ * @returns React component
+ */
 const DebtRequestsView: React.FC = () => {
     const [isAddingRent, setIsAddingRent] = React.useState(false);
     const [isUpdatingRent, setIsUpdatingRent] = React.useState(false);
@@ -27,9 +33,9 @@ const DebtRequestsView: React.FC = () => {
         <View style={styles.container}>
         <HeaderComponent screenName='Debt Requests'/>
 
-        <SafeAreaView style={styles.scrollContainer}>
+        <View style={styles.scrollContainer}>
             <DebtRequestListComponent userId='Bob Jones'/>
-        </SafeAreaView>
+        </View>
         
         <FloatingActionButton 
         name="add item" 
