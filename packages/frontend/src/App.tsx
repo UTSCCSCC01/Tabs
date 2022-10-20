@@ -12,7 +12,7 @@ import RentScreen from "./ui/pages/view/RentScreen";
 import DebtRequestsView from "./ui/pages/view/DebtRequestsView";
 
 const client = new ApolloClient({
-    uri: 'http://192.168.0.109:8000/graphql',
+    uri: 'http://localhost:8000/graphql',
     name: 'test',
     cache: new InMemoryCache(),
     version: '0'
