@@ -19,6 +19,8 @@ interface FolderBackdropActionButtonArgumentFields {
  *  @param argument Argument to pass into callback function
  */
 export const FolderBackdropActionButton = ({info, buttonFunction, argument}: {info: FolderBackdropActionButtonArgument, buttonFunction:Function, argument:any}) => {
+    console.log("I AM MAKIMA's DOG")
+    console.log(JSON.stringify(argument))
     return (
         <View style = {[folderCommonStyles.row, {
             justifyContent: "center",
@@ -40,7 +42,7 @@ export const FolderBackdropActionButton = ({info, buttonFunction, argument}: {in
                 
                 
            }}
-           onPress={() => {buttonFunction(argument)}}>
+           onPress={() => {console.log("OOH LA LA... you touch my tralala");buttonFunction()}}>
                 <Text style = {{
                     color: "white",
                     fontSize: 28

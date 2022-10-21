@@ -6,8 +6,9 @@ import { styles } from './mainViewStyles';
 
 //i explained this
 export const FloatingActionButton = (myFunction: FunctionObject) => {
+
   return (
-    <TouchableOpacity style={styles.fab} onPress={() => myFunction.myFunction(myFunction.argument)}>
+    <TouchableOpacity style={styles.fab} onPress={() => {myFunction.myFunction(myFunction.argument)}}>
 
 
       <MaterialCommunityIcons name="plus" size={32} color={"#767171"} />

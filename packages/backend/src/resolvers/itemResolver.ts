@@ -1,6 +1,7 @@
 import {  ItemDocument } from '../types'
 import { Item } from '../models'
 import {Types} from 'mongoose'
+import item from '../typeDefs/item'
 
 
 
@@ -19,6 +20,7 @@ async function findItemsByCategoryFunc(categoryId:String):Promise<ItemDocument[]
 
 async function addItemFunc(itemId:String):Promise<String> {
     let x
+    console.log("Modifying item with id: " + itemId + "\nSo that it has capacity + 1");
     await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
 
     return x
@@ -26,6 +28,7 @@ async function addItemFunc(itemId:String):Promise<String> {
 }
 async function subtractItemFunc(itemId:String):Promise<String> {
     let x
+    console.log("Modifying item with id: " + itemId + "\nSo that it has capacity - 1");
     await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
     return x
     
@@ -38,12 +41,15 @@ async function createItemfunc(categoryId:String, name:String, expiration:String)
 
 }
 async function modifyItemNameFunc(itemId:String, name:String):Promise<String>{
+    console.log("Modifying item with id: " + itemId + "\nSo that it has name: " + name);
     let x
     await Item.findByIdAndUpdate(itemId, { name: name}) .then(()=>{console.log("Successfully modified item name"); x= name}).catch(()=>{console.log("Failed to modify item name"); x= ""})
     return x
 }
 
 async function modifyItemCategoryFunc(itemId: String, categoryId: String ): Promise<String>{
+    console.log("Modifying item with id: " + itemId + "\nSo that it has category Id : " + categoryId);
+
     let x
    
     await Item.findByIdAndUpdate(itemId, { categoryId: categoryId}).then(()=>{console.log("Successfully modified item category"); x= categoryId}).catch(()=>{console.log("Failed to modify item category"); x= ""})
