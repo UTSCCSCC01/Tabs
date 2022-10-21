@@ -212,6 +212,8 @@ const resolvers = {
             args: {inventoryId: String},
             ): 
             Promise<CategoryDocument[]> => {
+                console.log("BBBBBBBBBBBB")
+                console.log(args);
                 return await findCatsByInvIdFunc(args.inventoryId)
             },
         

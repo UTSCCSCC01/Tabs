@@ -8,15 +8,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomePage from "./ui/pages/view/homePage";
-
-
-
-
-
 import RentScreen from "./ui/pages/view/RentScreen";
+import RentAdminScreen from "./ui/pages/view/RentAdminScreen";
 
 const client = new ApolloClient({
-    uri: 'http://localhost:8000/graphql',
+    uri: 'http://127.0.0.1:8000/graphql',
     name: 'test',
     cache: new InMemoryCache(),
     version: '0'
@@ -54,14 +50,14 @@ const App = () => (
 
   function MyTabs() {
     return (
-      <Tab.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
+      <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>
         <Tab.Screen name="Calendar" component={FullInvView} options={{tabBarIcon: () => 
           (<View><MaterialCommunityIcons name="calendar" size={24} color={"#E6E6E6B0"}/></View>)}}/>
 
-        <Tab.Screen name="Home" component={HomePage} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="HomePage" component={HomePage} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
-        <Tab.Screen name="Notifications" component={RentScreen} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Notifications" component={RentAdminScreen} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
       </Tab.Navigator>

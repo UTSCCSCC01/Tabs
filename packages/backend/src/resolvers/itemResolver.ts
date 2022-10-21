@@ -1,6 +1,7 @@
 import {  CategoryDocument, ItemDocument } from '../types'
 import { Category, Item } from '../models'
 import {Types} from 'mongoose'
+import item from '../typeDefs/item'
 
 
 
@@ -42,6 +43,8 @@ async function addItemFunc(userId:String, itemId:String):Promise<Boolean> {
         return false
     }
     let x
+    console.log("Modifying item with id: " + itemId + "\nSo that it has capacity + 1");
+    //await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
     await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x=true}).catch(()=>(x=false))
 
 
@@ -54,6 +57,8 @@ async function subtractItemFunc(userId:String, itemId:String):Promise<Boolean> {
         return false
     }
     let x
+    console.log("Modifying item with id: " + itemId + "\nSo that it has capacity - 1");
+    //await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
     await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x=true}).catch(()=>(x=false))
 
     return x
@@ -69,6 +74,7 @@ async function createItemfunc(userId:String, categoryId:String, name:String, exp
     return x
 
 }
+
 async function modifyItemNameFunc(userId:String, itemId:String, name:String):Promise<Boolean>{
     const res = await Item.findById(itemId)
     if (await hasPermissionFunc(userId, res.categoryId) == false) {

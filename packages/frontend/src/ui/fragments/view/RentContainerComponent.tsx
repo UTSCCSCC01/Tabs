@@ -4,25 +4,35 @@ import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 export type Props = {
     user: string; // roomate name
     amount: number;
+    isUpdatingRent: boolean,
+    setIsUpdatingRent: any,
 };
 
 const RentContainerComponent: React.FC<Props> = ({
     user,
     amount,
+    isUpdatingRent,
+    setIsUpdatingRent
 }) => {
   return (
       <View style={[styles.roundedContainer, styles.moneyContainer]}>
         <View style={styles.pfpContainer}>
-            {/* <Image source={require('')}/> */}
         </View>
         
         <Text style={styles.nameLabel}>{user}</Text>
         <Text style={styles.oweLabel}>Monthly Rent</Text>
         <Text style={styles.oweAmountLabel}>${amount}</Text>
-        {/* <Button
-            title="View"
-        /> */}
-        <Text style={styles.viewButton}>Update</Text>
+        <Pressable onPress={setIsUpdatingRent} style={({ pressed }) => ({
+            left: '77%',
+            top: '33%',
+            width: '16%',
+            height: '15%',
+            borderBottomWidth: 1,
+            borderColor: 'gray',
+            opacity: pressed ? 0.5 : 1
+        })}>
+            <Text style={styles.viewButton}>Update</Text>
+        </Pressable>
     </View>
   );
 };
@@ -80,8 +90,6 @@ const styles = StyleSheet.create({
   },
 
   viewButton: {
-    left: '75%',
-    top: '30%',
     fontSize: 16,
     color: 'gray',
   }
