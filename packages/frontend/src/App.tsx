@@ -11,6 +11,7 @@ import HomePage from "./ui/pages/view/homePage";
 import RentScreen from "./ui/pages/view/RentScreen";
 import DebtRequestsView from "./ui/pages/view/DebtRequestsView";
 import RentAdminScreen from "./ui/pages/view/RentAdminScreen";
+import DebtScreenView from "./ui/pages/view/DebtScreenView";
 
 
 const client = new ApolloClient({
@@ -59,7 +60,7 @@ const App = () => (
         <Tab.Screen name="Home" component={HomePage} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
-        <Tab.Screen name="Notifications" component={RentAdminScreen} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Notifications" component={DebtScreenView} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
       </Tab.Navigator>
