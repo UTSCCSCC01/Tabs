@@ -1,43 +1,20 @@
 import { CategoryDocument, ItemDocument } from '../types'
 import { Category, Item } from '../models'
 import { Types } from 'mongoose'
+import { isCompositeType } from 'graphql';
 
-/* Old functions that are no longer in use.
-async function addItemFunc(categoryId: String, itemName: String, quantity: Number): Promise<String> {
-    const id = new Types.ObjectId(String(categoryId))
-    const item = await Item.create({categoryId: categoryId, itemName: itemName, quantity: quantity})
- 
-    await Category.findOneAndUpdate({_id: id}, {$push:{items: item._id}})
-    .then(() => {
-        console.log("Added item to category")
-    })
-    .catch(() => {
-        console.log("Failed to update category")
-        return null
-    })
 
-    return String(item._id)
-}
-
-async function delItemFunc(categoryId: String, itemId: String): Promise<Boolean> {
+async function addCatFunc(userId: String,
+                          inventoryId: String, 
+                          categoryName: String, 
+                          categoryDesc: String,
+                          isRestricted: Boolean): Promise<String> {
     let x;
-    const id = new Types.ObjectId(String(categoryId))
-    await Category.findOneAndUpdate({_id: id}, {$pull:{items: itemId}})
-    .then(() => {
-        console.log("Deleted item from category");
-        x=true
-    })
-    .catch(() => {
-        console.log("Failed to update category");
-        x=false
-    })
-
-    return x
-}
-*/
-async function addCatFunc(inventoryId: String, categoryName: String, categoryDesc: String): Promise<String> {
-    let x;
-    const res = await Category.create({inventoryId: inventoryId, categoryName: categoryName, categoryDesc: categoryDesc})
+    const res = await Category.create({inventoryId: inventoryId, 
+                                       categoryName: categoryName, 
+                                       categoryDesc: categoryDesc, 
+                                       owner: userId,
+                                       isRestricted: isRestricted})
     .then((res) => {
         console.log("Added category")
         x=String(res._id)
@@ -50,8 +27,119 @@ async function addCatFunc(inventoryId: String, categoryName: String, categoryDes
     return x
 }
 
-async function changeCatNameFunc(categoryId: String, categoryName: String): Promise<Boolean> {
-    let res;
+async function toggleRestrictionFunc(userId: String, categoryId: String): Promise<Boolean> {
+    let x
+    let newVal
+    const res = await Category.findById(categoryId)
+    .then((res) => {
+        console.log("categoryId was found")
+        if (res.owner == userId) {
+            if (res.isRestricted == true) {
+                newVal=false
+            } else if (res.isRestricted == false) {
+                newVal=true
+            }
+        } else {
+            console.log("Non-owner cannot toggle restriction")
+            x=false
+        }
+    }).catch(() => {
+        console.log("categoryId was not found")
+        x=false
+    })
+
+    if (x == false) {
+        return false
+    }
+
+    await Category.findByIdAndUpdate(categoryId, {$set:{isRestricted: newVal}})
+    .then(() => {
+        console.log("Toggled restriction")
+        x=true
+    })
+    .catch(() => {
+        console.log("Failed to toggle restriction")
+        x=false
+    })
+
+    return x
+}
+
+async function addAdminFunc(userId: String, categoryId: String, targetUser: String): Promise<Boolean> {
+    let x
+    let isOwner=false
+    const res = await Category.findById(categoryId)
+    .then((res) => {
+        console.log("categoryId was found")
+        if (res.owner == userId) {
+            isOwner=true
+        } else {
+            console.log("Non-owner cannot add admins")
+            x=false
+        }
+    }).catch(() => {
+        console.log("categoryId was not found")
+        x=false
+    })
+
+    if (x == false) {
+        return false
+    }
+
+    if (isOwner) {
+        await Category.findByIdAndUpdate(categoryId, {$push:{admins: targetUser}})
+        .then(() => {
+            console.log("Added an admin")
+            x=true
+        })
+        .catch(() => {
+            console.log("Failed to add an admin")
+            x=false
+    })
+    }
+    return x
+}
+
+async function removeAdminFunc(userId: String, categoryId: String, targetUser: String): Promise<Boolean> {
+    let x
+    let isOwner=false
+    const res = await Category.findById(categoryId)
+    .then((res) => {
+        console.log("categoryId was found")
+        if (res.owner == userId) {
+            isOwner=true
+        } else {
+            console.log("Non-owner cannot remove admins")
+            x=false
+        }
+    }).catch(() => {
+        console.log("categoryId was not found")
+        x=false
+    })
+
+    if (x == false) {
+        return false
+    }
+
+    if (isOwner) {
+        await Category.findByIdAndUpdate(categoryId, {$pull:{admins: targetUser}})
+        .then(() => {
+            console.log("Removed an admin?")
+            x=true
+        })
+        .catch(() => {
+            console.log("Failed to remove an admin")
+            x=false
+    })
+    }
+    return x
+}
+
+async function changeCatNameFunc(userId: String, categoryId: String, categoryName: String): Promise<Boolean> {
+    if (await hasPermissionFunc(userId, categoryId) == false) {
+        return false
+    }
+    let res
     await Category.findByIdAndUpdate(categoryId, {$set:{categoryName: categoryName}})
     .then(() => {
         console.log("Renamed category")
@@ -65,8 +153,11 @@ async function changeCatNameFunc(categoryId: String, categoryName: String): Prom
     return res
 }
 
-async function changeCatDescFunc(categoryId: String, categoryDesc: String): Promise<Boolean> {
-    let res;
+async function changeCatDescFunc(userId: String, categoryId: String, categoryDesc: String): Promise<Boolean> {
+    if (await hasPermissionFunc(userId, categoryId) == false) {
+        return false
+    }
+    let res
     await Category.findByIdAndUpdate(categoryId, {$set:{categoryDesc: categoryDesc}})
     .then(() => {
         console.log("Changed category description")
@@ -74,18 +165,16 @@ async function changeCatDescFunc(categoryId: String, categoryDesc: String): Prom
     })
     .catch(() => {
         console.log("Failed to changed category description")
-        res=false})
+        res=false
+    })
     
     return res
 }
 
 async function findCatsByInvIdFunc(inventoryId: String): Promise<CategoryDocument[]> {
-    let res: String[];
-    console.log("AAAAAAAAAAA")
     const catIds = await Category.find({inventoryId: inventoryId})
-    .then((catIds) => {
+    .then(() => {
         console.log("Find categoryIds by inventoryId query was successful")
-        return catIds
     })
     .catch(() => {
         console.log("Find categoryIds by inventoryId query was unsuccessful")
@@ -95,16 +184,45 @@ async function findCatsByInvIdFunc(inventoryId: String): Promise<CategoryDocumen
     return catIds
 }
 
+async function hasPermissionFunc(userId: String, categoryId: String): Promise<Boolean> {
+    let x
+    const res = await Category.findById(categoryId)
+    .then((res) => {
+        console.log("categoryId was found")
+        if (res.isRestricted == false ||
+           res.isRestricted == true && (res.owner == userId || res.admins.includes(userId))) {
+            x=true
+        } else {
+            console.log("no permission :(")
+            x=false
+        }
+    })
+    .catch(() => {
+        console.log("categoryId was not found")
+        x=false
+    })
+
+    return x
+}
+
 const resolvers = {
     Query: {
         findCatsByInvId: async(
             root,
-            args: {inventoryId: string},
+            args: {inventoryId: String},
             ): 
             Promise<CategoryDocument[]> => {
                 console.log("BBBBBBBBBBBB")
                 console.log(args);
                 return await findCatsByInvIdFunc(args.inventoryId)
+            },
+        
+        hasPermission: async(
+            root,
+            args: {userId: String, categoryId: String}
+            ):
+            Promise<Boolean> => {
+                return await hasPermissionFunc(args.userId, args.categoryId)
             }
     },
 
@@ -126,25 +244,57 @@ const resolvers = {
         */
         addCat: async(
             root,
-            args: {inventoryId: String, categoryName: String, categoryDesc: String}
+            args: {userId: String, 
+                   inventoryId: String, 
+                   categoryName: String, 
+                   categoryDesc: String
+                   isRestricted: Boolean}
             ): Promise<String> =>{
-                console.log("CCCCCCCCC")
-                console.log(args);
-                return await addCatFunc(args.inventoryId, args.categoryName, args.categoryDesc)
+                return await addCatFunc(args.userId,
+                                        args.inventoryId, 
+                                        args.categoryName, 
+                                        args.categoryDesc,
+                                        args.isRestricted)
+            },
+
+        toggleRestriction: async(
+            root,
+            args: {userId: String, 
+                   categoryId: String}
+            ): Promise<Boolean> =>{
+                return await toggleRestrictionFunc(args.userId, args.categoryId)
+            },
+
+        addAdmin: async(
+            root,
+            args: {userId: String, 
+                   categoryId: String,
+                   targetUser: String}
+            ): Promise<Boolean> =>{
+                return await addAdminFunc(args.userId, args.categoryId, args.targetUser)
+            },
+
+        removeAdmin: async(
+            root,
+            args: {userId: String, 
+                   categoryId: String,
+                   targetUser: String}
+            ): Promise<Boolean> =>{
+                return await removeAdminFunc(args.userId, args.categoryId, args.targetUser)
             },
 
         changeCatName: async(
             root,
-            args: {categoryId: String, categoryName: String}
+            args: {userId: String, categoryId: String, categoryName: String}
             ): Promise<Boolean> => {
-                return await changeCatNameFunc(args.categoryId, args.categoryName)
+                return await changeCatNameFunc(args.userId, args.categoryId, args.categoryName)
             },
 
         changeCatDesc: async(
             root,
-            args: {categoryId: String, categoryDesc: String}
+            args: {userId: String, categoryId: String, categoryDesc: String}
             ): Promise<Boolean> => {
-                return await changeCatDescFunc(args.categoryId, args.categoryDesc)
+                return await changeCatDescFunc(args.userId, args.categoryId, args.categoryDesc)
             }
     }
 }
