@@ -27,9 +27,10 @@
     "eslint": "^8.23.1",
     "esm": "^3.2.25",
     "expo": "^46.0.13",
+    "react-native": "0.69.6",
+    "react-native-dropdown-picker": "^5.4.2",
     "react-native-floating-action": "^1.22.0",
-    "react-native-svg": "12.3.0",
-    "react-native": "0.69.6"
+    "react-native-svg": "12.3.0"
   },
   "devDependencies": {
     "react-native-svg-transformer": "^1.0.0",

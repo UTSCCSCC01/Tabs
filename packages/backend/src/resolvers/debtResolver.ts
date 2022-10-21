@@ -22,7 +22,13 @@ const resolvers = {
             args: {debtFrom: String}
             ):Promise<DebtDocument[]> => {
             return Debt.find(args);
-        }
+        },
+        
+        getDebts: async(root,
+            args: {debtFrom: String, debtTo: String},
+            ):Promise<DebtDocument[]> => {
+                return (await Debt.find( { debtTo: args.debtTo } )).concat(await Debt.find( { debtFrom: args.debtFrom } ));
+        },
     },
 
     Mutation: {

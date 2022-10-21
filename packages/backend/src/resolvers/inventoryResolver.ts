@@ -5,6 +5,7 @@ import { Types } from 'mongoose';
 
 
 async function findInventory(houseId:String):Promise<String[]>{
+    // This function will need to be redone when House backend is created.
     const inventory = await Inventory.find({houseId:houseId}, "_id")
     let i = 0;
     let inv: String[]= []
