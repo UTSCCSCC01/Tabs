@@ -17,7 +17,10 @@ const resolvers = {
             ):Promise<DebtDocument[]> => {
             return Debt.find(args);
         },
-        
+        findDebts: async(root,
+            args:{debtId: String}):Promise<DebtDocument> =>{
+                return await Debt.findById(args.debtId)
+        },
         getDebtsFrom: async(root,
             args: {debtFrom: String}
             ):Promise<DebtDocument[]> => {
@@ -35,25 +38,23 @@ const resolvers = {
             console.log("Successfuly added Debt to server")
             return debt
         },
-        acceptRequest: async(root, args:{debtId: String, requestAccepted: Boolean}):Promise<DebtDocument |String> => {
+        acceptRequest: async(root, args:{debtId: String, requestAccepted: Boolean}):Promise<DebtDocument|void> => {
             if (args.requestAccepted != null){
-                return 'fail requestAccepted already set'
+                console.log('fail requestAccepted already set')
             }
-            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: true}).catch(()=>{return 'fail'})
+            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: true}).then((debt) => {debt.requestAccepted = true; return debt}).catch(()=>{console.log("fail to accept req")})
+            
             return debt
         },
-        rejectRequest: async(root, args:{debtId: String, requestAccepted: Boolean}):Promise<DebtDocument |String> => {
+        rejectRequest: async(root, args:{debtId: String, requestAccepted: Boolean}):Promise<DebtDocument | void> => {
             if (args.requestAccepted != null){
-                return 'fail requestAccepted already set'
+                console.log('fail requestAccepted already set')
             }
-            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: false}).catch(()=>{return 'fail'})
+            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: false}).then((debt)=>{debt.requestAccepted = false; return debt}).catch(()=>{console.log( 'fail to reject req')})
             return debt
         },
-        undoRequest: async(root, args:{debtId:String, requestAccepted: Boolean}): Promise<DebtDocument | String> =>{
-            if (args.requestAccepted == null){
-                return 'value already null'
-            }
-            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: null}).catch(()=>{return 'fail'})
+        undoRequest: async(root, args:{debtId:String, requestAccepted: Boolean}): Promise<DebtDocument | void> =>{
+            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: null}).then((debt)=>{debt.requestAccepted=null; return debt}).catch(()=>{console.log('fail to undo req')})
             return debt
         },
         modifyAmount: async(root, args: {debtId: String, amount: Number}):Promise<String | Boolean> =>{
