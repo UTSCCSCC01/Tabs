@@ -5,6 +5,7 @@ import { Types } from 'mongoose';
 
 
 async function findInventory(houseId:String):Promise<String[]>{
+    // This function will need to be redone when House backend is created.
     const inventory = await Inventory.find({houseId:houseId}, "_id")
     let i = 0;
     let inv: String[]= []
@@ -18,6 +19,14 @@ async function findInventory(houseId:String):Promise<String[]>{
     return inv
 
 }
+
+/**
+ * Creates an inventory for a given house
+ * 
+ * @name createInventory
+ * @param houseId ID of the house the inventory belongs to
+ * @returns ID of the current inventory
+ */
 async function createInventory(houseId:String):Promise<String>{ 
     let x;
     // const inventory = await Inventory.create({houseId:houseId})

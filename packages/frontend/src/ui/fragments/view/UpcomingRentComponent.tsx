@@ -1,26 +1,53 @@
-import React from 'react';
+import { gql, useQuery } from '@apollo/client';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 
 export type Props = {
-    amount: number;
-    dateDue: string;
+    houseId: string;
 };
 
+const GET_BILL =
+gql`
+query GetBill($houseId: String!) {
+    getBill(houseId: $houseId) {
+      amount, dateDue
+    }
+}`
+
+
 const UpcomingRentComponent: React.FC<Props> = ({
-    amount,
-    dateDue,
+    houseId
 }) => {
-  return (
-    <View style={styles.rentContainer}>
-        <View style={[styles.upcomingRentContainer, styles.roundedContainer]}>
-            <Text style={styles.upcomingLabel}>Upcoming Rent</Text>
-            <Text style={styles.amountLabel}>${amount}</Text>
-        </View>
-        <View style={styles.rentDueContainer}>
-            <Text style={styles.dueLabel}>{dateDue}</Text>
-        </View>
-    </View>
-  );
+
+    const { loading, data, refetch, error } = useQuery(GET_BILL, {
+        // houseId variable here
+        fetchPolicy: 'network-only',
+        variables: { houseId: houseId},
+    });
+
+    useFocusEffect(
+        React.useCallback(() => {
+          refetch();
+        }, []),
+      );
+
+    if (loading) return <Text>Loading ...</Text>;
+    if (error) return <Text>Error</Text>;
+
+    return data.getBill.map((element: { amount: number, dateDue: string}) => {
+        return (
+            <View style={styles.rentContainer}>
+                <View style={[styles.upcomingRentContainer, styles.roundedContainer]}>
+                    <Text style={styles.upcomingLabel}>Upcoming Rent</Text>
+                    <Text style={styles.amountLabel}>${element.amount}</Text>
+                </View>
+                <View style={styles.rentDueContainer}>
+                    <Text style={styles.dueLabel}>{element.dateDue}</Text>
+                </View>
+            </View>
+        );
+      })[0];
 };
 
 const styles = StyleSheet.create({

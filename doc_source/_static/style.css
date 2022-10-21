@@ -1,0 +1,21 @@
+@font-face {
+    font-family: Oxygen;
+    src: url(./Mulish-Light.ttf);
+}
+
+.wy-nav-content {
+    max-width: none;
+}
+
+body, section h1, section h2, section h3, section h4, section h5, section h6, p.caption {
+    font-family: Oxygen !important;
+}
+
+td p {
+    word-wrap: break-word;
+}
+
+.wy-table-responsive table td, .wy-table-responsive table th {
+    white-space: normal;
+}
+

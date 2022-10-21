@@ -17,15 +17,17 @@ const resolvers = {
             ):Promise<DebtDocument[]> => {
             return Debt.find(args);
         },
-        findDebts: async(root,
-            args:{debtId: String}):Promise<DebtDocument> =>{
-                return await Debt.findById(args.debtId)
-        },
         getDebtsFrom: async(root,
             args: {debtFrom: String}
             ):Promise<DebtDocument[]> => {
-            return Debt.find(args)
-        }
+            return Debt.find(args);
+        },
+        
+        getDebts: async(root,
+            args: {debtFrom: String, debtTo: String},
+            ):Promise<DebtDocument[]> => {
+                return (await Debt.find( { debtTo: args.debtTo } )).concat(await Debt.find( { debtFrom: args.debtFrom } ));
+        },
     },
 
     Mutation: {
