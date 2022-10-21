@@ -26,8 +26,9 @@ const resolvers = {
         getDebts: async(root,
             args: {debtFrom: String, debtTo: String},
             ):Promise<DebtDocument[]> => {
-                return (await Debt.find( { debtTo: args.debtTo } )).concat(await Debt.find( { debtFrom: args.debtFrom } ));
-        },
+                console.log("getting debts")
+                return await Debt.find( { debtTo: args.debtTo , debtFrom: args.debtFrom} )
+            }
     },
 
     Mutation: {

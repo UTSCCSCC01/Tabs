@@ -1,7 +1,11 @@
 import React from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import { acceptDebt, rejectDebt } from '../controller/DebtRequestController';
+//import { acceptDebt, rejectDebt } from '../controller/DebtRequestController';
 import { folderCommonStyles } from './FolderCommonStyles';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { removeId } from "../view/DebtRequestListComponent"
+import Toast from 'react-native-simple-toast';
+
 
 export type Props = {
     debtId: string;
@@ -9,11 +13,65 @@ export type Props = {
     amount: number;
 };
 
+const ACCEPT_DEBT = gql`
+mutation acceptRequest($debtId: String){
+acceptRequest(debtId: $debtId) {
+    id
+    requestAccepted
+}
+}`
+
+const REJECT_DEBT = gql`
+mutation rejectRequest($debtId: String){
+rejectRequest(debtId: $debtId) {
+    id
+    requestAccepted
+}}`
+
+
 const DebtContainerComponent: React.FC<Props> = ({
   debtId,  
   debtFrom,
   amount
 }) => {
+
+
+const [acceptDebtCall] = useMutation(ACCEPT_DEBT)
+const [rejectDebtCall] = useMutation(REJECT_DEBT)
+
+/**
+ * Send request to the server to accept debt and handle as necessary
+ * 
+ * @name acceptDebt
+ * @param debtId Id of debt
+ * @param name Name of author of debt
+ */
+  function acceptDebt(debtId: string, name: string | null = null) {
+  console.log('accept debt ' + debtId)
+
+
+  removeId(debtId)
+  acceptDebtCall({ variables: { debtId: debtId} })
+  //Toast.show('Debt accepted')
+}
+
+/**
+* Send request to the server to reject debt and handle as necessary
+* 
+* @name rejectDebt
+* @param debtId Id of debt
+* @param name Name of author of debt
+*/
+ function rejectDebt(debtId: string, name: string | null = null) {
+  console.log('reject debt ' + debtId)
+  
+
+  rejectDebtCall({ variables: { debtId: debtId} })
+  removeId(debtId)
+
+  //Toast.show('Debt rejected')
+}
+
   console.log('Debt container created')
   return (
       <View style={[styles.roundedContainer, folderCommonStyles.column, {
