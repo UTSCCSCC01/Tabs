@@ -9,7 +9,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomePage from "./ui/pages/view/homePage";
 import RentScreen from "./ui/pages/view/RentScreen";
+import DebtRequestsView from "./ui/pages/view/DebtRequestsView";
 import RentAdminScreen from "./ui/pages/view/RentAdminScreen";
+
 
 const client = new ApolloClient({
     uri: 'http://127.0.0.1:8000/graphql',
@@ -57,7 +59,7 @@ const App = () => (
         <Tab.Screen name="HomePage" component={HomePage} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
-        <Tab.Screen name="Notifications" component={RentAdminScreen} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Notifications" component={DebtRequestsView} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
       </Tab.Navigator>
