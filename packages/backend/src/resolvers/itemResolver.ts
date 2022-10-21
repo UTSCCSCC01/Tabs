@@ -18,41 +18,49 @@ async function findItemsByCategoryFunc(categoryId:String):Promise<ItemDocument[]
 
 }
 
-async function addItemFunc(itemId:String):Promise<String> {
+async function addItemFunc(itemId:String):Promise<Boolean> {
     let x
     console.log("Modifying item with id: " + itemId + "\nSo that it has capacity + 1");
-    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
+    //await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
+    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x=true}).catch(()=>(x=false))
+
 
     return x
     
 }
-async function subtractItemFunc(itemId:String):Promise<String> {
+async function subtractItemFunc(itemId:String):Promise<Boolean> {
     let x
     console.log("Modifying item with id: " + itemId + "\nSo that it has capacity - 1");
-    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
+    //await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
+    await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x=true}).catch(()=>(x=false))
+
     return x
     
 }
 
 async function createItemfunc(categoryId:String, name:String, expiration:String):Promise<String>{
     let x;
-    await Item.create({categoryId:categoryId, name:name, expiration:expiration}).then(()=>{console.log("Created  Item"); x= true}).catch(()=>{console.log("Failed to create Item"); x= false})
+    await Item.create({categoryId:categoryId, name:name, expiration:expiration}).then(()=>{console.log("Created Item"); x= true}).catch(()=>{console.log("Failed to create Item"); x= false})
     return x
 
 }
-async function modifyItemNameFunc(itemId:String, name:String):Promise<String>{
+
+    
+async function modifyItemNameFunc(itemId:String, name:String):Promise<Boolean>{
     console.log("Modifying item with id: " + itemId + "\nSo that it has name: " + name);
     let x
-    await Item.findByIdAndUpdate(itemId, { name: name}) .then(()=>{console.log("Successfully modified item name"); x= name}).catch(()=>{console.log("Failed to modify item name"); x= ""})
+    await Item.findByIdAndUpdate(itemId, { name: name}) .then(()=>{console.log("Successfully modified item name"); x=true}).catch(()=>{console.log("Failed to modify item name"); x=false})
     return x
 }
 
-async function modifyItemCategoryFunc(itemId: String, categoryId: String ): Promise<String>{
-    console.log("Modifying item with id: " + itemId + "\nSo that it has category Id : " + categoryId);
 
-    let x
    
-    await Item.findByIdAndUpdate(itemId, { categoryId: categoryId}).then(()=>{console.log("Successfully modified item category"); x= categoryId}).catch(()=>{console.log("Failed to modify item category"); x= ""})
+
+async function modifyItemCategoryFunc(itemId: String, categoryId: String ): Promise<Boolean>{
+    console.log("Modifying item with id: " + itemId + "\nSo that it has category Id : " + categoryId);
+    let x
+    await Item.findByIdAndUpdate(itemId, { categoryId: categoryId}).then(()=>{console.log("Successfully modified item category"); x=true}).catch(()=>{console.log("Failed to modify item category"); x=false})
+
     return x
 }
 const resolvers = {
@@ -67,19 +75,20 @@ const resolvers = {
     },
 
     Mutation: {
-        addItem: async(root, args:{itemId:String}, context): Promise<String> =>{
+        addItem: async(root, args:{itemId:String}, context): Promise<Boolean> =>{
             return await addItemFunc(args.itemId)
         },
-        subtractItem: async(root, args:{itemId:String}, context):Promise<String> => {
+        subtractItem: async(root, args:{itemId:String}, context):Promise<Boolean> => {
             return await subtractItemFunc(args.itemId)
         },
         createItem: async(root, args:{categoryId:String, name:String, expiration:String}, context):Promise<String> =>{
             return await createItemfunc(args.categoryId, args.name, args.expiration)
         },
-        modifyItemName: async(root, args: {itemId: String, name: String}, context):Promise<String> =>{
+        modifyItemName: async(root, args: {itemId: String, name: String}, context):Promise<Boolean> =>{
            return await modifyItemNameFunc(args.itemId, args.name)
         },
-        modifyItemCategory: async(root, args:{itemId: String, categoryId: String}, context):Promise<String> =>{
+        modifyItemCategory: async(root, args:{itemId: String, categoryId: String}, context):Promise<Boolean> =>{
+
             return await modifyItemCategoryFunc(args.itemId, args.categoryId)
         }
 

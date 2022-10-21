@@ -1,98 +1,38 @@
 import { gql, InMemoryCache, useLazyQuery, useQuery } from '@apollo/client';
-import ApolloClient from 'apollo-client';
 import React from 'react';
-import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar} from 'react-native';
+import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar, RefreshControl} from 'react-native';
 import HeaderComponent from '../../fragments/view/HeaderComponent';
 import OweContainer from '../../fragments/view/OweComponent';
 import UpcomingRentComponent from '../../fragments/view/UpcomingRentComponent';
-
-const GET_DEBTS_FROM =
-gql`
-query GetDebtsFrom($debtFrom: String!) {
-    getDebtsFrom(debtFrom: $debtFrom) {
-      debtId, debtTo, debtFrom, amount
-    }
-}`
-
-const GET_BILL =
-gql`
-query GetBill($houseId: String!) {
-    getBill(houseId: $houseId) {
-      amount
-    }
-}`
-
-function debtFunc() {
-    const { loading, error, data } = useQuery(GET_DEBTS_FROM, {
-      variables: { debtFrom: 'Seven Abou' },
-    });
-    if (loading) return <Text>Loading ...</Text>;
-    let debt: any = {
-        type: '',
-        debtId: '',
-        debtTo: '',
-        debtFrom: '',
-        amount: 0,
-        id: 0
-      };
-      
-    let debtList: typeof debt[] = []
-    let index: number = 0;
-
-    for (let i = 0; i < data.getDebtsFrom.length; i++) {
-
-        debt = {
-            type: '',
-            debtId: '',
-            debtTo: '',
-            debtFrom: '',
-            amount: 0,
-        };
-
-        let j = 0;
-
-        Object.keys(debt).forEach(key => {
-        debt[key] = Object.values(data.getDebtsFrom[i])[j];
-        j++;
-        });
-        
-        debtList[index] = debt;
-        index++;
-    }
-        // console.log(debtList);
-        return debtList;
-}
+import DebtListComponent from '../../fragments/view/DebtListComponent';
+import { FloatingActionButton } from '../../fragments/view/FloatingActionButton';
   
-// export function BillFunc() {
-//     const { fetchMore, loading, data } = useQuery(GET_BILL, {
-//         // variables: { houseId: '123' },
-//     });
-// }
+// export type Props = {
+//     houseId: string;
+//     userId: string;
+// };
 
-const RentScreen: React.FC = () => {
-    
-    const DATA = debtFunc();
+const switchView = () => {
+    console.log('pressed add debt, popup');
+}
 
-    // currently need to refresh app to see changes
+const RentScreen: React.FC = (
+) => {
+    // for testing purposes, enter houseId, userId here (ex '777', 'Seven Abou') c:
+    // we can also just pass in the properties when using rentscreen
     return (
         <View style={styles.container}>
             <HeaderComponent screenName='Rent & Finance'/>
-            <UpcomingRentComponent amount={360} dateDue={'Wednesday, Oct. 12'}/>
+            <UpcomingRentComponent houseId='777'/>
 
             <SafeAreaView style={styles.scrollContainer}>
-                <FlatList
-                    contentContainerStyle={{ paddingBottom: 20 }}
-                    data={DATA as readonly any[] | null | undefined}
-                    renderItem={({item}) => <OweContainer from={item.debtTo} amount={item.amount} whoOwes={"You owe"}/> }
-                    // keyExtractor={item => item.id}
-                />
+                <DebtListComponent userId='Bob Jones'/>
             </SafeAreaView>
-
-            {/* <Button
-                title='Refresh'
-                onPress={refreshFeed}
-            /> */}
-
+            
+            <FloatingActionButton 
+            name="add item" 
+            argument={1} 
+            myFunction={switchView}/>  
         </View>
   );
 };
