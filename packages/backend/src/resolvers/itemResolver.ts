@@ -1,6 +1,7 @@
 import {  ItemDocument } from '../types'
 import { Item } from '../models'
 import {Types} from 'mongoose'
+import item from '../typeDefs/item'
 
 
 
@@ -19,6 +20,8 @@ async function findItemsByCategoryFunc(categoryId:String):Promise<ItemDocument[]
 
 async function addItemFunc(itemId:String):Promise<Boolean> {
     let x
+    console.log("Modifying item with id: " + itemId + "\nSo that it has capacity + 1");
+    //await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
     await Item.findByIdAndUpdate(itemId, {$inc:{quantity:1}}).then(()=>{x=true}).catch(()=>(x=false))
 
 
@@ -27,6 +30,8 @@ async function addItemFunc(itemId:String):Promise<Boolean> {
 }
 async function subtractItemFunc(itemId:String):Promise<Boolean> {
     let x
+    console.log("Modifying item with id: " + itemId + "\nSo that it has capacity - 1");
+    //await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x="Success"}).catch(()=>(x="Failure"))
     await Item.findByIdAndUpdate(itemId, {$inc:{quantity:-1}}).then(()=>{x=true}).catch(()=>(x=false))
 
     return x
@@ -39,13 +44,20 @@ async function createItemfunc(categoryId:String, name:String, expiration:String)
     return x
 
 }
+
+    
 async function modifyItemNameFunc(itemId:String, name:String):Promise<Boolean>{
+    console.log("Modifying item with id: " + itemId + "\nSo that it has name: " + name);
     let x
     await Item.findByIdAndUpdate(itemId, { name: name}) .then(()=>{console.log("Successfully modified item name"); x=true}).catch(()=>{console.log("Failed to modify item name"); x=false})
     return x
 }
 
+
+   
+
 async function modifyItemCategoryFunc(itemId: String, categoryId: String ): Promise<Boolean>{
+    console.log("Modifying item with id: " + itemId + "\nSo that it has category Id : " + categoryId);
     let x
     await Item.findByIdAndUpdate(itemId, { categoryId: categoryId}).then(()=>{console.log("Successfully modified item category"); x=true}).catch(()=>{console.log("Failed to modify item category"); x=false})
 

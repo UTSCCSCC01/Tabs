@@ -81,6 +81,7 @@ async function changeCatDescFunc(categoryId: String, categoryDesc: String): Prom
 
 async function findCatsByInvIdFunc(inventoryId: String): Promise<CategoryDocument[]> {
     let res: String[];
+    console.log("AAAAAAAAAAA")
     const catIds = await Category.find({inventoryId: inventoryId})
     .then((catIds) => {
         console.log("Find categoryIds by inventoryId query was successful")
@@ -101,6 +102,8 @@ const resolvers = {
             args: {inventoryId: string},
             ): 
             Promise<CategoryDocument[]> => {
+                console.log("BBBBBBBBBBBB")
+                console.log(args);
                 return await findCatsByInvIdFunc(args.inventoryId)
             }
     },
@@ -125,6 +128,8 @@ const resolvers = {
             root,
             args: {inventoryId: String, categoryName: String, categoryDesc: String}
             ): Promise<String> =>{
+                console.log("CCCCCCCCC")
+                console.log(args);
                 return await addCatFunc(args.inventoryId, args.categoryName, args.categoryDesc)
             },
 
