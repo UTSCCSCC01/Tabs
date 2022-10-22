@@ -11,6 +11,8 @@ import HomePage from "./ui/pages/view/homePage";
 import RentScreen from "./ui/pages/view/RentScreen";
 import DebtRequestsView from "./ui/pages/view/DebtRequestsView";
 import RentAdminScreen from "./ui/pages/view/RentAdminScreen";
+import DebtScreenView from "./ui/pages/view/DebtScreenView";
+
 
 
 const client = new ApolloClient({
