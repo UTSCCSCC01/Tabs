@@ -111,7 +111,7 @@ const App = () => (
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
 
-        <Tab.Screen name="Notifications" component={RentAdminScreen} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Notifications" component={DebtRequestsView} options={{tabBarIcon: () => (<View>
 
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>

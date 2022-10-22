@@ -13,6 +13,8 @@ import AppliancesPage from './appliancesPage';
 import ToDoListPage from './ToDoListPage';
 import RentScreen from './RentScreen';
 import FullInvView from './inventoryView';
+import DebtScreenView from './DebtScreenView';
+import RentAdminScreen from './RentAdminScreen';
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
     return (
@@ -104,8 +106,8 @@ const Home = () => {
             <Stack.Navigator initialRouteName='HomePage'>
                 <Stack.Screen name = 'Home' component = {HomePage}/>
                 <Stack.Screen name = 'Inventory' component = {FullInvView} />
-                <Stack.Screen name = 'Rent' component = {RentScreen} />
-                <Stack.Screen name = 'Notifications' component = {NotificationsPage} />
+                <Stack.Screen name = 'Rent' component = {RentAdminScreen} />
+                <Stack.Screen name = 'Notifications' component = {DebtScreenView} />
                 <Stack.Screen name = 'Calendar' component = {CalendarPage} />
                 <Stack.Screen name = 'Appliances' component = {AppliancesPage} />
                 <Stack.Screen name = 'To Do' component = {ToDoListPage} />
