@@ -2,6 +2,50 @@ import { BillDocument } from '../types'
 import { Bill } from '../models'
 import { Types } from 'mongoose'
 
+/**
+ * Resolver for bill
+ * 
+ * @name billResolver
+ * @method getBill
+ * @method addBill
+ * @method modifyAmount
+ */
+
+
+/**
+ * Finds bills corresponding to the given house
+ * 
+ * @name getBill
+ * @in billResolver
+ * @param houseId
+ * @returns an array of bill documents matching the given house
+ */
+
+/**
+ * Creates a bill
+ * 
+ * @name addBill
+ * @in billResolver
+ * @param billId
+ * @param houseId
+ * @param name
+ * @param amount
+ * @param split
+ * @param dateCreated
+ * @param dateDue
+ * @param status
+ * @returns the document of the newly created bill
+ */
+
+/**
+ * Modifies the amount of a given bill
+ * 
+ * @name modifyAmount
+ * @in billResolver
+ * @param billId
+ * @param amount
+ * @returns the new amount if successful, false otherwise
+ */
 async function modifyAmountFunc(billId:String, amount:Number):Promise<String | Boolean>{
     let x;
     const id = new Types.ObjectId(String(billId))

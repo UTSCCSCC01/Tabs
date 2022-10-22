@@ -9,7 +9,7 @@ import { Document,  Model } from 'mongoose'
  * @field debtFrom
  * @field amount Amount of debt
  * @field description
- * @field dataCreated
+ * @field dateCreated
  */
 export interface DebtDocument extends Document {
     debtId: String,

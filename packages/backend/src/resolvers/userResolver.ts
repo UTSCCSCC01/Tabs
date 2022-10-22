@@ -1,6 +1,33 @@
 import { UserDocument } from '../types'
 import {User} from '../models'
 
+/**
+ * Resolver for the user
+ * 
+ * @name userResolver
+ * @method me
+ * @method signUp
+ */
+
+/**
+ * Searchs for the user document matching a given username
+ * 
+ * @name me
+ * @in UserResolver
+ * @param username
+ * @returns the user document matching the given username
+ */
+
+/**
+ * Creates a user
+ * 
+ * @name signUp
+ * @in UserResolver
+ * @param email
+ * @param password
+ * @returns the user document of the newly created user
+ */
+
 const resolvers = {
     Query: {
         me: async(

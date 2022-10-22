@@ -3,7 +3,32 @@ import { Category, Item } from '../models'
 import { Types } from 'mongoose'
 import { isCompositeType } from 'graphql';
 
+/**
+ * Resolver for category
+ * 
+ * @name categoryResolver
+ * @method addCat
+ * @method toggleRestriction
+ * @method addAdmin
+ * @method removeAdmin
+ * @method changeCatName
+ * @method changeCatDesc
+ * @method findCatsByInvId
+ * @method hasPermission
+ */
 
+/**
+ * Creates a category in the given inventory
+ * 
+ * @name addCat
+ * @in categoryResolver
+ * @param userId
+ * @param inventoryId
+ * @param categoryName
+ * @param categoryDesc
+ * @param isRestricted
+ * @returns the ID of the newly created category, null otherwise
+ */
 async function addCatFunc(userId: String,
                           inventoryId: String, 
                           categoryName: String, 
@@ -27,6 +52,15 @@ async function addCatFunc(userId: String,
     return x
 }
 
+/**
+ * Toggles the restriction setting of the given category
+ * 
+ * @name toggleRestrictionFunc
+ * @in categoryResolver
+ * @param userId
+ * @param categoryId
+ * @returns true if the operation was successful, false otherwise
+ */
 async function toggleRestrictionFunc(userId: String, categoryId: String): Promise<Boolean> {
     let x
     let newVal
@@ -65,6 +99,16 @@ async function toggleRestrictionFunc(userId: String, categoryId: String): Promis
     return x
 }
 
+/**
+ * Adds a given user as an admin to the given category
+ * 
+ * @name addAdmin
+ * @in categoryResolver
+ * @param userId
+ * @param categoryId
+ * @param targetUser
+ * @returns true if the operation was successful, false otherwise
+ */
 async function addAdminFunc(userId: String, categoryId: String, targetUser: String): Promise<Boolean> {
     let x
     let isOwner=false
@@ -100,6 +144,16 @@ async function addAdminFunc(userId: String, categoryId: String, targetUser: Stri
     return x
 }
 
+/**
+ * Removes a given user as an admin in the given category
+ * 
+ * @name removeAdmin
+ * @in categoryResolver
+ * @param userId
+ * @param categoryId
+ * @param targetUser
+ * @returns true if the operation was successful, false otherwise
+ */
 async function removeAdminFunc(userId: String, categoryId: String, targetUser: String): Promise<Boolean> {
     let x
     let isOwner=false
@@ -135,6 +189,16 @@ async function removeAdminFunc(userId: String, categoryId: String, targetUser: S
     return x
 }
 
+/**
+ * Changes the given category's name
+ * 
+ * @name changeCatName
+ * @in categoryResolver
+ * @param userId
+ * @param categoryId
+ * @param categoryName
+ * @returns true if the operation was successful, false otherwise
+ */
 async function changeCatNameFunc(userId: String, categoryId: String, categoryName: String): Promise<Boolean> {
     if (await hasPermissionFunc(userId, categoryId) == false) {
         return false
@@ -153,6 +217,16 @@ async function changeCatNameFunc(userId: String, categoryId: String, categoryNam
     return res
 }
 
+/**
+ * Changes the given category's description
+ * 
+ * @name changeCatName
+ * @in categoryResolver
+ * @param userId
+ * @param categoryId
+ * @param categoryDesc
+ * @returns true if the operation was successful, false otherwise
+ */
 async function changeCatDescFunc(userId: String, categoryId: String, categoryDesc: String): Promise<Boolean> {
     if (await hasPermissionFunc(userId, categoryId) == false) {
         return false
@@ -171,6 +245,14 @@ async function changeCatDescFunc(userId: String, categoryId: String, categoryDes
     return res
 }
 
+/**
+ * Finds categories corresponding to the given inventory
+ * 
+ * @name findCatsByInvId
+ * @in categoryResolver
+ * @param inventoryId
+ * @returns an array of category documents in the given inventory
+ */
 async function findCatsByInvIdFunc(inventoryId: String): Promise<CategoryDocument[]> {
     const catIds = await Category.find({inventoryId: inventoryId})
     .then(() => {
@@ -184,6 +266,15 @@ async function findCatsByInvIdFunc(inventoryId: String): Promise<CategoryDocumen
     return catIds
 }
 
+/**
+ * Checks if the given user has permission to modify the category
+ * 
+ * @name hasPermission
+ * @in categoryResolver
+ * @param userId
+ * @param categoryId
+ * @returns true if the user has permission, false otherwise
+ */
 async function hasPermissionFunc(userId: String, categoryId: String): Promise<Boolean> {
     let x
     const res = await Category.findById(categoryId)

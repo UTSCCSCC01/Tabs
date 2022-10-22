@@ -3,7 +3,22 @@ import {Inventory} from '../models'
 import { Types } from 'mongoose';
 //resolver
 
+/**
+ * Resolver for inventory
+ * 
+ * @name inventoryResolver
+ * @method findInventory
+ * @method createInventory
+ */
 
+/**
+ * Finds inventories for a given house
+ * 
+ * @name findInventory
+ * @in inventoryResolver
+ * @param houseId ID of the house that the inventories belong to
+ * @returns an array of IDs that belong to inventories that match the given houseId
+ */
 async function findInventory(houseId:String):Promise<String[]>{
     // This function will need to be redone when House backend is created.
     const inventory = await Inventory.find({houseId:houseId}, "_id")
@@ -24,6 +39,7 @@ async function findInventory(houseId:String):Promise<String[]>{
  * Creates an inventory for a given house
  * 
  * @name createInventory
+ * @in inventoryResolver
  * @param houseId ID of the house the inventory belongs to
  * @returns ID of the current inventory
  */
