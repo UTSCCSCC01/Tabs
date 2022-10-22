@@ -7,7 +7,6 @@ import { FIND_REQ_DEBTS, removeId } from "../view/DebtRequestListComponent"
 import Toast from 'react-native-simple-toast';
 import {rentScheduleNotification} from '../notifications'
 
-
 export type Props = {
     debtId: string;
     debtFrom: string;
@@ -28,6 +27,7 @@ rejectRequest(debtId: $debtId) {
     id
     requestAccepted
 }}`
+
 
 
 const DebtContainerComponent: React.FC<Props> = ({
@@ -77,6 +77,7 @@ const [rejectDebtCall, rejectData] = useMutation(REJECT_DEBT, {refetchQueries:[{
   
   //Toast.show('Debt rejected')
 }
+
 
   console.log('Debt container created')
   return (

@@ -13,6 +13,8 @@ import DebtRequestsView from "./ui/pages/view/DebtRequestsView";
 import RentAdminScreen from "./ui/pages/view/RentAdminScreen";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import DebtScreenView from "./ui/pages/view/DebtScreenView";
+
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
