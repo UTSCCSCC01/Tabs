@@ -20,14 +20,17 @@ query Query($inventoryId: String) {
     categoryId
     categoryName
     categoryDesc
+    isRestricted
+    owner
+    admins
   }
 }
 `
 
 
 export const ADD_CATEGORY=gql`
-mutation Mutation($inventoryId: String, $categoryName: String, $categoryDesc: String) {
-  addCat(inventoryId: $inventoryId, categoryName: $categoryName, categoryDesc: $categoryDesc)
+mutation Mutation($userId: String, $inventoryId: String, $categoryName: String, $categoryDesc: String, $isRestricted: Boolean) {
+  addCat(userId: $userId, inventoryId: $inventoryId, categoryName: $categoryName, categoryDesc: $categoryDesc, isRestricted: $isRestricted)
 }
 `
 export const FIND_ITEMS=gql`
@@ -44,32 +47,32 @@ query ItemsQuery($categoryId: String) {
 `
 
 export const CREATE_ITEM = gql`
-mutation CreateItemMutation($categoryId: String, $name: String, $expiration: String) {
-  createItem(categoryId: $categoryId, name: $name, expiration: $expiration)
+mutation CreateItem($userId: String, $categoryId: String, $name: String, $expiration: String) {
+  createItem(userId: $userId, categoryId: $categoryId, name: $name, expiration: $expiration)
 }
 `
 
 export const ADD_CAPACITY = gql`
-mutation AddCapacity($itemId: String) {
-  addItem(itemId: $itemId)
+mutation AddItem($userId: String, $itemId: String) {
+  addItem(userId: $userId, itemId: $itemId)
 }
 `
 
 export const SUBTRACT_CAPACITY = gql`
-mutation SubtractItem($itemId: String) {
-  subtractItem(itemId: $itemId)
+mutation SubtractItem($userId: String, $itemId: String) {
+  subtractItem(userId: $userId, itemId: $itemId)
 }
 `
 
 export const MODIFY_ITEM_NAME=gql`
-mutation ModifyItemName($itemId: String, $name: String) {
-  modifyItemName(itemId: $itemId, name: $name)
+mutation ModifyItemName($userId: String, $itemId: String, $name: String) {
+  modifyItemName(userId: $userId, itemId: $itemId, name: $name)
 }
 `
 
 export const MODIFY_ITEM_CATEGORY=gql`
-mutation ModifyItemCategory($itemId: String, $categoryId: String) {
-  modifyItemCategory(itemId: $itemId, categoryId: $categoryId)
+mutation ModifyItemCategory($userId: String, $itemId: String, $categoryId: String) {
+  modifyItemCategory(userId: $userId, itemId: $itemId, categoryId: $categoryId)
 }
 `
 
@@ -125,8 +128,8 @@ const FullInvView = () => {
   return(
     <View>
 
-    {!addItemView && <InvView switchViewFunction={toggleAddItem} inventoryId="huh" setAddItemFunction={setAddItemFunciton}/>}
-    {addItemView && <AddItemView switchViewFunction={toggleAddItem} submitFunction={addItemFunction.function}/>}
+    {!addItemView && <InvView userId={"testId"} switchViewFunction={setAddItem} inventoryId="huh" setAddItemFunction={setAddItemFunciton}/>}
+    {addItemView && <AddItemView switchViewFunction={toggleAddItem} submitFunction={(args:any) => {addItemFunction.function(args); toggleAddItem()}}/>}
 
     </View>
   )
@@ -135,8 +138,11 @@ const FullInvView = () => {
 
 
 //the view in question
-const InvView = ({switchViewFunction, inventoryId, setAddItemFunction} : {switchViewFunction:Function, inventoryId:string, setAddItemFunction:Function})=>{
+const InvView = ({switchViewFunction, inventoryId, setAddItemFunction, userId} : {switchViewFunction:Function, inventoryId:string, setAddItemFunction:Function, userId:string})=>{
 
+
+  if (console == null) return <Text>Something went horribly wrong</Text>
+  if (console.log == null) return <Text>Something is still horribly wrong</Text>
   const dummyItem = new InventoryItem("none", "none", "none", "none")
   dummyItem.id = "none"
 
@@ -149,12 +155,11 @@ const InvView = ({switchViewFunction, inventoryId, setAddItemFunction} : {switch
   const [itemList, setItemList] = useState([] as InventoryItem[]);
   const [categoryFormNameInput, setName] = useState("Name");
   const [itemFormNameInput, setItemName] = useState("Name");
-const [categoryFormDescInput, setDesc] = useState("Description");
-const [itemFormCategoryInput, setItemCategory] = useState("Category");
-const [openCatDropDown, setOpenCatDropDown] = useState(false);
-const [editItemFlag, setEditItemFlag] = useState(false);
-const [reloadQueries, setReloadQueries] = useState(true);
-
+  const [categoryFormDescInput, setDesc] = useState("Description");
+  const [itemFormCategoryInput, setItemCategory] = useState("Category");
+  const [openCatDropDown, setOpenCatDropDown] = useState(false);
+  const [editItemFlag, setEditItemFlag] = useState(false);
+  const [reloadQueries, setReloadQueries] = useState(false);
 
   const [chosenItemData, selectItemData] = useState(dummyItem);
 
@@ -166,9 +171,12 @@ const [reloadQueries, setReloadQueries] = useState(true);
 
   console.log("Inventory ID is:" + inventoryId)
   console.log("Chosen category ID is:" + chosenCategory)
+
   const categoryQuery = useQuery(FIND_CATS, {
     variables: {inventoryId: inventoryId}
   });
+
+  
 
   const [addCategoryMutationFunction, addCategoryMutationData] = useMutation(ADD_CATEGORY,
     {
@@ -214,6 +222,8 @@ const [reloadQueries, setReloadQueries] = useState(true);
     variables: {categoryId: chosenCategory}
   })
 
+  console.log("all hooks passed in code");
+
   
 
 
@@ -222,7 +232,7 @@ const [reloadQueries, setReloadQueries] = useState(true);
   const addCategoryHandler=(item: InventoryCategory) => {
     console.log("Adding category " + item.name + " to the database");
     console.log("The inventory key is: " + item.inventoryKey)
-    addCategoryMutationFunction({variables: {"categoryName":item.name, "inventoryId":item.inventoryKey, "categoryDesc":item.description}});
+    addCategoryMutationFunction({variables: {"categoryName":item.name, "inventoryId":item.inventoryKey, "categoryDesc":item.description, userId: userId, isRestricted:false}});
     while (addCategoryMutationData.loading) {
       console.log("Waiting")
     }
@@ -236,7 +246,7 @@ const [reloadQueries, setReloadQueries] = useState(true);
     item.categoryKey=chosenCategory
     console.log("Adding item " + item.name + " to the database");
     console.log("The category key is: " + item.categoryKey)
-    addItemMutationFunction({variables: {"name":item.name, "categoryId":item.categoryKey, "expiration":"none"}});
+    addItemMutationFunction({variables: {"name":item.name, "categoryId":item.categoryKey, "expiration":"none", userId:userId}});
     setReloadQueries(true);
 
     // while (addItemMutationData.loading) {
@@ -251,8 +261,8 @@ const [reloadQueries, setReloadQueries] = useState(true);
     item.name=itemFormNameInput
     console.log("Modifying item " + item.name + " to the database. It has ID: " + item.id);
     console.log("The category key is: " + item.categoryKey)
-    editItemCategoryMutationFunction({variables: {itemId: item.id, categoryId:item.categoryKey}})
-    editItemNameMutationFunction({variables:{itemId:item.id, name:item.name}})
+    editItemCategoryMutationFunction({variables: {itemId: item.id, categoryId:item.categoryKey, userId: userId}})
+    editItemNameMutationFunction({variables:{itemId:item.id, name:item.name, userId: userId}})
     setReloadQueries(true);
 
     // while (addItemMutationData.loading) {
@@ -266,7 +276,7 @@ const [reloadQueries, setReloadQueries] = useState(true);
     
     console.log("Modifying item " + item.name + " to the database. It has ID: " + item.id);
     console.log("The category key is: " + item.categoryKey)
-    addCapacityMutationFunction({variables: {itemId: item.id}});
+    addCapacityMutationFunction({variables: {itemId: item.id, userId: userId}});
     setReloadQueries(true);
 
     // while (addItemMutationData.loading) {
@@ -288,18 +298,30 @@ const [reloadQueries, setReloadQueries] = useState(true);
     
   }
 
+  console.log("all handlers passed in code");
+
 
 
   //console.log(":C");
-  if (editItemCategoryMutationData.loading||editItemNameMutationData.loading||categoryQuery.loading || addCategoryMutationData.loading || findItemsQuery.loading || addItemMutationData.loading || addCapacityMutationData.loading || subtractCapacityMutationData.loading) return <Text>Loading...</Text>
+  if (editItemCategoryMutationData.loading || editItemNameMutationData.loading|| categoryQuery.loading || addCategoryMutationData.loading || findItemsQuery.loading || addItemMutationData.loading || addCapacityMutationData.loading || subtractCapacityMutationData.loading) return <Text>Loading...</Text>
   else if (categoryQuery.error) return <Text>Error: {categoryQuery.error.name} - {categoryQuery.error.message}{"\n"}Caused by: {categoryQuery.error.cause}{"\n"}Extra info: {categoryQuery.error.extraInfo}</Text>
   else if (addCategoryMutationData.error) return <Text>Error: {addCategoryMutationData.error.name} - {addCategoryMutationData.error.message}{"\n"}Caused by: {addCategoryMutationData.error.cause}{"\n"}Extra info: {addCategoryMutationData.error.extraInfo}</Text>
   else if (findItemsQuery.error) return <Text>Error: {findItemsQuery.error.name} - {findItemsQuery.error.message}{"\n"}Caused by: {findItemsQuery.error.cause}{"\n"}Extra info: {findItemsQuery.error.extraInfo}</Text>
+  else if (addCapacityMutationData.error) return <Text>Error: {addCapacityMutationData.error.name} - {addCapacityMutationData.error.message}{"\n"}Caused by: {addCapacityMutationData.error.cause}{"\n"}Extra info: {addCapacityMutationData.error.extraInfo}</Text>
+  else if (addItemMutationData.error) return <Text>Error: {addItemMutationData.error.name} - {addItemMutationData.error.message}{"\n"}Caused by: {addItemMutationData.error.cause}{"\n"}Extra info: {addItemMutationData.error.extraInfo}</Text>
+  else if (subtractCapacityMutationData.error) return <Text>Error: {subtractCapacityMutationData.error.name} - {subtractCapacityMutationData.error.message}{"\n"}Caused by: {subtractCapacityMutationData.error.cause}{"\n"}Extra info: {subtractCapacityMutationData.error.extraInfo}</Text>
+  else if (editItemCategoryMutationData.error) return <Text>Error: {editItemCategoryMutationData.error.name} - {editItemCategoryMutationData.error.message}{"\n"}Caused by: {editItemCategoryMutationData.error.cause}{"\n"}Extra info: {editItemCategoryMutationData.error.extraInfo}</Text>
+  else if (editItemNameMutationData.error) return <Text>Error: {editItemNameMutationData.error.name} - {editItemNameMutationData.error.message}{"\n"}Caused by: {editItemNameMutationData.error.cause}{"\n"}Extra info: {editItemNameMutationData.error.extraInfo}</Text>
+  
+
   
 
 
   const queryCatList = categoryQuery.data.findCatsByInvId; 
   const queryItemList = findItemsQuery.data.findItemsByCategory;
+
+  console.log(JSON.stringify(categoryQuery.data));
+  console.log("the above should never be null");
 
   // console.log("LOOK AT QUERY CAT LIST")
   // console.log(JSON.stringify(queryCatList));
@@ -320,16 +342,22 @@ const [reloadQueries, setReloadQueries] = useState(true);
 
   const backButton = () => {
     if (addingCategory) tryToAdd(false)
-    else if (addingItem) tryToAddItem(false)
+    else if (addingItem) {switchViewFunction(false); tryToAddItem(false)}
     else if (chosenItem != "none") chooseItem({item:dummyItem})
     else if (chosenCategory != "none") selectCategory("none")
 
    
   }
 
-  const seleCat =  new FunctionObject(selectCategory, null, "select Category");
-  const selItem =  new FunctionObject(selectItem, null, "select Item");
-  var count = 0
+
+
+  var seleCat =  new FunctionObject(selectCategory, null, "select Category");
+  var selItem =  new FunctionObject(selectItem, null, "select Item");
+
+
+  console.log("poopy head");
+  
+   var count = 0
   var tempList = [] as InventoryCategory[]
   for (var litem of queryCatList){
     //console.log(litem.categoryName+ "\n" + litem.categoryDesc+  "\n" + litem.inventoryId)
@@ -397,7 +425,7 @@ const [reloadQueries, setReloadQueries] = useState(true);
  //console.log(JSON.stringify(catList));
   //console.assert(queryCatList == catList)
   
-  //console.log("what even")
+  console.log("what even")
   
   //console.log(catList[0].touchFunction.name)
 
@@ -592,7 +620,7 @@ return(
             showItemFolder && <FloatingActionButton 
             name="add item" 
             argument={null} 
-            myFunction={()=>{console.log("I AM CONFUSION");setAddItemFunction({function: addItemHandler});console.log("I SEE THE FUNNY");switchViewFunction();console.log("SHHHHHUT UP")}}/>}  
+            myFunction={()=>{console.log("I AM CONFUSION");setAddItemFunction({function: addItemHandler});console.log("I SEE THE FUNNY");switchViewFunction(true);console.log("SHHHHHUT UP")}}/>}  
 
             
 
