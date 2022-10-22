@@ -9,6 +9,14 @@ export type Props = {
     setIsUpdatingRent: any,
 };
 
+/**
+* @name RentListComponent
+* @param userId takes in id of current user logged in
+* @param isUpdatingRent a boolean for whether or not rent is being updated
+* @param setIsUpdatingRent a function to set isUpdatingRent to true/false
+* @returns React component with a list of rents for each roommate
+* @see RentAdminScreen.tsx where RentListComponent is used
+*/
 const RentListComponent: React.FC<Props> = ({
     userId,
     isUpdatingRent,

@@ -15,7 +15,12 @@ query GetBill($houseId: String!) {
     }
 }`
 
-
+/**
+* @name UpcomingRentComponent
+* @param houseId takes in house id of current user logged in
+* @returns React component with the upcoming monthly rent for the user and its duedate
+* @see RentScreen.tsx where UpcomingRentComponent is used
+*/
 const UpcomingRentComponent: React.FC<Props> = ({
     houseId
 }) => {

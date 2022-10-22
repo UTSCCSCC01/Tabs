@@ -7,7 +7,10 @@ import RentListComponent from '../../fragments/view/RentListComponent';
 import AddRentPopUpComponent from '../../fragments/view/AddRentPopUpComponent';
 import UpdateRentPopUpComponent from '../../fragments/view/UpdateRentPopUpComponent';
 
-
+/**
+* @name RentAdmin
+* @returns React component of list of monthly rents for each roommate
+*/
 const RentAdminScreen: React.FC = () => {
 
     const [isAddingRent, setIsAddingRent] = React.useState(false);
