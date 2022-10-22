@@ -7,6 +7,14 @@ export type Props = {
     whoOwes: string;
 };
 
+/**
+* @name OweComponent
+* @param from takes in id of current user logged in
+* @param amount takes in amount owed to or by the user
+* @param whoOwes takes in whether or not the current user owes or is owed each debt
+* @returns React component that is a single debt container
+* @see RentListComponent.tsx where OweComponent is used
+*/
 const OweContainer: React.FC<Props> = ({
     from,
     amount,

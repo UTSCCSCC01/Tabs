@@ -16,6 +16,10 @@ const switchView = () => {
     console.log('pressed add debt, popup');
 }
 
+/**
+* @name RentScreen
+* @returns React component of list of debts related to current user and ther upcoming monthly rent and due date
+*/
 const RentScreen: React.FC = (
 ) => {
     // for testing purposes, enter houseId, userId here (ex '777', 'Seven Abou') c:

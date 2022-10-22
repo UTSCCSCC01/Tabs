@@ -8,6 +8,14 @@ export type Props = {
     setIsUpdatingRent: any,
 };
 
+
+/**
+* @name UpdateRentPopUpComponent
+* @param isUpdatingRent a boolean for whether or not rent is being updated
+* @param setIsUpdatingRent a function to set isUpdatingRent to true/false
+* @returns React component popup form for entering new monthly rent amount
+* @see RentAdminScreen.tsx where UpdateRentPopUpComponent is used
+*/
 const UpdateRentPopUpComponent: React.FC<Props> = ({
     isUpdatingRent,
     setIsUpdatingRent

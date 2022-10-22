@@ -30,6 +30,15 @@ let popupHeight = 0.4*windowHeight;
 
 */
 
+
+/**
+* @name AddRemoveButton
+* @param closePopup takes in a void function that is used to close the popup
+* @returns the two buttons used to either request money or send to
+* @see DebtPopup to see where this component is used
+*/
+
+
 const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
 
   const onRequestFrom = () => {
@@ -51,6 +60,16 @@ const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
     </View>
   )
 }
+
+
+/**
+* @name DebtPopup
+* @param show takes in a boolean in order to define whether or not the popup should show
+* @param closePopup takes in a void function that is used to close the popup
+* @returns returns a popup that allows users to request or send debts to one another
+* @see RentScreen to see where this component is used
+*/
+
 
 const DebtPopup = (props: {show : boolean, closePopup : (VoidFunction) }) => {
     return (
