@@ -18,7 +18,6 @@ rejectRequest(debtId: $debtId) {
     requestAccepted
 }}`
 
-
 /**
  * Send request to the server to accept debt and handle as necessary
  * 
@@ -44,10 +43,10 @@ export function acceptDebt(debtId: string, name: string | null = null) {
  */
 export function rejectDebt(debtId: string, name: string | null = null) {
     console.log('reject debt ' + debtId)
-    
 
     //rejectDebtCall({ variables: { debtId: debtId} })
     removeId(debtId)
 
    //Toast.show('Debt rejected')
+
 }

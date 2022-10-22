@@ -1,78 +1,21 @@
 import React from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
-//import { acceptDebt, rejectDebt } from '../controller/DebtRequestController';
+import { removeDebt } from '../controller/ActiveDebtController';
 import { folderCommonStyles } from './FolderCommonStyles';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { removeId } from "../view/DebtRequestListComponent"
-import Toast from 'react-native-simple-toast';
 
 export type Props = {
     debtId: string;
     debtFrom: string;
     amount: number;
+    debtTo: string;
 };
 
-const ACCEPT_DEBT = gql`
-mutation acceptRequest($debtId: String){
-acceptRequest(debtId: $debtId) {
-    id
-    requestAccepted
-}
-}`
-
-const REJECT_DEBT = gql`
-mutation rejectRequest($debtId: String){
-rejectRequest(debtId: $debtId) {
-    id
-    requestAccepted
-}}`
-
-
-
-const DebtContainerComponent: React.FC<Props> = ({
+const ActiveDebtChildComponent: React.FC<Props> = ({
   debtId,  
   debtFrom,
-  amount
+  amount,
+  debtTo
 }) => {
-
-
-const [acceptDebtCall] = useMutation(ACCEPT_DEBT)
-const [rejectDebtCall] = useMutation(REJECT_DEBT)
-
-/**
- * Send request to the server to accept debt and handle as necessary
- * 
- * @name acceptDebt
- * @param debtId Id of debt
- * @param name Name of author of debt
- */
-  function acceptDebt(debtId: string, name: string | null = null) {
-  console.log('accept debt ' + debtId)
-
-
-  removeId(debtId)
-  acceptDebtCall({ variables: { debtId: debtId} })
-  //Toast.show('Debt accepted')
-}
-
-/**
-* Send request to the server to reject debt and handle as necessary
-* 
-* @name rejectDebt
-* @param debtId Id of debt
-* @param name Name of author of debt
-*/
- function rejectDebt(debtId: string, name: string | null = null) {
-  console.log('reject debt ' + debtId)
-  
-
-  rejectDebtCall({ variables: { debtId: debtId} })
-  removeId(debtId)
-
-  //Toast.show('Debt rejected')
-}
-
-
   console.log('Debt container created')
   return (
       <View style={[styles.roundedContainer, folderCommonStyles.column, {
@@ -86,7 +29,7 @@ const [rejectDebtCall] = useMutation(REJECT_DEBT)
         </View>
 
         <View style = {[folderCommonStyles.row]}>
-          <Text style={styles.oweLabel}>Requested Debt</Text>
+          <Text style={styles.oweLabel}>You Owe</Text>
         </View>
 
         <View style = {[folderCommonStyles.row]}>
@@ -101,7 +44,7 @@ const [rejectDebtCall] = useMutation(REJECT_DEBT)
           }]}>
 
             <Pressable onPress={() => {
-              rejectDebt(debtId)
+              removeDebt(debtId, debtTo)
             }} style={({ pressed }) => ({
               backgroundColor: '#f55858',
               opacity: pressed ? 0.5 : 1,
@@ -110,27 +53,9 @@ const [rejectDebtCall] = useMutation(REJECT_DEBT)
               paddingBottom: 7,
               paddingHorizontal: 20
             })}>
-              <Text style={styles.viewButton}>Reject</Text>
+              <Text style={styles.viewButton}>Remove</Text>
             </Pressable>
 
-            <View style ={{
-              width: 30
-            }}>
-
-            </View>
-
-            <Pressable onPress={() => {
-              acceptDebt(debtId)
-            }} style={({ pressed }) => ({
-              backgroundColor: '#58f594',
-              opacity: pressed ? 0.5 : 1,
-              borderRadius: 15,
-              padding: 5,
-              paddingBottom: 7,
-              paddingHorizontal: 20
-            })}>
-              <Text style={styles.viewButton}>Accept</Text>
-            </Pressable>
           </View>
 
     </View>
@@ -188,4 +113,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default DebtContainerComponent;
+export default ActiveDebtChildComponent;
