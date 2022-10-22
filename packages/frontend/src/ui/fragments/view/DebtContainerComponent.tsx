@@ -3,8 +3,9 @@ import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 //import { acceptDebt, rejectDebt } from '../controller/DebtRequestController';
 import { folderCommonStyles } from './FolderCommonStyles';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { removeId } from "../view/DebtRequestListComponent"
+import { FIND_REQ_DEBTS, removeId } from "../view/DebtRequestListComponent"
 import Toast from 'react-native-simple-toast';
+import {rentScheduleNotification} from '../notifications'
 
 
 export type Props = {
@@ -36,8 +37,8 @@ const DebtContainerComponent: React.FC<Props> = ({
 }) => {
 
 
-const [acceptDebtCall] = useMutation(ACCEPT_DEBT)
-const [rejectDebtCall] = useMutation(REJECT_DEBT)
+const [acceptDebtCall, acceptData] = useMutation(ACCEPT_DEBT, {refetchQueries:[{query:FIND_REQ_DEBTS}, "findDebtsRequested"],awaitRefetchQueries:true})
+const [rejectDebtCall, rejectData] = useMutation(REJECT_DEBT, {refetchQueries:[{query:FIND_REQ_DEBTS}, "findDebtsRequested"],awaitRefetchQueries:true})
 
 /**
  * Send request to the server to accept debt and handle as necessary
@@ -49,9 +50,13 @@ const [rejectDebtCall] = useMutation(REJECT_DEBT)
   function acceptDebt(debtId: string, name: string | null = null) {
   console.log('accept debt ' + debtId)
 
-
+  acceptDebtCall({ variables: { debtId: debtId} })  
+  console.log(JSON.stringify(acceptData.data))
+  console.log("removing from accept")
   removeId(debtId)
-  acceptDebtCall({ variables: { debtId: debtId} })
+
+  
+  rentScheduleNotification('temp')
   //Toast.show('Debt accepted')
 }
 
@@ -65,10 +70,11 @@ const [rejectDebtCall] = useMutation(REJECT_DEBT)
  function rejectDebt(debtId: string, name: string | null = null) {
   console.log('reject debt ' + debtId)
   
-
   rejectDebtCall({ variables: { debtId: debtId} })
-  removeId(debtId)
-
+  console.log(JSON.stringify(rejectData.data))
+    console.log("removing from reject")
+    removeId(debtId)
+  
   //Toast.show('Debt rejected')
 }
 

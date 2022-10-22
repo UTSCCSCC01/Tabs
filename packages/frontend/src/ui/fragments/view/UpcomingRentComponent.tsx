@@ -2,6 +2,8 @@ import { gql, useQuery } from '@apollo/client';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import {rentScheduleNotification} from '../notifications'
+import * as Notifications from 'expo-notifications';
 
 export type Props = {
     houseId: string;
@@ -16,6 +18,7 @@ query GetBill($houseId: String!) {
 }`
 
 
+
 const UpcomingRentComponent: React.FC<Props> = ({
     houseId
 }) => {
@@ -25,7 +28,7 @@ const UpcomingRentComponent: React.FC<Props> = ({
         fetchPolicy: 'network-only',
         variables: { houseId: houseId},
     });
-
+    const notifId = rentScheduleNotification(data.dateDue);
     useFocusEffect(
         React.useCallback(() => {
           refetch();
@@ -34,7 +37,7 @@ const UpcomingRentComponent: React.FC<Props> = ({
 
     if (loading) return <Text>Loading ...</Text>;
     if (error) return <Text>Error</Text>;
-
+    
     return data.getBill.map((element: { amount: number, dateDue: string}) => {
         return (
             <View style={styles.rentContainer}>

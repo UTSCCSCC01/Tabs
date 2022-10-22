@@ -14,6 +14,7 @@ export default gql`
         getDebtsFrom(
             debtFrom: String!
         ): [Debt!]!
+        findDebtsRequested:[Debt!]!
     }
 
     extend type Query {

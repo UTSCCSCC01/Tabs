@@ -1,6 +1,6 @@
-import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable, FlatList, RefreshControl } from 'react-native';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import DebtContainerComponent from './DebtContainerComponent';
 import RentContainerComponent from './RentContainerComponent';
 
@@ -12,6 +12,20 @@ export let removeId = (debtId: string) => {
     console.log('No function available yet')
 }
 
+export const FIND_REQ_DEBTS = gql`
+query FindDebtsRequested {
+    findDebtsRequested {
+      id
+      debtTo
+      debtFrom
+      amount
+      description
+      dateCreated
+      requestAccepted
+    }
+  }`
+
+
 /**
  * Display the list of debt requests
  * 
@@ -22,56 +36,34 @@ export let removeId = (debtId: string) => {
 const DebtRequestListComponent: React.FC<Props> = ({
     userId
 }) => {
+    const [debtList, setDebtList] = React.useState(["empty"] as any[])
     
     // Mock data, update with backend connection in future sprint
-    let debtRequestListData = [
-        {
-            id: '1',
-            user: 'Bob Jones',
-            amount: 700,
-        },
-        {
-            id: '2',
-            user: 'John Smith',
-            amount: 500,
-        },
-        {
-            id: '3',
-            user: 'Seven Abou',
-            amount: 2130,
-        },
-        {
-            id: '4',
-            user: 'Dre Assi',
-            amount: 600,
-        },
-        {
-            id: '5',
-            user: 'Bing Bong',
-            amount: 777,
-        },
-    ];
-
-    const [debtList, setDebtList] = React.useState(debtRequestListData)
+    const {loading, error, data} = useQuery(FIND_REQ_DEBTS)
+    if (loading) return <Text>Loading</Text>
+    else if (error) return <Text>Error</Text>
+    console.log(JSON.stringify(data))
+    if (debtList.length != data.findDebtsRequested.length) setDebtList(data.findDebtsRequested)
 
     removeId = (debtId: string) => {
+        console.log("UFRRUBFBUURHFURBFURFRBU");
         let filteredList = debtList.filter(
-            it => it.id != debtId
+            (           it: { id: string; })=> it.id != debtId
         )
 
         setDebtList(filteredList)
     }
-
+    console.log("here i am once again")
     return (
         <FlatList style={styles.listContainer}
             contentContainerStyle = {{ paddingBottom: 20 }}
-            data = {debtList as readonly any[] | null | undefined}
+            data = {debtList}
             renderItem = {({item}) => 
-                <DebtContainerComponent 
+                (<DebtContainerComponent 
                     debtId = {item.id} 
-                    debtFrom = {item.user} 
+                    debtFrom = {item.debtFrom} 
                     amount = {item.amount} 
-                /> 
+                /> )
             }
         />
     );
