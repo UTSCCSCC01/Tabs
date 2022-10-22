@@ -34,9 +34,6 @@ Note: Trello issues will be labeled as `inventory`, `navigation`, and `rent`, re
     - TABS-84 Connect Inventory frontend to backend
 
 
-- I as a roommate should get reminders about all upcoming food expiration dates so my roommates and I can use the food and prevent waste
-    - TABS-13 Reminders of Upcoming Expiration dates
-
 - I as a roommate should be able to access a menu which states how much money is owed between myself and other roommates (in real time) so that I do not have to keep track of it manually
     - TABS-85 Debt Page Frontend/Backend Connection
 
