@@ -4,18 +4,19 @@ import { FolderItemData } from './FolderItemData';
 import { styles } from './mainViewStyles';
 import { BorderIcon } from './BorderIcon';
 import { InventoryItem } from './InventoryItem';
+import { InventoryCategory } from './InventoryCategory';
 
 //i explained this
 export const FolderListItem = ({item}:{item:FolderItemData}) => {
   
-
+  console.log("LOADING FOLDER LIST ITEM")
 
   if (item instanceof InventoryItem){
     console.log("Will soon say hey listen!");
-    console.log(item.text);
+    console.log(item.name);
     
     return (
-      <TouchableOpacity onPress={() => item.touchFunction.myFunction({item})}>
+      <TouchableOpacity style={{flex:1}} onPress={() => item.touchFunction.myFunction({item})}>
         <View style={styles.flexPage}>
 
       
@@ -24,11 +25,15 @@ export const FolderListItem = ({item}:{item:FolderItemData}) => {
 
 
 
-          {item.capacity == -1 && <Text style={styles.splitTextNormal}>{item.text}</Text>}
-          {item.capacity != -1 && <Text style={styles.splitTextNormal}>{item.text}: {item.capacity}</Text>}
+          {item.capacity == -1 && <Text style={styles.splitTextNormal}>{item.name}</Text>}
+          {item.capacity != -1 && <Text style={styles.splitTextNormal}>{item.name}: {item.capacity}</Text>}
 
         </View>
+        <View style={styles.rowFlex2}>
         <Text style={styles.splitTextNormal}>{item.getTags()}</Text>
+        <Text style={styles.splitTextNormal}>Expires: {item.expirationDate}</Text>
+        </View>
+        
         </View>
       </TouchableOpacity>
 
@@ -36,23 +41,50 @@ export const FolderListItem = ({item}:{item:FolderItemData}) => {
 
   }
 
-  else 
-  return (
-    <TouchableOpacity onPress={() => item.touchFunction.myFunction(item.touchFunction.argument)}>
+  else if (item instanceof InventoryCategory){
+    console.log("not gonna say hey listen ever");
+    console.log(item.name)
+    console.log(item.touchFunction.argument)
+    return (
+      <TouchableOpacity style={{flex:1, flexGrow:1}} onPress={() => {item.touchFunction.myFunction(item.id)}}>
+  
+  
+       
+        <View style={styles.folderListItem}>
+          {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
+  
+  
+  
+          <Text style={styles.splitTextNormal}>{item.name}</Text>
+          
+  
+  
+        </View>
+      </TouchableOpacity>
+  
+    );
+  }
+  else{
+    
+    return (
+      <TouchableOpacity style={{flex:1}} onPress={() => {item.touchFunction.myFunction(item.touchFunction.argument)}}>
+  
+  
+       
+        <View style={styles.folderListItem}>
+          {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
+  
+  
+  
+          <Text style={styles.splitTextNormal}>{item.name}</Text>
+          
+  
+  
+        </View>
+      </TouchableOpacity>
+  
+    );
 
-
-     
-      <View style={styles.folderListItem}>
-        {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
-
-
-
-        <Text style={styles.splitTextNormal}>{item.text}</Text>
-        
-
-
-      </View>
-    </TouchableOpacity>
-
-  );
+  }
+  
 };

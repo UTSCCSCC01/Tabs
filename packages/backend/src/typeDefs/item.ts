@@ -12,21 +12,26 @@ export default gql`
   }
   extend type Mutation {
     createItem(
+      userId: String
       categoryId: String,
       name: String,
       expiration: String
     ): String
     addItem(
+      userId: String
       itemId:String
     ): Boolean
     subtractItem(
+      userId: String
       itemId:String
     ): Boolean
     modifyItemName(
+      userId: String
       itemId: String,
       name: String
     ): Boolean 
     modifyItemCategory(
+      userId: String
       itemId:String,
       categoryId:String
     ): Boolean

@@ -56,6 +56,32 @@ Note: Trello issues will be labeled as `inventory`, `navigation`, and `rent`, re
 - Extra Tasks:
     - Bug fixes, and some clean up for future code (simplifying imports)
 
+## Acceptance Criteria
+- Features must work based on what they are (generally)
+
+
+- I as a roommate should be able to modify the inventory so that it accurately represents the quantities of items we all have
+    - requests of adding or subtracting values of an item  to the backend
+    - frontend changes depending is what is on the backend
+    - creating an item sends a request to create an object in the backend
+
+- I as a roommate should get reminders about all upcoming food expiration dates so my roommates and I can use the food and prevent waste
+    - Notifications should be scheduled to be able to be pushed
+
+- I as a roommate should be able to access a menu which states how much money is owed between myself and other roommates (in real time) so that I do not have to keep track of it manually
+    - Backend should be able to call data for the amounts owed
+    - Frontend should display the money owed after requesting data from the backend
+
+- I as an accommodation admin should be able to view and set the monthly rent of all roommates and its due date so that we all know who needs to pay what and when they need to do it (Frontend)
+    - show a list of monthly rents of the house members after requesting for backend data
+
+- I as a roommate should be able to form debt agreements with other roommates to signify that one of us owes the other money
+    - backend end should have a way to flag if an agreement is accepted, rejected or done nothing at all to it
+    - frontend should be able to display debt agreements and see who is requesting a debt agreement after calling for debt objects
+
+- I as a roommate should be able to have a section in the inventory for items that I am not willing to share so that other roommates can avoid unknowingly using them
+    - backend should restrict non-admins from modifying the data of the setion
+    - frontend should not show categories that are restricted
 
 ## Spikes
 - Some bugs/coding style issues are carried onto this sprint, so it needed to be fixed before working on the new user stories

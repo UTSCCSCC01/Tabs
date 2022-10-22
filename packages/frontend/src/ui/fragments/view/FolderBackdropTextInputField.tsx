@@ -1,5 +1,5 @@
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
-import { ReactString } from '../../String';
+//import { ReactString } from '../../String';
 import { folderCommonStyles } from './FolderCommonStyles';
 
 /**
@@ -45,7 +45,7 @@ export const FolderBackdropTextInputField = ({info, backRefFunction}: {info: Fol
                 <TextInput
                     style = {[folderBackdropTextInputFieldStyles.text]}
                     placeholder = {info.hint}
-                    onChange = {(input) => backRefFunction(input)}
+                    onChangeText = {(text:string) => backRefFunction(text)}
                 />
             </View>
         </View>

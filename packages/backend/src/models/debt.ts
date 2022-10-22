@@ -9,6 +9,7 @@ const DebtSchema = new Schema(
         amount: Number,
         description: String,
         dateCreated: String,
+        requestAccepted: Boolean
     }
 )
 
