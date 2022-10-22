@@ -38,15 +38,43 @@ We hope to help individuals to stay connected to their roommates and improve the
 ## Installation![image](https://user-images.githubusercontent.com/35664551/189512452-fb19dbb7-2e2b-407c-aee5-a607dc0c6b88.png)
 
 <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a> and <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">Node.js</a> must be installed on your computer to clone and run this application.
+
+> In the root directory, add a `.env` file with the ports you want to use.
+
+> In the `packages/backend` folder, add a `.env` file with your database connection string.
+
 From your command line:
 ```bash
 # Clone this repository
 $ git clone https://github.com/UTSCCSCC01/Tabs
 ```
 
-### Frontend
+### Run with Docker
 
-[ TODO: add `app.json` file ]
+```bash
+# cd into the frontend directory
+$ cd Tabs/packages/frontend
+
+# Install dependencies
+$ npm install
+
+# cd into the backend directory
+$ cd Tabs/packages/backend
+
+# Install dependencies
+$ npm install
+```
+
+```bash
+# cd back to root directory and build and run with Docker
+$ docker compose build
+$ docker compose run
+```
+
+Open Expo app on a simulator and type in the address shown in terminal
+
+### Run Frontend & Backend Separately
+#### Frontend
 
 ```bash
 # cd into the frontend directory
@@ -66,9 +94,7 @@ Alternatively, if you are on macOS and have XCode & XCode Command Line Tools ins
 $ npm run ios
 ```
 
-### Backend
-
-Create a `.env` file in the `backend` directory with the variables in `.env.template`. Add your database connection string to the file.
+#### Backend
 
 ```bash
 # cd into the backend directory
@@ -83,11 +109,6 @@ $ npm run build
 # Run backend
 $ npm start
 ```
-
-### Sprint 0 Setup
-As of Sprint 0, upon running the frontend and backend, the user will see a button and text input. Clicking the button will add a resource to the database.
-
-<img src="https://i.postimg.cc/3wHh5Pdm/button.gif">
 
 ## Tech Stack![image](https://user-images.githubusercontent.com/35664551/189512440-7b840683-7aef-4a8a-a6b2-d7c23eec514c.png)
 ### Frontend
@@ -116,7 +137,6 @@ As of Sprint 0, upon running the frontend and backend, the user will see a butto
 ### Gitflow
 All contributions should conform to the <a href="https://www.youtube.com/watch?v=1SXpE08hvGs&start=19">Gitflow</a> workflow.
 <ol>
-  <li>Fork this repository</li>
   <li>Create/Checkout a feature/debug branch</li>
   <li>Commit and push changes</li>
   <li>Submit a pull request</li>
@@ -125,7 +145,7 @@ All contributions should conform to the <a href="https://www.youtube.com/watch?v
 ### Branch Naming Convention
 Branches should be the Jira ticket number followed by its name, separated by dashes.
 
-- `{ticket#}-{issue name}`
+- `{ticket#}/{issue name}`
 
 ### Ticketing & Pull Requests
 - Jira is used for ticketing
