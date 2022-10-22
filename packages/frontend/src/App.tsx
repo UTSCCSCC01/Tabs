@@ -60,7 +60,7 @@ const App = () => (
         <Tab.Screen name="Home" component={HomePage} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
-        <Tab.Screen name="Notifications" component={DebtScreenView} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Notifications" component={RentAdminScreen} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
       </Tab.Navigator>
