@@ -172,17 +172,37 @@ async function changeCatDescFunc(userId: String, categoryId: String, categoryDes
 }
 
 async function findCatsByInvIdFunc(inventoryId: String): Promise<CategoryDocument[]> {
+    let res:String[]
     const catIds = await Category.find({inventoryId: inventoryId})
-    .then(() => {
+    .then((catIds) => {
+        
         console.log("Find categoryIds by inventoryId query was successful")
+        return catIds
     })
     .catch(() => {
         console.log("Find categoryIds by inventoryId query was unsuccessful")
         return null
     })
-
     return catIds
+    
 }
+
+
+// async function findCatsByInvIdFunc(inventoryId: String): Promise<CategoryDocument[]> {
+//     let res: String[];
+//     console.log("AAAAAAAAAAA")
+//     const catIds = await Category.find({inventoryId: inventoryId})
+//     .then((catIds) => {
+ 
+//         console.log("Find categoryIds by inventoryId query was successful")
+//         return catIds
+//     })
+//     .catch(() => {
+//         console.log("Find categoryIds by inventoryId query was unsuccessful")
+//         return null
+//     })
+//     return catIds
+// }
 
 async function hasPermissionFunc(userId: String, categoryId: String): Promise<Boolean> {
     let x

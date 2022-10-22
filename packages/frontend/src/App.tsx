@@ -91,8 +91,7 @@ const App = () => (
 
   const Tab = createBottomTabNavigator();
 
-  function MyTabs() {
-   // registerForPushNotificationsAsync();
+  const MyTabs=()=>{
     return (
       <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>
         <Tab.Screen name="Calendar" component={FullInvView} options={{tabBarIcon: () => 
@@ -101,7 +100,7 @@ const App = () => (
         <Tab.Screen name="HomePage" component={HomePage} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
-        <Tab.Screen name="Notifications" component={DebtRequestsView} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Notifications" component={FullInvView} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
       </Tab.Navigator>

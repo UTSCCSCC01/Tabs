@@ -10,7 +10,7 @@ async function hasPermissionFunc(userId: String, categoryId: String): Promise<Bo
     const res = await Category.findById(categoryId)
     .then((res) => {
         console.log("categoryId was found")
-        if (res.isRestricted == false ||
+        if (res.isRestricted == false || res.isRestricted == null ||
            res.isRestricted == true && (res.owner == userId || res.admins.includes(userId))) {
             x=true
         } else {
