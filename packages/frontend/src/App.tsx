@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomePage from "./ui/pages/view/homePage";
 import RentScreen from "./ui/pages/view/RentScreen";
+
 import DebtRequestsView from "./ui/pages/view/DebtRequestsView";
 import RentAdminScreen from "./ui/pages/view/RentAdminScreen";
 import * as Device from 'expo-device';
@@ -54,6 +55,7 @@ async function registerForPushNotificationsAsync() {
 
   return token;
 }
+
 const client = new ApolloClient({
     uri: 'http://127.0.0.1:8000/graphql',
     name: 'test',
@@ -100,7 +102,9 @@ const App = () => (
         <Tab.Screen name="HomePage" component={HomePage} options={{tabBarIcon: () => (<View>
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
-        <Tab.Screen name="Notifications" component={FullInvView} options={{tabBarIcon: () => (<View>
+
+        <Tab.Screen name="Notifications" component={RentAdminScreen} options={{tabBarIcon: () => (<View>
+
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
       </Tab.Navigator>

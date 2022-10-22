@@ -18,7 +18,12 @@ query GetDebts($debtFrom: String!, $debtTo: String!) {
         debtId, debtTo, debtFrom, amount
     }
 }`
-
+/**
+* @name DebtListComponent
+* @param userId takes in id of current user logged in
+* @returns React component with a list of debts owed by and to the current user
+* @see RentScreen.tsx where DebtListComponent is used with example userId
+*/
 const DebtListComponent: React.FC<Props> = ({
     userId
 }) => {

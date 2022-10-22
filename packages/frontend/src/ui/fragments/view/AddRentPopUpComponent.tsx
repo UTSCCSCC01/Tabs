@@ -8,8 +8,20 @@ export type Props = {
     setIsAddingRent: any,
 };
 
-const AddRentPopUpComponent = ({setIsAddingRent}: {setIsAddingRent:Function}) => {
-  
+
+/**
+* @name AddRentPopUpComponent
+* @param isAddingRent a boolean for whether or not rent is being added
+* @param setIsAddingRent a function to set isAddingRent to true/false
+* @returns React component popup form for entering new roomate monthly rent amount
+* @see RentAdminScreen.tsx where AddRentPopUpComponent is used
+*/
+const AddRentPopUpComponent: React.FC<Props> = ({
+    isAddingRent,
+    setIsAddingRent
+}) => {
+
+
     const submitHandle = () => {
         console.log("ADDED RENT");
         setIsAddingRent(false);
