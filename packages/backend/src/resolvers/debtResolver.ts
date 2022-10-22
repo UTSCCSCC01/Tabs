@@ -22,12 +22,16 @@ const resolvers = {
             ):Promise<DebtDocument[]> => {
             return Debt.find(args);
         },
-        
+        findDebtsRequested: async(root, 
+            args
+            ):Promise<DebtDocument[]> => {
+            return await Debt.find({requestAccepted: null});
+        },
         getDebts: async(root,
             args: {debtFrom: String, debtTo: String},
             ):Promise<DebtDocument[]> => {
                 console.log("getting debts")
-                return await Debt.find( { debtTo: args.debtTo , debtFrom: args.debtFrom} )
+                return (await Debt.find( { debtTo: args.debtTo } )).concat(await Debt.find( { debtFrom: args.debtFrom } ));
             }
     },
 
@@ -45,7 +49,7 @@ const resolvers = {
             if (args.requestAccepted != null){
                 console.log('fail requestAccepted already set')
             }
-            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: true}).then((debt) => {debt.requestAccepted = true; return debt}).catch(()=>{console.log("fail to accept req")})
+            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: true}).then((debt) => {debt.requestAccepted = true; return debt}).catch(()=>{console.log("fail to accept req"); return null})
             
             return debt
         },
@@ -53,7 +57,7 @@ const resolvers = {
             if (args.requestAccepted != null){
                 console.log('fail requestAccepted already set')
             }
-            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: false}).then((debt)=>{debt.requestAccepted = false; return debt}).catch(()=>{console.log( 'fail to reject req')})
+            const debt = await Debt.findByIdAndUpdate(args.debtId,{requestAccepted: false}).then((debt)=>{debt.requestAccepted = false; return debt}).catch(()=>{console.log( 'fail to reject req');return null})
             return debt
         },
         undoRequest: async(root, args:{debtId:String, requestAccepted: Boolean}): Promise<DebtDocument | void> =>{
