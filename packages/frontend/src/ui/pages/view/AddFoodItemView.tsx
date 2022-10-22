@@ -19,7 +19,13 @@ const icon = `<svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns=
 
 
 
-
+/**
+* @name AddItemView
+* @param switchViewFunction takes a function that is used to return to main view
+* @param submitFunction takes a function that submits the form and passes the data to database
+* @returns Form to add an item to a category previously chosen in main inventory view.
+* @see inventoryView to see where this component is used
+*/
 const AddItemView = ({switchViewFunction, submitFunction} : {switchViewFunction:Function, submitFunction:Function}) => {
   console.log("LOADED ADD ITEM VIEW")
   return (

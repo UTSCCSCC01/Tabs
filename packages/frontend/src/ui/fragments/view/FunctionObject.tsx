@@ -1,5 +1,4 @@
 export class FunctionObject {
-
   myFunction: Function;
   argument: any;
   name: string;

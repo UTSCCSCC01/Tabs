@@ -31,7 +31,7 @@ export const FolderListItem = ({item}:{item:FolderItemData}) => {
         </View>
         <View style={styles.rowFlex2}>
         <Text style={styles.splitTextNormal}>{item.getTags()}</Text>
-        <Text style={styles.splitTextNormal}>Expires: {item.expirationDate}</Text>
+        {/*<Text style={styles.splitTextNormal}>Expires: {item.expirationDate}</Text>*/}
         </View>
         
         </View>
