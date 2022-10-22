@@ -8,6 +8,7 @@ export type Props = {
     setIsAddingRent: any,
 };
 
+
 /**
 * @name AddRentPopUpComponent
 * @param isAddingRent a boolean for whether or not rent is being added
@@ -19,6 +20,7 @@ const AddRentPopUpComponent: React.FC<Props> = ({
     isAddingRent,
     setIsAddingRent
 }) => {
+
 
     const submitHandle = () => {
         console.log("ADDED RENT");

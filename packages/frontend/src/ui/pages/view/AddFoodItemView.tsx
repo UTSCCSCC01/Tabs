@@ -18,8 +18,10 @@ const icon = `<svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns=
 
 
 
-const AddItemView = ({switchViewFunction} : {switchViewFunction:Function}) => {
 
+
+const AddItemView = ({switchViewFunction, submitFunction} : {switchViewFunction:Function, submitFunction:Function}) => {
+  console.log("LOADED ADD ITEM VIEW")
   return (
     <View style={{
       backgroundColor: "#85C4CF",
@@ -40,7 +42,7 @@ const AddItemView = ({switchViewFunction} : {switchViewFunction:Function}) => {
           </SvgXml>
         </View>
 
-        <FolderBackdropListFragment goBack={switchViewFunction}>
+        <FolderBackdropListFragment submitFunction={submitFunction} goBack={switchViewFunction}>
 
         </FolderBackdropListFragment>
     </View>

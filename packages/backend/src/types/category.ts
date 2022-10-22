@@ -5,4 +5,7 @@ export interface CategoryDocument extends Document {
     categoryId: String
     categoryName: String
     categoryDesc: String
+    isRestricted: Boolean
+    owner: String
+    admins: String[]
 }

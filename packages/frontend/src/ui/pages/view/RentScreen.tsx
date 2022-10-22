@@ -36,7 +36,9 @@ const RentScreen: React.FC = (
             <FloatingActionButton 
             name="add item" 
             argument={1} 
-            myFunction={switchView}/>  
+            myFunction={switchView}/>
+
+            
         </View>
   );
 };

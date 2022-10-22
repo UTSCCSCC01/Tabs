@@ -8,6 +8,7 @@ export type Props = {
     setIsUpdatingRent: any,
 };
 
+
 /**
 * @name UpdateRentPopUpComponent
 * @param isUpdatingRent a boolean for whether or not rent is being updated

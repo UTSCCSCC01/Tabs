@@ -4,7 +4,6 @@ import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity, Dimensions } from 'react-native';
 import WebView from 'react-native-webview';
-import { ReactString } from '../../String';
 import { FolderBackdropActionButton, FolderBackdropActionButtonArgument } from './FolderBackdropActionButton';
 import { FolderBackdropTextInputField, FolderBackdropTextInputFieldArgument } from './FolderBackdropTextInputField';
 import { folderCommonStyles } from './FolderCommonStyles';
@@ -55,8 +54,8 @@ export const FolderBackdropListFragment = (props: any) => {
 
     const [addItem, {loading, error}] = useMutation(ADD_ITEM);
     const addItemHandler=(item: InventoryItem) => {
-      console.log("Adding item " + item.text + " to the database");
-      addItem({variables: {"itemName":item.text, "capacity":item.capacity, "categoryKey":item.categoryKey}});
+      console.log("Adding item " + item.name + " to the database");
+      addItem({variables: {"itemName":item.name, "capacity":item.capacity, "categoryKey":item.categoryKey}});
       props.goBack(false);
       
     }
@@ -109,7 +108,7 @@ export const FolderBackdropListFragment = (props: any) => {
                         </Text>
                     </View>
 
-                    <FolderBackdropActionButton info = {buttonInfo} buttonFunction={addItemHandler} argument={new InventoryItem(itemName, itemType, itemExpirationDate, "test")}/>
+                    <FolderBackdropActionButton info = {buttonInfo} buttonFunction={()=>{props.submitFunction(new InventoryItem(itemName, itemType, itemExpirationDate, props.categoryId))}} argument={new InventoryItem(itemName, itemType, itemExpirationDate, props.categoryId)}/>
 
                 </View>
             </View>
