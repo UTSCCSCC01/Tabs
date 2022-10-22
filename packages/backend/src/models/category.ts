@@ -6,7 +6,10 @@ const categorySchema = new Schema(
         inventoryId: String,
         categoryId: String,
         categoryName: String,
-        categoryDesc: String
+        categoryDesc: String,
+        isRestricted: Boolean,
+        owner: String,
+        admins: [String]
     }
 )
 

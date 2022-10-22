@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
 import FolderIcon from '../../../assets/images/folder';
-import InvView from './inventoryView';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Directions, TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -13,6 +12,7 @@ import NotificationsPage from './notificationsPage';
 import AppliancesPage from './appliancesPage';
 import ToDoListPage from './ToDoListPage';
 import RentScreen from './RentScreen';
+import FullInvView from './inventoryView';
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
     return (
@@ -103,7 +103,7 @@ const Home = () => {
     return (
             <Stack.Navigator initialRouteName='HomePage'>
                 <Stack.Screen name = 'Home' component = {HomePage}/>
-                <Stack.Screen name = 'Inventory' component = {InvView} />
+                <Stack.Screen name = 'Inventory' component = {FullInvView} />
                 <Stack.Screen name = 'Rent' component = {RentScreen} />
                 <Stack.Screen name = 'Notifications' component = {NotificationsPage} />
                 <Stack.Screen name = 'Calendar' component = {CalendarPage} />

@@ -38,6 +38,7 @@ let popupHeight = 0.4*windowHeight;
 * @see DebtPopup to see where this component is used
 */
 
+
 const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
 
   const onRequestFrom = () => {
@@ -60,6 +61,7 @@ const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
   )
 }
 
+
 /**
 * @name DebtPopup
 * @param show takes in a boolean in order to define whether or not the popup should show
@@ -67,6 +69,7 @@ const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
 * @returns returns a popup that allows users to request or send debts to one another
 * @see RentScreen to see where this component is used
 */
+
 
 const DebtPopup = (props: {show : boolean, closePopup : (VoidFunction) }) => {
     return (

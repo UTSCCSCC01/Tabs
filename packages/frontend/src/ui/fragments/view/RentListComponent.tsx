@@ -5,10 +5,14 @@ import RentContainerComponent from './RentContainerComponent';
 
 export type Props = {
     userId: string;
+    isUpdatingRent: boolean,
+    setIsUpdatingRent: any,
 };
 
 const RentListComponent: React.FC<Props> = ({
-    userId
+    userId,
+    isUpdatingRent,
+    setIsUpdatingRent
 }) => {
     // Mock data, update with backend connection in future sprint
         const DATA = [
@@ -42,7 +46,7 @@ const RentListComponent: React.FC<Props> = ({
             <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     data={DATA as readonly any[] | null | undefined}
-                    renderItem={({item}) => <RentContainerComponent user={item.user} amount={item.amount}/> }
+                    renderItem={({item}) => <RentContainerComponent user={item.user} amount={item.amount} isUpdatingRent={isUpdatingRent} setIsUpdatingRent={setIsUpdatingRent}/> }
             />
         );
 }

@@ -15,6 +15,7 @@ const resolvers = {
         getBill: async(root,
             args: {houseId: String}
             ):Promise<BillDocument[]> => {
+            console.log("calling getBill")
             return Bill.find(args);
         },
     },
