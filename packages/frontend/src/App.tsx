@@ -80,7 +80,10 @@ const client = new ApolloClient({
 
 
 
-
+/**
+  * @name App
+  * @returns Component containing entire application
+  */
 const App = () => (
     <ApolloProvider client={client}>
       <NavigationContainer theme={myTheme}>
@@ -93,6 +96,11 @@ const App = () => (
 
   const Tab = createBottomTabNavigator();
 
+
+  /**
+  * @name MyTabs
+  * @returns Component to display and navigate between the home page, calendar page (not implemented yet) and notifications page (not implemented yet)
+  */
   const MyTabs=()=>{
     return (
       <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>

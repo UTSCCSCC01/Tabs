@@ -8,10 +8,6 @@ export type Props = {
     setIsAddingRent: any,
 };
 
-<<<<<<< HEAD
-const AddRentPopUpComponent = ({setIsAddingRent}: {setIsAddingRent:Function}) => {
-  
-=======
 
 /**
 * @name AddRentPopUpComponent
@@ -26,7 +22,6 @@ const AddRentPopUpComponent: React.FC<Props> = ({
 }) => {
 
 
->>>>>>> bfce900c2e622273156f58ac0c5035a1fb69e1a0
     const submitHandle = () => {
         console.log("ADDED RENT");
         setIsAddingRent(false);

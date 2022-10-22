@@ -12,6 +12,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import AddItemView from './AddFoodItemView';
 import {MyHeader, FunctionObject, HeaderData, DescBoxData, FolderItemData, InventoryItem,FolderItemList,FolderSvgForm,FormItemList,FormItem, styles, TextForm, FolderFormSvg, FloatingActionButton, FolderSvg,DoubleDescBox,FolderBackdropActionButton, FolderBackdropActionButtonArgument,InventoryCategory} from '../../fragments/view'
 
+
+
+
+
 export const FIND_CATS = gql`
 query Query($inventoryId: String) {
   findCatsByInvId(inventoryId: $inventoryId) {
@@ -76,7 +80,11 @@ mutation ModifyItemCategory($userId: String, $itemId: String, $categoryId: Strin
 }
 `
 
-
+/**
+* @name ItemDataChosen
+* @param item takes an inventory item that holds the data to be displayed
+* @returns Component to display text within item detail view
+*/
 const ItemDataChosen = ({item}: {item:InventoryItem}) => {
   if (item == null) return <View></View>
   return (
@@ -120,6 +128,11 @@ const data2 = [dbd1, dbd2];
 
 END BLOCK OF OLD CODE */
 
+
+/**
+* @name FullInvView
+* @returns Component holding the entire inventory page. Swaps between different sections depending on actions taken.
+*/
 const FullInvView = () => {
   const [addItemView, setAddItem] = useState(false);
   const toggleAddItem = () => {setAddItem(!addItemView)}
@@ -137,7 +150,14 @@ const FullInvView = () => {
 }
 
 
-//the view in question
+/**
+* @name InvView
+* @param switchViewFunction takes a function that allows the parent view to swap this view with the add item view
+* @param inventoryId takes a string representing the id of the current inventory
+* @param setAddItemFunction takes a state reference function that allows the parent view to pass in the submit function for adding a new item
+* @param userId takes a string representing the user's Id in order to pass it into relevant queries
+* @returns Component to display every portion of the inventory view besides the add item form
+*/
 const InvView = ({switchViewFunction, inventoryId, setAddItemFunction, userId} : {switchViewFunction:Function, inventoryId:string, setAddItemFunction:Function, userId:string})=>{
 
 
