@@ -15,6 +15,7 @@ module.exports = function(api) {
             '.android.tsx',
             '.ios.js',
             '.ios.tsx',
+            '.svg'
           ],
           root: ['./src'],
         },
