@@ -27,7 +27,7 @@ const RentScreen: React.FC = (
     return (
         <View style={styles.container}>
             <HeaderComponent screenName='Rent & Finance'/>
-            <UpcomingRentComponent houseId='777'/>
+            <UpcomingRentComponent houseId='777' userId='Roommate No.1'/>
 
             <SafeAreaView style={styles.scrollContainer}>
                 <DebtListComponent userId='Bob Jones'/>
