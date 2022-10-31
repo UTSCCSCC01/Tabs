@@ -7,55 +7,55 @@ import * as Notifications from 'expo-notifications';
 
 export type Props = {
     houseId: string;
+    userId: string;
 };
 
 const GET_BILL =
 gql`
-query GetBill($houseId: String!) {
-    getBill(houseId: $houseId) {
+query GetBill($houseId: String!, $userId: String!) {
+    getBill(houseId: $houseId, userId: $userId) {
       amount, dateDue
     }
 }`
 
-
 /**
 * @name UpcomingRentComponent
 * @param houseId takes in house id of current user logged in
+* @param userId takes in user id of current user logged in
 * @returns React component with the upcoming monthly rent for the user and its duedate
 * @see RentScreen.tsx where UpcomingRentComponent is used
 */
 const UpcomingRentComponent: React.FC<Props> = ({
-    houseId
+    houseId,
+    userId
 }) => {
 
     const { loading, data, refetch, error } = useQuery(GET_BILL, {
         // houseId variable here
         fetchPolicy: 'network-only',
-        variables: { houseId: houseId},
+        variables: { houseId: houseId, userId: userId},
     });
-    const notifId = rentScheduleNotification(data.dateDue);
-    useFocusEffect(
-        React.useCallback(() => {
-          refetch();
-        }, []),
-      );
+    // const notifId = rentScheduleNotification(data.dateDue);
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //       refetch();
+    //     }, []),
+    //   );
 
     if (loading) return <Text>Loading ...</Text>;
     if (error) return <Text>Error</Text>;
-    
-    return data.getBill.map((element: { amount: number, dateDue: string}) => {
-        return (
-            <View style={styles.rentContainer}>
-                <View style={[styles.upcomingRentContainer, styles.roundedContainer]}>
-                    <Text style={styles.upcomingLabel}>Upcoming Rent</Text>
-                    <Text style={styles.amountLabel}>${element.amount}</Text>
-                </View>
-                <View style={styles.rentDueContainer}>
-                    <Text style={styles.dueLabel}>{element.dateDue}</Text>
-                </View>
+
+    return (
+        <View style={styles.rentContainer}>
+            <View style={[styles.upcomingRentContainer, styles.roundedContainer]}>
+                <Text style={styles.upcomingLabel}>Upcoming Rent</Text>
+                <Text style={styles.amountLabel}>${data.getBill["amount"]}</Text>
             </View>
-        );
-      })[0];
+            <View style={styles.rentDueContainer}>
+                <Text style={styles.dueLabel}>{data.getBill["dateDue"]}</Text>
+            </View>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
