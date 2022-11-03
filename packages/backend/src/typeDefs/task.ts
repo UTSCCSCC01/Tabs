@@ -14,18 +14,19 @@ export default gql`
 
     extend type Mutation {
         addTask(
-            taskList: String!
-            task: String
-            dateDue: String
-            author: String
+            taskListId: String!,
+            author: String,
+            task: String,
+            dateDue: String,
+            houseId: String
         ):String  
         deleteTask(
             taskId:String
         ):Boolean
         editTask(
-            taskId: String!
+            taskId: String!,
             task: String,
-            dateDue: String,
+            dateDue: String
         ): Boolean
         doneTask(
             taskId: String
@@ -34,12 +35,12 @@ export default gql`
     }
   
     type Task {
-        houseId: String
-        taskListId:String
-        author: String
-        task: String
-        dateDue: String
-        done: Boolean
+        houseId: String,
+        taskListId:String,
+        author: String,
+        task: String,
+        dateDue: String,
+        doneStatus: Boolean
     }
         
 `

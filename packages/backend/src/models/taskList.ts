@@ -7,10 +7,11 @@ const TaskListSchema = new Schema(
         owner: String,
         name: String,
         done: String,
+        dateCreated:String
     }
 )
 
 
 
-const TaskList = model<TaskListDocument>('Inventory', TaskListSchema)
+const TaskList = model<TaskListDocument>('TaskList', TaskListSchema)
 export default TaskList

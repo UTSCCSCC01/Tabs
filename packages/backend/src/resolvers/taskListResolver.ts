@@ -9,12 +9,12 @@ const resolvers = {
     Query: {
         getTaskList: async(root,
             args: {taskId:String}
-            ):Promise<Boolean> => {
+            ):Promise<TaskListDocument> => {
             console.log("calling getTaskList")
 
             const task = await Task.findOne(args)
-            .then(()=>{console.log("found task");return true})
-            .catch(()=>{ console.log("cant find task list"); return false})
+            .then((task)=>{console.log("found task");return task})
+            .catch((task)=>{ console.log("cant find task list"); return task})
 
             return task
         },
@@ -23,7 +23,7 @@ const resolvers = {
     Mutation: {
         addTaskList: async(
             root,
-            args: {userId:String, dateCreated: String}
+            args: {userId:String}
         ): Promise<Boolean> =>{
 
             const task = await TaskList.create(args)
@@ -38,8 +38,9 @@ const resolvers = {
         ): Promise<Boolean> =>{
 
             const task = await TaskList.findByIdAndDelete(args)
-            console.log("Successfuly deleted a Task List to server")
-            return true
+            .then(()=>{console.log("Successfuly deleted a Task List to server"); return true})
+            .catch(()=>{console.log("Failure to delete a Task List to server"); return false});
+            return task
         }
     }
 }

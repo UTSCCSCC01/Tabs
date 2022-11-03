@@ -6,6 +6,6 @@ export interface TaskDocument extends Document {
     author: String,
     task: String,
     dateDue: String,
-    done: Boolean
+    doneStatus: Boolean
 }
 //interface

@@ -5,5 +5,6 @@ export interface TaskListDocument extends Document {
     owner: String,
     name: String,
     done: String,
+    dateCreated:String
 }
 //interface

@@ -8,11 +8,12 @@ const TaskSchema = new Schema(
         author: String,
         task: String,
         dateDue: String,
-        done: Boolean
+        dateCreated:String,
+        doneStatus: Boolean
     }
 )
 
 
 
-const Task = model<TaskDocument>('Inventory', TaskSchema)
+const Task = model<TaskDocument>('Task', TaskSchema)
 export default Task

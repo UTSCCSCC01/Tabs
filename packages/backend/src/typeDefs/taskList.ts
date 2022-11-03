@@ -5,23 +5,23 @@ export default gql`
     extend type Query {
         getTaskList(
             taskListId: String
-        ): Boolean
+        ): TaskList
     }
 
     extend type Mutation {
         addTaskList(
-            userId:String,
-            dateCreated: String,
+            userId:String
         ):Boolean
         deleteTaskList(
-            taskId: String
+            taskId: String!
         ):Boolean
     }
   
     type TaskList {
-        houseId: String
-        owner: String
-        name: String
+        houseId: String,
+        owner: String,
+        name: String,
+        dateCreated: String,
         done: String
     }
         
