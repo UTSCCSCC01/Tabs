@@ -11,7 +11,7 @@ export default gql`
     extend type Mutation {
         addTaskList(
             userId:String
-        ):Boolean
+        ):TaskList
         deleteTaskList(
             taskId: String!
         ):Boolean
