@@ -15,7 +15,7 @@ const GET_DEBTS =
 gql`
 query GetDebts($debtFrom: String!, $debtTo: String!) {
     getDebts(debtFrom: $debtFrom, debtTo: $debtTo) {
-        debtId, debtTo, debtFrom, amount
+      debtTo, debtTo, debtFrom, amount
     }
 }`
 /**

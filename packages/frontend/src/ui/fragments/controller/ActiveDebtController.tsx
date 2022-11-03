@@ -13,5 +13,5 @@ export function removeDebt(debtId: string, name: string | null = null) {
 
     removeId(debtId)
 
-    Toast.show('Debt removed')
+    // Toast.show('Debt removed')
 }

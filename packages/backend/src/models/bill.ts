@@ -5,6 +5,7 @@ const BillSchema = new Schema(
     {   
         billId: String,
         houseId: String,
+        userId: String,
         name: String,
         amount: Number,
         split: [String],
