@@ -15,6 +15,7 @@ import RentScreen from './RentScreen';
 import FullInvView from './inventoryView';
 import DebtScreenView from './DebtScreenView';
 import RentAdminScreen from './RentAdminScreen';
+import ViewAppliancesView from './ViewAppliancesView';
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
     return (
@@ -109,7 +110,7 @@ const Home = () => {
                 <Stack.Screen name = 'Rent' component = {RentAdminScreen} />
                 <Stack.Screen name = 'Notifications' component = {DebtScreenView} />
                 <Stack.Screen name = 'Calendar' component = {CalendarPage} />
-                <Stack.Screen name = 'Appliances' component = {AppliancesPage} />
+                <Stack.Screen name = 'Appliances' component = {ViewAppliancesView} />
                 <Stack.Screen name = 'To Do' component = {ToDoListPage} />
             </Stack.Navigator>
     )
