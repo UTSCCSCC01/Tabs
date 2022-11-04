@@ -1,6 +1,7 @@
 import { TaskDocument } from '../types'
 import { Task } from '../models'
 import { Types } from 'mongoose'
+import taskList from '../typeDefs/taskList'
 
 
 const resolvers = {
@@ -24,11 +25,11 @@ const resolvers = {
         addTask: async(
             root,
             args: {taskStringId: String, owner: String, task: String, dateDue:String}
-        ): Promise<Boolean> =>{
+        ): Promise<TaskDocument|void> =>{
 
             const task = await Task.create(args)
-            .then(()=>{console.log("Successfuly added Task to db");return true})
-            .catch(()=>{console.log("Failure to add task to db"); return false})
+            .then((task)=>{console.log("Successfuly added Task to db");return task})
+            .catch(()=>{console.log("Failure to add task to db"); return null})
            
             return task
         },

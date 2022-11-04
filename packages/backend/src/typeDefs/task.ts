@@ -19,7 +19,7 @@ export default gql`
             task: String,
             dateDue: String,
             houseId: String
-        ):String  
+        ):Task  
         deleteTask(
             taskId:String
         ):Boolean

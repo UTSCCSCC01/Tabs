@@ -24,13 +24,13 @@ const resolvers = {
         addTaskList: async(
             root,
             args: {userId:String}
-        ): Promise<Boolean> =>{
+        ): Promise<TaskListDocument> =>{
 
-            const task = await TaskList.create(args)
-            .then(()=>{console.log("Successfuly added a Task List to server"); return true})
-            .catch(()=>{console.log("Failure to add a Task List to server");return false})
+            const taskList = await TaskList.create(args)
+            .then((taskList)=>{console.log("Successfuly added a Task List to server"); return taskList})
+            .catch(()=>{console.log("Failure to add a Task List to server");return null})
             
-            return task
+            return taskList
         },
         deleteTaskList: async(
             root,
