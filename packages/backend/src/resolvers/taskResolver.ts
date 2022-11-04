@@ -1,5 +1,6 @@
 import { TaskDocument } from '../types'
 import { Task, TaskList } from '../models'
+import task from '../typeDefs/task';
 
 
 
@@ -22,11 +23,15 @@ const resolvers = {
             args: {owner: String}): Promise<TaskDocument[]> =>{
                 console.log("calling getAllOwnerTasks")
                 return Task.find(args);
+        },
+        getAllSubtasks: async(root, 
+            args: {parentId: String}): Promise<TaskDocument[]> =>{
+                return Task.find(args)
         }
     },
 
     Mutation: {
-        addTask: async(
+        createTask: async(
             root,
             args: {taskStringId: String, owner: String, task: String, dateDue:String}
         ): Promise<TaskDocument> =>{
@@ -36,6 +41,18 @@ const resolvers = {
             .catch(()=>{console.log("Failure to add task to db"); return empty})
            
             return task
+        },
+        createSubtask: async(
+            root,
+            args: {parentId: String, owner: String, task:String, dateDue: String, houseId: String}
+        ): Promise<TaskDocument> =>{
+            const empty:TaskDocument = new Task()
+            const subtask = await Task.create(args)
+            .then((task)=>{console.log("Successfuly added Task to db");return task})
+            .catch(()=>{console.log("Failure to add task to db"); return empty})
+
+            return subtask
+
         },
         deleteTask: async(
             root,
