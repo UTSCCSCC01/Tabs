@@ -50,7 +50,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                     backgroundColor: '#DD6363',
                                 }}>
                                     <SvgUri 
-                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974124905123860/Vector_6.svg"}
+                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974252592312340/Vector_10.svg"}
                                         style ={{
                                             width: '100%',
                                             height: '100%',
@@ -72,12 +72,12 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                     backgroundColor: '#8E7CD8',
                                 }}>
                                    <SvgUri 
-                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974162687402034/Vector_7.svg"}
+                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974222460432394/Vector_9.svg"}
                                         style ={{
                                             width: '100%',
                                             height: '100%',
                                             top: '30%',
-                                            left: '30%'
+                                            left: '38%'
                                         }}
                                     ></SvgUri> 
                                 </View>
@@ -114,12 +114,12 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                     backgroundColor: '#7DBA6E',
                                 }}>
                                     <SvgUri 
-                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974222460432394/Vector_9.svg"}
+                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974124905123860/Vector_6.svg"}
                                         style ={{
                                             width: '100%',
                                             height: '100%',
                                             top: '30%',
-                                            left: '38%'
+                                            left: '30%'
                                         }}
                                     ></SvgUri>
                                 </View>
@@ -134,7 +134,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                     backgroundColor: '#34ACBC',
                                 }}>
                                     <SvgUri 
-                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974252592312340/Vector_10.svg"}
+                                        uri={""}
                                         style ={{
                                             width: '100%',
                                             height: '100%',
@@ -144,7 +144,6 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                     ></SvgUri>
                                 </View>
                             </TouchableOpacity>
-
                             <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('To Do')}>
                                 <View style={{
                                     borderRadius: 1000,
@@ -153,6 +152,15 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                     top: "20%",
                                     backgroundColor: '#CE7DB8',
                                 }}>
+                                    <SvgUri 
+                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974162687402034/Vector_7.svg"}
+                                        style ={{
+                                            width: '100%',
+                                            height: '100%',
+                                            top: '30%',
+                                            left: '30%'
+                                        }}
+                                    ></SvgUri>
                                 </View>
                             </TouchableOpacity>
                         </View>
