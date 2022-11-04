@@ -59,7 +59,7 @@ const resolvers = {
             const task = await Task.findByIdAndUpdate(args.taskId, {task: args.task, dateDue: args.dateDue})
             .then((task)=>{
                 console.log("Successfuly edited Task to db");
-                task.task = args.taskId
+                task.task = args.task
                 task.dateDue = args.dateDue
                 return task})
             .catch(()=>{
