@@ -1,1 +1,1 @@
-export * from './rentNotifs'
+export * from './createNotifs'
