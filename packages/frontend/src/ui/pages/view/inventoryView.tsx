@@ -12,7 +12,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import AddItemView from './AddFoodItemView';
 import {MyHeader, FunctionObject, HeaderData, DescBoxData, FolderItemData, InventoryItem,FolderItemList,FolderSvgForm,FormItemList,FormItem, styles, TextForm, FolderFormSvg, FloatingActionButton, FolderSvg,DoubleDescBox,FolderBackdropActionButton, FolderBackdropActionButtonArgument,InventoryCategory} from '../../fragments/view'
 
-
+import Checkbox from 'expo-checkbox';
+import { folderCommonStyles } from '../../fragments/view/FolderCommonStyles';
 
 
 
@@ -136,12 +137,12 @@ END BLOCK OF OLD CODE */
 const FullInvView = () => {
   const [addItemView, setAddItem] = useState(false);
   const toggleAddItem = () => {setAddItem(!addItemView)}
-  const [addItemFunction, setAddItemFunciton] = useState({function:new Function})
+  const [addItemFunction, setAddItemFunction] = useState({function:new Function})
   console.log("Modifying FullInvView");
   return(
     <View>
 
-    {!addItemView && <InvView userId={"testId"} switchViewFunction={setAddItem} inventoryId="huh" setAddItemFunction={setAddItemFunciton}/>}
+    {!addItemView && <InvView userId={"testId"} switchViewFunction={setAddItem} inventoryId="huh" setAddItemFunction={setAddItemFunction}/>}
     {addItemView && <AddItemView switchViewFunction={toggleAddItem} submitFunction={(args:any) => {addItemFunction.function(args); toggleAddItem()}}/>}
 
     </View>
@@ -182,6 +183,9 @@ const InvView = ({switchViewFunction, inventoryId, setAddItemFunction, userId} :
   const [reloadQueries, setReloadQueries] = useState(false);
 
   const [chosenItemData, selectItemData] = useState(dummyItem);
+
+  
+  const [checkboxValue, checkboxUI] = useState(false);
 
   const chooseItem = ({item}: {item:InventoryItem})=>{
     selectItemData(item);
@@ -252,7 +256,7 @@ const InvView = ({switchViewFunction, inventoryId, setAddItemFunction, userId} :
   const addCategoryHandler=(item: InventoryCategory) => {
     console.log("Adding category " + item.name + " to the database");
     console.log("The inventory key is: " + item.inventoryKey)
-    addCategoryMutationFunction({variables: {"categoryName":item.name, "inventoryId":item.inventoryKey, "categoryDesc":item.description, userId: userId, isRestricted:false}});
+    addCategoryMutationFunction({variables: {"categoryName":item.name, "inventoryId":item.inventoryKey, "categoryDesc":item.description, userId: userId, isRestricted:item.isRestricted}});
     while (addCategoryMutationData.loading) {
       console.log("Waiting")
     }
@@ -381,7 +385,7 @@ const InvView = ({switchViewFunction, inventoryId, setAddItemFunction, userId} :
   var tempList = [] as InventoryCategory[]
   for (var litem of queryCatList){
     //console.log(litem.categoryName+ "\n" + litem.categoryDesc+  "\n" + litem.inventoryId)
-    tempList[count] = new InventoryCategory(litem.categoryName, litem.categoryDesc, litem.inventoryId)
+    tempList[count] = new InventoryCategory(litem.categoryName, litem.categoryDesc, litem.isRestricted, litem.inventoryId)
     tempList[count].touchFunction = seleCat;
     tempList[count].id = litem.id
     count++;
@@ -475,18 +479,25 @@ const folderItemList2 = new FolderItemList([folderItemA, folderItemB], "Items");
 const categoryFormName = <TextForm input={categoryFormNameInput} title={ "Category Name"} hintText={"My Category"} setText={setName}/>
 const categoryFormDesc = <TextForm input={categoryFormDescInput} title={ "Description"} hintText={"My Category"} setText={setDesc}/>
 
+const categoryPrivCheckbox = 
+<View style = {[folderCommonStyles.row, {marginTop: 40, justifyContent: "center"}]}>
+    <Checkbox style = {{paddingRight: 15, backgroundColor: "white"}} value={checkboxValue} onValueChange = {checkboxUI}/>
+    <Text style={{fontSize: 15}}>Designate Private</Text>
+</View>
+
 const buttonInfo: FolderBackdropActionButtonArgument = {
   title: "Add Category"
 }
-const submitButton = <FolderBackdropActionButton buttonFunction={addCategoryHandler} argument={new InventoryCategory(categoryFormNameInput, categoryFormDescInput, inventoryId)} info = {buttonInfo}/>
+const submitButton = <FolderBackdropActionButton buttonFunction={addCategoryHandler} argument={new InventoryCategory(categoryFormNameInput, categoryFormDescInput, checkboxValue, inventoryId)} info = {buttonInfo}/>
 
 const formItemA = new FormItem("Category Name", "idk", categoryFormName);
 const formItemB = new FormItem("Description", "idk2", categoryFormDesc);
+const formItemCheckbox = new FormItem("Designate Private", "PrivCheckbox", categoryPrivCheckbox);
 const formItemC = new FormItem("Add Category", "idk3", submitButton);
 
 //console.log("what even")
 
-const formItemList = new FormItemList([formItemA, formItemB, formItemC], "Add Category");
+const formItemList = new FormItemList([formItemA, formItemB, formItemCheckbox, formItemC], "Add Category");
 
 const buttonInfo2: FolderBackdropActionButtonArgument = {
   title: "Edit"
@@ -507,9 +518,9 @@ const buttonInfo5: FolderBackdropActionButtonArgument = {
 //console.log("what even")
 
 const selItemData = <ItemDataChosen item={chosenItemData}/>
-const editItemButton = <FolderBackdropActionButton buttonFunction={() =>{console.log("pls stop touching my tralala this is harrassment");setEditItemFlag(true);console.log("editFlag: "+ editItemFlag)}} argument={new InventoryCategory(categoryFormNameInput, categoryFormDescInput, "testInv")} info = {buttonInfo2}/>
-const addToItemButton = <FolderBackdropActionButton buttonFunction={(filler:any) =>{addCapacityHandler(chosenItemData)}} argument={new InventoryCategory(categoryFormNameInput, categoryFormDescInput, "testInv")} info = {buttonInfo3}/>
-const subtractFromItemButton = <FolderBackdropActionButton buttonFunction={(filler:any) =>{subtractCapacityHandler(chosenItemData)}} argument={new InventoryCategory(categoryFormNameInput, categoryFormDescInput, "testInv")} info = {buttonInfo4}/>
+const editItemButton = <FolderBackdropActionButton buttonFunction={() =>{console.log("pls stop touching my tralala this is harrassment");setEditItemFlag(true);console.log("editFlag: "+ editItemFlag)}} argument={new InventoryCategory(categoryFormNameInput, categoryFormDescInput, checkboxValue, "testInv")} info = {buttonInfo2}/>
+const addToItemButton = <FolderBackdropActionButton buttonFunction={(filler:any) =>{addCapacityHandler(chosenItemData)}} argument={new InventoryCategory(categoryFormNameInput, categoryFormDescInput, checkboxValue, "testInv")} info = {buttonInfo3}/>
+const subtractFromItemButton = <FolderBackdropActionButton buttonFunction={(filler:any) =>{subtractCapacityHandler(chosenItemData)}} argument={new InventoryCategory(categoryFormNameInput, categoryFormDescInput, checkboxValue, "testInv")} info = {buttonInfo4}/>
 
 
 

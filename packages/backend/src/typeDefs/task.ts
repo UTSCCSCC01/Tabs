@@ -28,8 +28,9 @@ export default gql`
             task: String,
             dateDue: String
         ): Boolean
-        doneTask(
-            taskId: String
+        toggleDoneTask(
+            taskId: String,
+            doneStatus: Boolean
         ):Boolean
 
     }
