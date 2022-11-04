@@ -33,7 +33,7 @@ const resolvers = {
     Mutation: {
         createTask: async(
             root,
-            args: {taskStringId: String, owner: String, task: String, dateDue:String}
+            args: {taskListId: String, owner: String, task: String, dateDue:String}
         ): Promise<TaskDocument> =>{
             const empty:TaskDocument = new Task()
             const task = await Task.create(args)

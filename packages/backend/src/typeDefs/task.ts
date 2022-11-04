@@ -16,7 +16,7 @@ export default gql`
 
     extend type Mutation {
         createTask(
-            taskListId: String!,
+            taskListId: String,
             owner: String,
             task: String,
             dateDue: String,
@@ -34,6 +34,7 @@ export default gql`
         ): Boolean
         editTask(
             taskId: String!,
+            taskListId: String
             task: String,
             dateDue: String
         ): Task
