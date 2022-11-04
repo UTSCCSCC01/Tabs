@@ -15,6 +15,8 @@ import ViewAppliancesPageItem from '../../fragments/view/view_appliance_page/Vie
 import ViewAppliancesPageList from '../../fragments/view/view_appliance_page/ViewAppliancesPageList';
 import ApplianceHeaderComponent from '../../fragments/view/ApplianceHeaderComponent';
 import DebtPopup from './debtPopup';
+import AddAppliancePopup from './addAppliancePopup';
+import { isAdmin } from '../../../data/AdminUtils';
   
 const a = () => {
 
@@ -28,22 +30,40 @@ const a = () => {
  * @returns React component
  */
 const ViewAppliancesView: React.FC = () => {
-  console.log('View appliances page')
-    // MOCK data update this with backend connection in future sprint
+  let [showAddPopup, editAddPopup] = React.useState(false)
+  let userId = 'Bob Jones'
+
+  if (isAdmin(userId)) {
     return (
 
       <View style={styles.container}>
         <ApplianceHeaderComponent screenName='Appliances'/>
 
-        <ViewAppliancesPageList userId='Bob Jones'/>
+        <ViewAppliancesPageList userId={userId}/>
         
         <FloatingActionButton 
           name="add item" 
           argument={1} 
-          myFunction={a}
+          myFunction={() => {
+            editAddPopup(!showAddPopup)
+          }}
         />
-    </View>
-  );
+        
+        <AddAppliancePopup show={showAddPopup} closePopup={() => {
+          editAddPopup(false)
+        }}/>
+      </View>
+    );
+    } else {
+      return (
+        <View style={styles.container}>
+        <ApplianceHeaderComponent screenName='Appliances'/>
+
+        <ViewAppliancesPageList userId={userId}/>
+
+      </View>
+    )
+  }
 };
 
 const styles = StyleSheet.create({
