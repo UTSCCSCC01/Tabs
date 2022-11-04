@@ -39,7 +39,7 @@ let popupHeight = 0.3*windowHeight;
 */
 
 
-const AddRemoveButton = (props: {closePopup : ((VoidFunction))}) => {
+const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
 
   const cancel = () => {
     props.closePopup()

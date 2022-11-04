@@ -16,6 +16,13 @@ export type ListProps = {
   scheduled: ScheduledTime;
 };
 
+/**
+ * Displays the scheduled times for the given appliance
+ * 
+ * @name ViewApplicationPageExtraInfo
+ * @param scheduled List of scheduled times
+ * @returns React element
+ */
 const ViewApplicationPageExtraInfo: React.FC<ListProps> = ({scheduled}) => {
   let start = new Date(scheduled.startTime * 1000)
   let end = new Date(scheduled.endTime * 1000)
@@ -37,6 +44,17 @@ const ViewApplicationPageExtraInfo: React.FC<ListProps> = ({scheduled}) => {
   )
 }
 
+/**
+ * Displays the appliance item
+ * 
+ * @name ViewAppliancesPageItem
+ * @param applianceId
+ * @param userId
+ * @param name
+ * @param type
+ * @param scheduled
+ * @returns React element
+ */
 const ViewAppliancesPageItem: React.FC<Props> = ({
   applianceId,
   userId,
