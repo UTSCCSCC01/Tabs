@@ -309,5 +309,22 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 24,
     fontFamily: "Arial"
+  },
+
+  smallBlueText:{
+    fontSize: 14,
+    fontFamily: "Arial",
+    color: "#34ACBC",
+  },
+
+  taskListItem:{
+    color: "rgba(33, 33, 33, 0.9)",
+    borderRadius: 20,
+    flex: 1,
+    flexDirection: 'row',
+    maxHeight: 150,
+    minHeight: "10%",
   }
-});
+
+    
+  });

@@ -21,7 +21,7 @@ export const FolderListItem = ({item}:{item:FolderItemData}) => {
 
       
         <View style={styles.folderListItem}>
-          {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
+          {item.iconName != "none" && <BorderIcon iconName={item.iconName}></BorderIcon>}
 
 
 
@@ -51,7 +51,7 @@ export const FolderListItem = ({item}:{item:FolderItemData}) => {
   
        
         <View style={styles.folderListItem}>
-          {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
+          {item.iconName != "none" && <BorderIcon iconName={item.iconName}></BorderIcon>}
   
   
   
@@ -72,7 +72,7 @@ export const FolderListItem = ({item}:{item:FolderItemData}) => {
   
        
         <View style={styles.folderListItem}>
-          {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
+          {item.iconName != "none" && <BorderIcon iconName={item.iconName}></BorderIcon>}
   
   
   
