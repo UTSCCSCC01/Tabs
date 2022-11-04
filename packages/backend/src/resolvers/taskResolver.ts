@@ -16,7 +16,7 @@ const resolvers = {
         getAllTasks: async(root,
             args: {taskListId: String}
             ):Promise<TaskDocument[]> => {
-            console.log("calling getBill")
+            console.log("calling getAllTasks")
             return Task.find(args);
         }
     },
