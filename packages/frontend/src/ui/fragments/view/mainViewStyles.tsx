@@ -23,7 +23,8 @@ export const styles = StyleSheet.create({
       height: 3
     },
     shadowRadius: 3,
-    shadowOpacity: 0.5
+    shadowOpacity: 0.5,
+    maxHeight: 150,
   },
 
   myHeader: {
@@ -318,12 +319,36 @@ export const styles = StyleSheet.create({
   },
 
   taskListItem:{
-    color: "rgba(33, 33, 33, 0.9)",
-    borderRadius: 20,
+
+    backgroundColor: "#212121E5",
+    zIndex: 1,
+    borderRadius: 8,
     flex: 1,
     flexDirection: 'row',
     maxHeight: 150,
-    minHeight: "10%",
+    minHeight: 80,
+    width:"100%",
+    justifyContent: "flex-start",
+    marginTop: "4%",
+    padding: "4%",
+
+    alignContent: "center",
+    alignItems: "center",
+
+
+  },
+
+  thumbFormLightBlue: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 52,
+    paddingBottom: 34,
+    gap: 20,
+    overflowY: 'scroll',
+    background: '#F2F1F1CC',
+    borderRadius: 60,
   }
 
     

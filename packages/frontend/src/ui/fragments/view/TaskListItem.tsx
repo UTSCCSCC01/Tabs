@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { FolderItemData } from './FolderItemData';
 import { styles } from './mainViewStyles';
@@ -20,6 +20,8 @@ export const TaskListItem = ({taskDone, taskName, dueDate, author, subtasks, tas
   
   console.log("LOADING TASK LIST ITEM");
 
+  const [doneTask, toggleDoneTask] = useState(taskDone);
+
   const [toggleCompletionMutationFunction, toggleCompletionMutationData] = useMutation(TOGGLE_COMPLETION,
     {
       refetchQueries: [],
@@ -27,13 +29,14 @@ export const TaskListItem = ({taskDone, taskName, dueDate, author, subtasks, tas
       
     });
 
-    React.useEffect(()=>{taskDone = !taskDone;}, [toggleCompletionMutationData.called])
+    //React.useEffect(()=>{toggleDoneTask(!doneTask)}, [toggleCompletionMutationData.called])
 
 
     
    const toggleCompletionHandler = (value:boolean) => {
 
     toggleCompletionMutationFunction({variables: {taskId: taskId}})
+    toggleDoneTask(!doneTask)
     
 
    }
@@ -41,23 +44,27 @@ export const TaskListItem = ({taskDone, taskName, dueDate, author, subtasks, tas
    if (toggleCompletionMutationData.loading) return <Text>Loading...</Text>
   
 
-  
+   console.log("\n\nShould render task list item now with name: ", taskName + "\n\n\n")
+
     return (
 
   
+        <View>
        
         <View style={styles.taskListItem}>
-          <Checkbox onValueChange={toggleCompletionHandler}/>
+
+          <Checkbox style = {{marginRight: 15, borderRadius: 5 , height:"70%", width:"15%" , backgroundColor: "white"}} value={doneTask} onValueChange={toggleCompletionHandler}/>
   
+            
   
-  
-          <Text style={styles.myNormalText}>{taskName}</Text>
+          <Text style={styles.whiteText1}>{taskName}</Text>
           {subtasks!= null && subtasks.length > 0 && 
           <Text style={styles.smallBlueText}>Swipe to View List</Text>
           }
           
   
   
+        </View>
         </View>
 
   

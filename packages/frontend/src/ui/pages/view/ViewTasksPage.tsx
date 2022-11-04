@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import {MyHeader, DescBoxData, styles, DoubleDescBox, FloatingActionButton} from '../../fragments/view'
 import TaskListComponent from '../../fragments/view/TaskListComponent';
+import { TaskListFolder } from '../../fragments/view/TaskListFolder';
 
 
 
@@ -53,13 +54,13 @@ END BLOCK OF OLD CODE */
 * @name FullViewTaskaPage
 * @returns Component holding the entire view tasks page. Swaps between different sections depending on actions taken.
 */
-const FullViewTaskaPage = () => {
+const FullViewTasksPage = () => {
  
   const [viewPortId, setViewPortId] = useState(0)
   return(
     <View>
 
-    {viewPortId == 0 && <ViewTasksPage inventoryId='testId' userId='testUser' setViewportId={setViewPortId}></ViewTasksPage>}
+    {viewPortId == 0 && <ViewTasksPage houseId='testHouse' userId='testUser' setViewportId={setViewPortId}></ViewTasksPage>}
     </View>
   )
 
@@ -70,10 +71,10 @@ const FullViewTaskaPage = () => {
 * @name ViewTasksPage
 * @returns Component to display every roommate's current taks, both completed and in progress.
 */
-const ViewTasksPage = ({inventoryId, userId, setViewportId} : {inventoryId:string, userId:string, setViewportId: Function})=>{
+const ViewTasksPage = ({houseId, userId, setViewportId} : {houseId:string, userId:string, setViewportId: Function})=>{
 
 
-    console.log("Inventory ID is:" + inventoryId);
+    console.log("house ID is:" + houseId);
     const ADD_TASK_VIEWPORT_ID = 1;
 
   //HOOKS
@@ -178,7 +179,7 @@ return(
             //I then rendered the title and list of folder items onto it 
             }
 
-            <TaskListComponent userId={userId} inventoryId={inventoryId}/>
+            <TaskListFolder userId={userId} houseId={houseId} swipeFunction={(bool:boolean) => toggleDoubleDescBox(bool)}/>
 
             <FloatingActionButton myFunction= {setViewportId} argument= {ADD_TASK_VIEWPORT_ID} name="Add Task"/>
  
@@ -202,6 +203,6 @@ return(
 
 
 //only export, could make this default but eh...
-export default FullViewTaskaPage
+export default FullViewTasksPage
 
 

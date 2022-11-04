@@ -1,27 +1,42 @@
 import { gql, useQuery } from '@apollo/client';
-import React from 'react';
-import { Button, StyleSheet, Text, View, Image, Pressable, FlatList, RefreshControl } from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, Text, View, Image, Pressable, FlatList, RefreshControl, ScrollView } from 'react-native';
 import RentContainerComponent from './RentContainerComponent';
 import { TaskListItem } from './TaskListItem';
 
-export type Props = {
-    houseId: string;
-    isUpdatingRent: boolean,
-    setIsUpdatingRent: any,
-};
+// export type Props = {
+//     houseId: string;
+//     isUpdatingRent: boolean,
+//     setIsUpdatingRent: any,
+// };
 
-const wait = (timeout: number | undefined) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
+// const wait = (timeout: number | undefined) => {
+//     return new Promise(resolve => setTimeout(resolve, timeout));
+// }
 
-const GET_TASKS =
+const GET_TASK_LIST =
 gql`
-query GetTasks($userId: String!) {
-    getTasks(userId: $userId) {
-      
+query GetTaskListByUser($owner: String) {
+    getTaskListByUser(owner: $owner) {
+      houseId
+      owner
+      name
+      dateCreated
+      done
     }
 }`
 
+const GET_ALL_TASKS=gql`
+query GetAllTasks($taskListId: String!) {
+    getAllTasks(taskListId: $taskListId) {
+      houseId
+      taskListId
+      author
+      task
+      dateDue
+      doneStatus
+    }
+  }`
 
 
 /**
@@ -32,8 +47,11 @@ query GetTasks($userId: String!) {
 * @returns React component with a list of rents for each roommate
 * @see RentAdminScreen.tsx where RentListComponent is used
 */
-const TaskListComponent = ({userId, inventoryId}: {userId: string, inventoryId: string}) => {
-    const { loading, data, refetch, error } = useQuery(GET_TASKS, {
+const TaskListComponent = ({userId, houseId}: {userId: string, houseId: string}) => {
+
+    const [taskListId, setTaskListId] = useState("none");
+
+    const getTaskListQuery   = useQuery(GET_TASK_LIST, {
         variables: { userId: userId },
     });
 
@@ -44,13 +62,64 @@ const TaskListComponent = ({userId, inventoryId}: {userId: string, inventoryId: 
     //     wait(1000).then(() => setRefreshing(false));
     //   }, []);
 
-    if (loading) return <Text>Loading ...</Text>;
-    if (error) return <Text>{error.message}</Text>;
+    const getAllTasksQuery = useQuery(GET_ALL_TASKS, {
+        variables: { taskListId: taskListId },
+    });
 
-    return data.getBills.map((element: { }) => {
+    
+    const queries = [getTaskListQuery, getAllTasksQuery]
 
-        const DATA = data.getBills;
+    for (var i of queries){
+        if (i.loading || i.loading) return <Text>Loading ...</Text>;
+        if (i.error) return <Text style={{fontSize: 8}}>{i.error.message}:{"\n" + JSON.stringify(i.error)}</Text>;
+        console.log(JSON.stringify(i.data) + "\nThis is data... hoping it is not null");
 
+    }
+
+    // if (getTaskListQuery.data.getTaskListByUser != null && getAllTasksQuery.data.getAllTasks == null || getAllTasksQuery.data.getAllTasks.length < 1){
+    //     if (getTaskListQuery.data.getTaskListByUser != null){
+    //         setTaskListId(getTaskListQuery.data.getTaskListByUser[0].id);
+    //         getAllTasksQuery.refetch(
+    //             { taskListId: taskListId }
+    //         )
+    //     }
+    // }
+
+    const userTaskLists = getTaskListQuery.data.getTaskListByUser;
+    
+    //UNCOMMENT THIS ONCE JP FIXES BACKEND
+    
+    // if (userTaskLists != null &&userTaskLists[0] != null && userTaskLists[0] != taskListId ) {
+
+    //     console.log("LOOK AT THE TASK LIST ID:")
+    //     console.log(JSON.stringify(userTaskLists[0]));
+    //     setTaskListId(userTaskLists[0].id);
+
+    // }
+
+ 
+    
+
+
+    const dummyTask = {taskDone: false, taskName: "Make a task!", subtasks: [], author: "testUser", dueDate: "ASAP", taskId: "dummyTaskId"}
+    
+    const allTasks = getAllTasksQuery.data.getTaskListByUser
+
+    if ( allTasks != null){
+            return (
+            <FlatList style={styles.listContainer}
+                    contentContainerStyle={{ paddingBottom: 20 }}
+                    data={allTasks as readonly any[] | null | undefined}
+                    renderItem={({item}) => <TaskListItem taskDone={item.taskDone} taskName={item.taskName} subtasks={item.subtasks} author={item.author} dueDate={item.dueDate} taskId={item.taskId}/>}
+            />
+        );
+    }
+    
+
+    else{
+        const dummyTaskList = [dummyTask];
+        const DATA = dummyTaskList;
+        console.log("\n\nDISPLAYING DUMMY DATA\n\n")
         return (
             <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
@@ -58,7 +127,8 @@ const TaskListComponent = ({userId, inventoryId}: {userId: string, inventoryId: 
                     renderItem={({item}) => <TaskListItem taskDone={item.taskDone} taskName={item.taskName} subtasks={item.subtasks} author={item.author} dueDate={item.dueDate} taskId={item.taskId}/>}
             />
         );
-    })[0];
+
+    }
 
 }
     
@@ -66,7 +136,6 @@ const TaskListComponent = ({userId, inventoryId}: {userId: string, inventoryId: 
 const styles = StyleSheet.create({
     listContainer: {
         marginTop: '10%',
-        position: 'absolute',
         height: '165%',
         width: '100%',
       },
