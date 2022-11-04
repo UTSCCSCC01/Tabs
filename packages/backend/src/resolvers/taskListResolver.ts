@@ -1,5 +1,5 @@
 import { TaskListDocument } from '../types'
-import { Task, TaskList } from '../models'
+import { TaskList } from '../models'
 import { Types } from 'mongoose'
 import task from '../typeDefs/task'
 
@@ -12,19 +12,19 @@ const resolvers = {
             ):Promise<TaskListDocument> => {
             console.log("calling getTaskList")
 
-            const task = await Task.findOne(args)
-            .then((task)=>{console.log("found task");return task})
-            .catch((task)=>{ console.log("cant find task list"); return task})
+            const taskList = await TaskList.findOne(args)
+            .then((taskList)=>{console.log("found task");return taskList})
+            .catch((taskList)=>{ console.log("cant find task list"); return taskList})
 
-            return task
+            return taskList
         },
         getTaskListByUser: async(root, args: {owner: String}):Promise<TaskListDocument> =>{
 
-            const task = await Task.findOne(args)
-            .then((task)=>{console.log("found task");return task})
-            .catch((task)=>{ console.log("cant find task list"); return task})
+            const taskList = await TaskList.findOne(args)
+            .then((taskList)=>{console.log("found task");return taskList})
+            .catch((taskList)=>{ console.log("cant find task list"); return taskList})
 
-            return task
+            return taskList
         }
     },
 
