@@ -10,10 +10,11 @@ import RentListComponent from '../../fragments/view/RentListComponent';
 import AddRentPopUpComponent from '../../fragments/view/AddRentPopUpComponent';
 import UpdateRentPopUpComponent from '../../fragments/view/UpdateRentPopUpComponent';
 import DebtRequestListComponent from '../../fragments/view/DebtRequestListComponent';
-import ViewAppliancesPageItem from '../../fragments/view/view_inventory_page/ViewAppliancesPageItem';
-import ViewAppliancesPageList from '../../fragments/view/view_inventory_page/ViewAppliancesPageList';
+import ViewAppliancesPageItem from '../../fragments/view/view_appliance_page/ViewAppliancesPageItem';
+import ViewAppliancesPageList from '../../fragments/view/view_appliance_page/ViewAppliancesPageList';
+import ApplianceHeaderComponent from '../../fragments/view/ApplianceHeaderComponent';
   
-const handleRequestDebt = () => {
+const a = () => {
 
 }
 
@@ -27,19 +28,16 @@ const ViewAppliancesView: React.FC = () => {
   console.log('View appliances page')
     // MOCK data update this with backend connection in future sprint
     return (
-        <View style={styles.container}>
-        <HeaderComponent screenName='Appliances'/>
+      <View style={styles.container}>
+        <ApplianceHeaderComponent screenName='Appliances'/>
 
-        <View style={styles.scrollContainer}>
-            <ViewAppliancesPageList userId='Bob Jones'/>
-        </View>
+        <ViewAppliancesPageList userId='Bob Jones'/>
         
         <FloatingActionButton 
-        name="add item" 
-        argument={1} 
-        myFunction={handleRequestDebt}/>
-
-        
+          name="add item" 
+          argument={1} 
+          myFunction={a}
+        />
     </View>
   );
 };
@@ -51,10 +49,6 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
-
-  scrollContainer: {
-    height: '50%',
-  }
 });
 
 export default ViewAppliancesView

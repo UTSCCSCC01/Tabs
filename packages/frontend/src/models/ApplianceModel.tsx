@@ -17,6 +17,16 @@ export class ApplianceModel {
     public addScheduledTime(time: ScheduledTime) {
         this.scheduled.push(time);
     }
+
+    public hasConflictingTime(time: Number): boolean {
+        for (let i = 0; i < this.scheduled.length; ++i) {
+            if (this.scheduled[i].startTime <= time && this.scheduled[i].endTime >= time) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 export class ScheduledTime {
