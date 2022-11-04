@@ -25,7 +25,7 @@ const RentAdminScreen: React.FC = () => {
             <HeaderComponent screenName='Household Rent'/>
 
             <SafeAreaView style={styles.scrollContainer}>
-                <RentListComponent userId='Seven Abou' isUpdatingRent={isUpdatingRent} setIsUpdatingRent={setIsUpdatingRent}/>
+                <RentListComponent houseId='777' isUpdatingRent={isUpdatingRent} setIsUpdatingRent={setIsUpdatingRent}/>
             </SafeAreaView>
             
             <FloatingActionButton name="add item" argument={1} myFunction={handleAddRent}/>

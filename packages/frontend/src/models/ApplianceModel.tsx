@@ -27,6 +27,7 @@ export class ApplianceModel {
 
         return false;
     }
+
 }
 
 export class ScheduledTime {
