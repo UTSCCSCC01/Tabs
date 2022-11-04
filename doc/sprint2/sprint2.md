@@ -33,6 +33,10 @@ Note: Trello issues will be labeled as `inventory`, `navigation`, and `rent`, re
 - I as a roommate should be able to modify the inventory so that it accurately represents the quantities of items we all have
     - TABS-84 Connect Inventory frontend to backend
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 768371a94f5fdb3c7b305376f5194f961ef7ca46
 - I as a roommate should be able to access a menu which states how much money is owed between myself and other roommates (in real time) so that I do not have to keep track of it manually
     - TABS-85 Debt Page Frontend/Backend Connection
 
