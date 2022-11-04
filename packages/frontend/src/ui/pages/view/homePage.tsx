@@ -16,8 +16,10 @@ import FullInvView from './inventoryView';
 import DebtScreenView from './DebtScreenView';
 import RentAdminScreen from './RentAdminScreen';
 import ViewAppliancesView from './ViewAppliancesView';
+
 import { folderCommonStyles } from '../../fragments/view';
 import { SvgUri } from 'react-native-svg';
+
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
     return (

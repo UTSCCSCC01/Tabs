@@ -1,5 +1,5 @@
 import { Button, Text, View } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
+import { TouchableOpacity } from "react-native"
 import { folderCommonStyles } from "./FolderCommonStyles"
 
 export interface FolderBackdropActionButtonArgument {
@@ -42,7 +42,7 @@ export const FolderBackdropActionButton = ({info, buttonFunction, argument}: {in
                 
                 
            }}
-           onPress={() => {console.log("OOH LA LA... you touch my tralala");buttonFunction()}}>
+           onPress={() => {console.log("OOH LA LA... you touch my tralala");buttonFunction(argument)}}>
                 <Text style = {{
                     color: "white",
                     fontSize: 28
