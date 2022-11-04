@@ -40,7 +40,7 @@ export default gql`
         author: String,
         task: String,
         dateDue: String,
-        doneTask: Boolean
+        doneStatus: Boolean
     }
         
 `
