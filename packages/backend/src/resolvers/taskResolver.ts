@@ -18,7 +18,7 @@ const resolvers = {
             ):Promise<TaskDocument[]> => {
             console.log("calling getBill")
             return Task.find(args);
-        },
+        }
     },
 
     Mutation: {

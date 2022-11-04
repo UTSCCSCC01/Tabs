@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express'
 
-
+//owner is a userid
 export default gql`
     extend type Query {
         getTaskList(
@@ -13,7 +13,7 @@ export default gql`
 
     extend type Mutation {
         addTaskList(
-            userId:String
+            owner:String
         ):TaskList
         deleteTaskList(
             taskId: String!

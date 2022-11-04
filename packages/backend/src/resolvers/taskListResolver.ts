@@ -31,7 +31,7 @@ const resolvers = {
     Mutation: {
         addTaskList: async(
             root,
-            args: {userId:String}
+            args: {owner:String}
         ): Promise<TaskListDocument> =>{
 
             const taskList = await TaskList.create(args)
