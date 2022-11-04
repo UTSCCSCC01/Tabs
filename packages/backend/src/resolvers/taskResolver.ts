@@ -69,7 +69,7 @@ const resolvers = {
         },
         editTask: async(
             root,
-            args: {taskId:String, task:String, dateDue:String}
+            args: {taskId:String, taskListId:String, task:String, dateDue:String}
         ): Promise<TaskDocument> =>{
             //returns if the updated task values work
             const empty = new Task()
@@ -78,6 +78,7 @@ const resolvers = {
                 console.log("Successfuly edited Task to db");
                 task.task = args.task
                 task.dateDue = args.dateDue
+                task.taskListId = args.taskListId
                 return task})
             .catch(()=>{
                 console.log("Failure to edit task");
