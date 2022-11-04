@@ -12,6 +12,9 @@ export default gql`
         getAllOwnerTasks(
             owner:String!
         ): [Task]
+        getAllSubtasks(
+            parentId:String!
+        ): [Task]
     }
 
     extend type Mutation {
