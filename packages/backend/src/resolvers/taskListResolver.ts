@@ -18,6 +18,14 @@ const resolvers = {
 
             return task
         },
+        getTaskListByUser: async(root, args: {owner: String}):Promise<TaskListDocument> =>{
+
+            const task = await Task.findOne(args)
+            .then((task)=>{console.log("found task");return task})
+            .catch((task)=>{ console.log("cant find task list"); return task})
+
+            return task
+        }
     },
 
     Mutation: {

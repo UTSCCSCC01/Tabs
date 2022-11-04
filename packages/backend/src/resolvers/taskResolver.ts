@@ -55,7 +55,7 @@ const resolvers = {
             
             return task
         },
-        doneTask: async(
+        toggleDoneTask: async(
             root,
             args: {taskId:String, doneStatus:Boolean}
         ): Promise<Boolean> =>{

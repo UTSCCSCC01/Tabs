@@ -6,6 +6,9 @@ export default gql`
         getTaskList(
             taskListId: String
         ): TaskList
+        getTaskListByUser(
+            owner: String
+        ): TaskList
     }
 
     extend type Mutation {
