@@ -256,7 +256,7 @@ const InvView = ({switchViewFunction, inventoryId, setAddItemFunction, userId} :
   const addCategoryHandler=(item: InventoryCategory) => {
     console.log("Adding category " + item.name + " to the database");
     console.log("The inventory key is: " + item.inventoryKey)
-    addCategoryMutationFunction({variables: {"categoryName":item.name, "inventoryId":item.inventoryKey, "categoryDesc":item.description, userId: userId, isRestricted:false}});
+    addCategoryMutationFunction({variables: {"categoryName":item.name, "inventoryId":item.inventoryKey, "categoryDesc":item.description, userId: userId, isRestricted:item.isRestricted}});
     while (addCategoryMutationData.loading) {
       console.log("Waiting")
     }
