@@ -17,85 +17,159 @@ import DebtScreenView from './DebtScreenView';
 import RentAdminScreen from './RentAdminScreen';
 import ViewAppliancesView from './ViewAppliancesView';
 
+import { folderCommonStyles } from '../../fragments/view';
+import { SvgUri } from 'react-native-svg';
+
+
 const HomePage = ( {navigation}:{navigation:any} ) => {
     return (
-        <View style={styles.mainView}>
-            <View style={styles.folderBack}>
-                <FolderIcon color='#1C4048'/>
+        <View style={{
+            height: '100%',
+            backgroundColor: '#85C4CF'
+        }}>
+            <View style={styles.mainView}>
+                {/* Title row with folder cutout */}
+                <View style = {[folderCommonStyles.row]}>
+                    <View style = {[folderBackdropListFragmentStyles.corner]}>
+
+                    </View>
+                    <Text style = {[folderBackdropListFragmentStyles.text]}>
+                        {"               "}
+                    </Text>
+                    <View style = {[folderBackdropListFragmentStyles.triangle]}>
+
+                    </View>
+                </View>
+                <View style={[styles.navigatorStyle]}>
+                    <View style = {folderCommonStyles.column}>
+                        <View style={[styles.navPanelStyle]}>
+                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Inventory')}>
+                                <View style={{
+                                    borderRadius: 1000,
+                                    width: "60%",
+                                    height: "60%",
+                                    top: "20%",
+                                    backgroundColor: '#DD6363',
+                                }}>
+                                    <SvgUri 
+                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974252592312340/Vector_10.svg"}
+                                        style ={{
+                                            width: '100%',
+                                            height: '100%',
+                                            top: '30%',
+                                            left: '30%'
+                                        }}
+                                    >
+                                        
+                                    </SvgUri>
+                                </View>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Rent')}>
+                                <View style={{
+                                    borderRadius: 1000,
+                                    width: "60%",
+                                    height: "60%",
+                                    top: "20%",
+                                    backgroundColor: '#8E7CD8',
+                                }}>
+                                   <SvgUri 
+                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974222460432394/Vector_9.svg"}
+                                        style ={{
+                                            width: '100%',
+                                            height: '100%',
+                                            top: '30%',
+                                            left: '38%'
+                                        }}
+                                    ></SvgUri> 
+                                </View>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Notifications')}>
+                                <View style={{
+                                    borderRadius: 1000,
+                                    width: "60%",
+                                    height: "60%",
+                                    top: "20%",
+                                    backgroundColor: '#D4C17A',
+                                }}>
+                                    <SvgUri 
+                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974195834982451/Vector_8.svg"}
+                                        style ={{
+                                            width: '100%',
+                                            height: '100%',
+                                            top: '30%',
+                                            left: '30%'
+                                        }}
+                                    ></SvgUri>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.navPanelStyle}>
+                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Calendar')}>
+                                <View style={{
+                                    borderRadius: 1000,
+                                    width: "60%",
+                                    height: "60%",
+                                    top: "20%",
+                                    backgroundColor: '#7DBA6E',
+                                }}>
+                                    <SvgUri 
+                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974124905123860/Vector_6.svg"}
+                                        style ={{
+                                            width: '100%',
+                                            height: '100%',
+                                            top: '30%',
+                                            left: '30%'
+                                        }}
+                                    ></SvgUri>
+                                </View>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Appliances')}>
+                                <View style={{
+                                    borderRadius: 1000,
+                                    width: "60%",
+                                    height: "60%",
+                                    top: "20%",
+                                    backgroundColor: '#34ACBC',
+                                }}>
+                                    <SvgUri 
+                                        uri={""}
+                                        style ={{
+                                            width: '100%',
+                                            height: '100%',
+                                            top: '30%',
+                                            left: '30%'
+                                        }}
+                                    ></SvgUri>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('To Do')}>
+                                <View style={{
+                                    borderRadius: 1000,
+                                    width: "60%",
+                                    height: "60%",
+                                    top: "20%",
+                                    backgroundColor: '#CE7DB8',
+                                }}>
+                                    <SvgUri 
+                                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1037974162687402034/Vector_7.svg"}
+                                        style ={{
+                                            width: '100%',
+                                            height: '100%',
+                                            top: '30%',
+                                            left: '30%'
+                                        }}
+                                    ></SvgUri>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+                
             </View>
-            <View style={styles.navigatorStyle}>
-
-                <View style={styles.navPanelStyle}>
-                    <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Inventory')}>
-                        <View style={{
-                            borderRadius: 1000,
-                            width: "70%",
-                            height: "70%",
-                            top: "15%",
-                            backgroundColor: '#DD6363',
-                        }}>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Rent')}>
-                        <View style={{
-                            borderRadius: 1000,
-                            width: "70%",
-                            height: "70%",
-                            top: "15%",
-                            backgroundColor: '#8E7CD8',
-                        }}>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Notifications')}>
-                        <View style={{
-                            borderRadius: 1000,
-                            width: "70%",
-                            height: "70%",
-                            top: "15%",
-                            backgroundColor: '#D4C17A',
-                        }}>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.navPanelStyle}>
-                    <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Calendar')}>
-                        <View style={{
-                            borderRadius: 1000,
-                            width: "70%",
-                            height: "70%",
-                            top: "15%",
-                            backgroundColor: '#7DBA6E',
-                        }}>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Appliances')}>
-                        <View style={{
-                            borderRadius: 1000,
-                            width: "70%",
-                            height: "70%",
-                            top: "15%",
-                            backgroundColor: '#34ACBC',
-                        }}>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('To Do')}>
-                        <View style={{
-                            borderRadius: 1000,
-                            width: "70%",
-                            height: "70%",
-                            top: "15%",
-                            backgroundColor: '#CE7DB8',
-                        }}>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                </View>
-            
         </View>
     )
 }
@@ -119,18 +193,18 @@ const Home = () => {
 const styles = StyleSheet.create({
     mainView: {
         width: "100%",
-        height: "100%",
-        backgroundColor: '#127589',
+        backgroundColor: '#85C4CF',
+        flexDirection: 'column',
+        position: 'absolute',
+        bottom: 0
     },
     navBoxBack: {
         backgroundColor: '#2C2C2C',
-        width: 60,
-        height: 60,
-        top: "50%",
+        width: '23%',
+        aspectRatio: 1, 
         alignItems: 'center',
         borderRadius: 10,
-        position: 'relative',
-        zIndex: 1
+        zIndex: 1,
     },
     folderBack: {
         zIndex: -1,
@@ -145,20 +219,46 @@ const styles = StyleSheet.create({
         opacity: 50
     },
     navPanelStyle: {
-        width: '100%',
-        height: '10%',
-        display: 'flex',
-        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        paddingVertical: 20
     },
     navigatorStyle: {
-        width: '100%',
-        height: '30%',
-        display: 'flex',
         justifyContent: 'space-evenly',
-        top: '43%'
+        backgroundColor: '#1C4048'
     }
+})
+
+const folderBackdropListFragmentStyles = StyleSheet.create({
+    corner: {
+        padding: 20,
+        backgroundColor: '#1C4048',
+        borderTopLeftRadius: 20
+    },
+
+    text: {
+        backgroundColor: '#1C4048',
+        height: 40,
+        paddingTop: 10,
+        color: "#1C4048",
+        fontSize: 20
+    },
+
+    container: {
+        borderTopRightRadius: 10,
+        backgroundColor: '#1C4048',
+        paddingBottom: 40
+    },
+
+    triangle: {
+        width:30,
+        height:40,
+        borderRightWidth:40,
+        borderRightColor:"transparent",
+        borderBottomWidth:40,
+        borderBottomColor:'#1C4048'
+    }
+
 })
 
 export default Home;
