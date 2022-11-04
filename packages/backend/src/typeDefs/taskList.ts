@@ -14,6 +14,12 @@ export default gql`
     extend type Mutation {
         addTaskList(
             owner:String
+<<<<<<< HEAD
+=======
+            name: String
+            houseId:String
+            dateCreated:String
+>>>>>>> 4a24a7a1cd5de27dcc3b53c1d5266032b113ba71
         ):TaskList
         deleteTaskList(
             taskId: String!
@@ -21,6 +27,7 @@ export default gql`
     }
   
     type TaskList {
+        id: ID,
         houseId: String,
         owner: String,
         name: String,

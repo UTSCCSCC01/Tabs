@@ -7,12 +7,13 @@ import task from '../typeDefs/task'
 const resolvers = {
 
     Query: {
+
         getTaskList: async(root,
-            args: {taskId:String}
+            args: {taskListId:String}
             ):Promise<TaskListDocument> => {
             console.log("calling getTaskList")
 
-            const taskList = await TaskList.findOne(args)
+            const taskList = await TaskList.findOne({id:args.taskListId})
             .then((taskList)=>{console.log("found task");return taskList})
             .catch((taskList)=>{ console.log("cant find task list"); return taskList})
 
@@ -31,7 +32,11 @@ const resolvers = {
     Mutation: {
         addTaskList: async(
             root,
+<<<<<<< HEAD
             args: {owner:String}
+=======
+            args: {owner:String, name: String, houseId:String, dateCreated:String}
+>>>>>>> 4a24a7a1cd5de27dcc3b53c1d5266032b113ba71
         ): Promise<TaskListDocument> =>{
 
             const taskList = await TaskList.create(args)
@@ -45,7 +50,7 @@ const resolvers = {
             args: {taskId: String}
         ): Promise<Boolean> =>{
 
-            const task = await TaskList.findByIdAndDelete(args)
+            const task = await TaskList.findByIdAndDelete(args.taskId)
             .then(()=>{console.log("Successfuly deleted a Task List to server"); return true})
             .catch(()=>{console.log("Failure to delete a Task List to server"); return false});
             return task
