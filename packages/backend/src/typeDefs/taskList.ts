@@ -21,6 +21,7 @@ export default gql`
     }
   
     type TaskList {
+        id: ID,
         houseId: String,
         owner: String,
         name: String,

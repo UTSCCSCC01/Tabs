@@ -9,25 +9,27 @@ export default gql`
         getAllTasks(
             taskListId: String!
         ): [Task]
-
+        getAllOwnerTasks(
+            owner:String!
+        ): [Task]
     }
 
     extend type Mutation {
         addTask(
             taskListId: String!,
-            author: String,
+            owner: String,
             task: String,
             dateDue: String,
             houseId: String
         ):Task  
         deleteTask(
             taskId:String
-        ):Boolean
+        ): Boolean
         editTask(
             taskId: String!,
             task: String,
             dateDue: String
-        ): Boolean
+        ): Task
         toggleDoneTask(
             taskId: String,
             doneStatus: Boolean
@@ -36,9 +38,10 @@ export default gql`
     }
   
     type Task {
+        id: ID,
         houseId: String,
         taskListId:String,
-        author: String,
+        owner: String,
         task: String,
         dateDue: String,
         doneStatus: Boolean
