@@ -28,7 +28,7 @@ export default gql`
             task: String,
             dateDue: String
         ): Boolean
-        doneTask(
+        toggleDoneTask(
             taskId: String
         ):Boolean
 
@@ -40,7 +40,7 @@ export default gql`
         author: String,
         task: String,
         dateDue: String,
-        toggleDoneTask: Boolean
+        doneTask: Boolean
     }
         
 `
