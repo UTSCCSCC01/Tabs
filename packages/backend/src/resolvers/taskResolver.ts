@@ -1,7 +1,7 @@
 import { TaskDocument } from '../types'
-import { Task } from '../models'
-import { Types } from 'mongoose'
-import taskList from '../typeDefs/taskList'
+import { Task, TaskList } from '../models'
+import task from '../typeDefs/task';
+
 
 
 const resolvers = {
@@ -16,42 +16,73 @@ const resolvers = {
         getAllTasks: async(root,
             args: {taskListId: String}
             ):Promise<TaskDocument[]> => {
-            console.log("calling getBill")
+            console.log("calling getAllTasks")
             return Task.find(args);
         },
+        getAllOwnerTasks: async(root, 
+            args: {owner: String}): Promise<TaskDocument[]> =>{
+                console.log("calling getAllOwnerTasks")
+                return Task.find(args);
+        },
+        getAllSubtasks: async(root, 
+            args: {parentId: String}): Promise<TaskDocument[]> =>{
+                return Task.find(args)
+        }
     },
 
     Mutation: {
-        addTask: async(
+        createTask: async(
             root,
-            args: {taskStringId: String, owner: String, task: String, dateDue:String}
-        ): Promise<TaskDocument|void> =>{
-
+            args: {taskListId: String, owner: String, task: String, dateDue:String}
+        ): Promise<TaskDocument> =>{
+            const empty:TaskDocument = new Task()
             const task = await Task.create(args)
             .then((task)=>{console.log("Successfuly added Task to db");return task})
-            .catch(()=>{console.log("Failure to add task to db"); return null})
+            .catch(()=>{console.log("Failure to add task to db"); return empty})
            
             return task
+        },
+        createSubtask: async(
+            root,
+            args: {parentId: String, owner: String, task:String, dateDue: String, houseId: String}
+        ): Promise<TaskDocument> =>{
+            const empty:TaskDocument = new Task()
+            const subtask = await Task.create(args)
+            .then((task)=>{console.log("Successfuly added Task to db");return task})
+            .catch(()=>{console.log("Failure to add task to db"); return empty})
+
+            return subtask
+
         },
         deleteTask: async(
             root,
             args: {taskId: String}
         ): Promise<Boolean> =>{
 
-            const task = await Task.findByIdAndDelete(args)
-            .then(()=>{console.log("Successfuly deleted Task from db");return true})
+            const task = await Task.findByIdAndDelete(args.taskId)
+            .then(()=>{
+            console.log("Successfuly deleted Task from db");
+            return true})
             .catch(()=>{console.log("Failure to delete task from db"); return false})
             console.log("Successfuly deleted Task to db")
             return task
         },
         editTask: async(
             root,
-            args: {taskId:String, task:String, dateDue:String}
-        ): Promise<Boolean> =>{
-
+            args: {taskId:String, taskListId:String, task:String, dateDue:String}
+        ): Promise<TaskDocument> =>{
+            //returns if the updated task values work
+            const empty = new Task()
             const task = await Task.findByIdAndUpdate(args.taskId, {task: args.task, dateDue: args.dateDue})
-            .then(()=>{console.log("Successfuly edited Task to db"); return true})
-            .catch(()=>{console.log("Failure to edit task"); return false});
+            .then((task)=>{
+                console.log("Successfuly edited Task to db");
+                task.task = args.task
+                task.dateDue = args.dateDue
+                task.taskListId = args.taskListId
+                return task})
+            .catch(()=>{
+                console.log("Failure to edit task");
+                return empty});
             
             return task
         },
@@ -59,13 +90,21 @@ const resolvers = {
             root,
             args: {taskId:String, doneStatus:Boolean}
         ): Promise<Boolean> =>{
-            //takes in current donestatus and switches it
+            //returns the status of the tasks
             let status;
-            if (args.doneStatus == true){ status = false }
-            else{ status = true }
-            const done = await Task.findById(args.taskId, {doneStatus: status})
-            .then(()=>{console.log("Successfully changed status");return true})
-            .catch(()=>{console.log("Failure to change status"); return false});
+            if (args.doneStatus == true){
+                 status = false 
+            }
+            else{
+                status = true
+            }
+            const done = await Task.findByIdAndUpdate(args.taskId, {doneStatus: status})
+            .then(()=>{
+                console.log("Successfully changed status");
+                return status})
+            .catch(()=>{
+                console.log("Failure to change status");
+                return status});
             return done
         }
 
