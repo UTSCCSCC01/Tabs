@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable, FlatList } from 'react-native';import { SvgUri } from 'react-native-svg';
+import { isAdmin } from '../../../../data/AdminUtils';
 import { ApplianceType, ScheduledTime } from '../../../../models/ApplianceModel';
 import { folderCommonStyles } from '../FolderCommonStyles';
 
 export type Props = {
   applianceId: string;
+  userId: string;
   name: string;
   type: ApplianceType;
   scheduled: Array<ScheduledTime>;
@@ -36,7 +38,8 @@ const ViewApplicationPageExtraInfo: React.FC<ListProps> = ({scheduled}) => {
 }
 
 const ViewAppliancesPageItem: React.FC<Props> = ({
-  applianceId,  
+  applianceId,
+  userId,
   name,
   type,
   scheduled
@@ -128,27 +131,73 @@ const ViewAppliancesPageItem: React.FC<Props> = ({
                 }
           />
 
-          <Pressable style ={[{
-            backgroundColor: '#127589',
-            padding: 10,
-            alignSelf: 'flex-start',
-            marginTop: 10,
-            borderRadius: 20,
-            paddingHorizontal: 20
+          <View style={[folderCommonStyles.row, {
           }]}>
-            <Text style ={{
-              color: 'white',
-              fontSize: 25
-            }}>
-              {'Reserve'}
-            </Text>
-          </Pressable>
+            <Pressable style ={[{
+              backgroundColor: '#127589',
+              padding: 10,
+              alignSelf: 'flex-start',
+              marginTop: 10,
+              borderRadius: 20,
+              paddingHorizontal: 20
+            }, extraInfoStyle]}>
+              <Text style ={{
+                color: 'white',
+                fontSize: 25
+              }}>
+                {'Reserve'}
+              </Text>
+            </Pressable>
+
+            <View style ={extraInfoStyle}>
+              <DeleteButton
+                isAdmin={isAdmin(userId)}
+                applianceId= {applianceId}
+                isOpen= {opened}
+              ></DeleteButton>
+            </View>
+          </View>
         </View>
 
 
     </Pressable>
   );
 };
+
+export type DeleteProps = {
+  isAdmin: boolean;
+  applianceId: string;
+  isOpen: boolean;
+};
+
+const DeleteButton: React.FC<DeleteProps> = ({isAdmin, applianceId, isOpen}) => {
+  if (!isAdmin) {
+    return (<View></View>)
+  }
+
+  if (isOpen) {
+    return (<View></View>)
+  }
+
+  return (
+    <Pressable style ={[{
+      backgroundColor: '#127589',
+      alignSelf: 'flex-start',
+      marginTop: 10,
+      borderRadius: 20,
+      paddingHorizontal: 20,
+      padding: 10,
+      marginLeft: 20
+    }]}>
+      <Text style ={{
+        color: 'white',
+        fontSize: 25
+      }}>
+        {'Delete'}
+      </Text>
+    </Pressable>
+  )
+}
 
 const setVisible = (visible: boolean) => {
   console.log('v ' + visible)

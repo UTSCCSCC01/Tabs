@@ -14,6 +14,7 @@ import DebtRequestListComponent from '../../fragments/view/DebtRequestListCompon
 import ViewAppliancesPageItem from '../../fragments/view/view_appliance_page/ViewAppliancesPageItem';
 import ViewAppliancesPageList from '../../fragments/view/view_appliance_page/ViewAppliancesPageList';
 import ApplianceHeaderComponent from '../../fragments/view/ApplianceHeaderComponent';
+import DebtPopup from './debtPopup';
   
 const a = () => {
 
@@ -41,7 +42,6 @@ const ViewAppliancesView: React.FC = () => {
           argument={1} 
           myFunction={a}
         />
-
     </View>
   );
 };
@@ -59,5 +59,7 @@ const styles = StyleSheet.create({
   }
 
 });
+
+
 
 export default ViewAppliancesView

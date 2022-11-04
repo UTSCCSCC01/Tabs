@@ -71,7 +71,7 @@ const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
 */
 
 
-const DebtPopup = (props: {show : boolean, closePopup : (VoidFunction) }) => {
+const DebtPopup = (props: {show : boolean, closePopup : () => void }) => {
     return (
         <Modal
               animationType="slide"

@@ -71,6 +71,7 @@ const ViewAppliancesPageList: React.FC<Props> = ({
                     <ViewAppliancesPageItem 
                         applianceId = {item.id}
                         name = {item.name}
+                        userId = {userId}
                         type = {item.type}
                         scheduled = {item.scheduled}
                     /> 
