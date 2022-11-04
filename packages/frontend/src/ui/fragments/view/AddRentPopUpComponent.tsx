@@ -1,4 +1,5 @@
-import React from 'react';
+import { gql, useMutation } from '@apollo/client';
+import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import SvgComponentLightBlue from '../../../assets/images/LightBlueVector';
@@ -8,6 +9,13 @@ export type Props = {
     setIsAddingRent: any,
 };
 
+const ADD_BILL =
+gql`
+mutation AddBill($houseId: String!, $userId: String!, $name: String!, $amount: Float!, $split: [String!], $dateCreated: String!, $dateDue: String!, $status: String) {
+    addBill(houseId:$houseId, userId:$userId, name:$name, amount:$amount, split:$split, dateCreated:$dateCreated, dateDue:$dateDue, status: $status) {
+      houseId, userId, name, amount, split, dateCreated, dateDue, status
+    }
+}`
 
 /**
 * @name AddRentPopUpComponent
@@ -22,7 +30,19 @@ const AddRentPopUpComponent: React.FC<Props> = ({
 }) => {
 
 
+    const [nameInput, setNameInput] = useState('');
+    const [amountInput, setAmountInput] = useState('');
+    const [addbill,  { loading, error }] = useMutation(ADD_BILL)
+    if(loading){
+        return  <Text>{'Loading...'} </Text>
+    }
+    if(error){
+        return <Text>{error.message}</Text>
+    }
+
     const submitHandle = () => {
+        // temporarily hardcode some of the arguments such as houseid, and userid as name since we have not yet added user accounts
+        addbill({ variables: { houseId:"777", userId: String(nameInput), name: "Rent", amount: Number(amountInput), split: ["user1", "user2"], dateCreated: "Friday, Nov. 4, 2022", dateDue: 'Wednesday Nov. 21, 2022', status: "unpaid" } }).catch(error => console.log('error: ', error));
         console.log("ADDED RENT");
         setIsAddingRent(false);
     }
@@ -33,11 +53,15 @@ const AddRentPopUpComponent: React.FC<Props> = ({
         <View style={styles.form}>
             <TextInput style={styles.field}
                 placeholder="Roomate Name"
+                value = {nameInput}
+                onChangeText={text => setNameInput(text)}
                 />
 
             <TextInput style={styles.field}
                 // onChangeText={onChangeNumber}
                 placeholder="Monthly Rent"
+                value = {amountInput}
+                onChangeText={text => setAmountInput(text)}
                 />
             <Pressable
                 onPress={submitHandle}
