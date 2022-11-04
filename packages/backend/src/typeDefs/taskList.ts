@@ -14,6 +14,9 @@ export default gql`
     extend type Mutation {
         addTaskList(
             owner:String
+            name: String
+            houseId:String
+            dateCreated:String
         ):TaskList
         deleteTaskList(
             taskId: String!
