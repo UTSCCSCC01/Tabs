@@ -18,8 +18,6 @@ const resolvers = {
             ):Promise<TaskDocument[]> => {
             console.log("calling getAllTasks")
             return Task.find(args);
-<<<<<<< HEAD
-=======
         },
         getAllOwnerTasks: async(root, 
             args: {owner: String}): Promise<TaskDocument[]> =>{
@@ -29,7 +27,6 @@ const resolvers = {
         getAllSubtasks: async(root, 
             args: {parentId: String}): Promise<TaskDocument[]> =>{
                 return Task.find(args)
->>>>>>> 4a24a7a1cd5de27dcc3b53c1d5266032b113ba71
         }
     },
 
