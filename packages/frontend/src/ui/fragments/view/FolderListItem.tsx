@@ -35,7 +35,7 @@ export const FolderListItem = ({item}:{item:FolderItemData}) => {
 
       
         <View style={styles.folderListItem}>
-          {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
+          {item.iconName != "none" && <BorderIcon iconName={item.iconName}></BorderIcon>}
 
 
 
@@ -64,7 +64,10 @@ export const FolderListItem = ({item}:{item:FolderItemData}) => {
       <TouchableOpacity style={{flex:1, flexGrow:1}} onPress={() => {item.touchFunction.myFunction(item.id)}}>
        
         <View style={styles.folderListItem}>
-          {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
+          {item.iconName != "none" && <BorderIcon iconName={item.iconName}></BorderIcon>}
+  
+  
+  
           <Text style={styles.splitTextNormal}>{item.name}</Text>
 
 
@@ -88,7 +91,7 @@ export const FolderListItem = ({item}:{item:FolderItemData}) => {
   
        
         <View style={styles.folderListItem}>
-          {item.iconName != "none" && <BorderIcon text={item.iconName}></BorderIcon>}
+          {item.iconName != "none" && <BorderIcon iconName={item.iconName}></BorderIcon>}
   
           <Text style={styles.splitTextNormal}>{item.name}</Text>
           

@@ -19,13 +19,13 @@ const resolvers = {
 
             return taskList
         },
-        getTaskListByUser: async(root, args: {owner: String}):Promise<TaskListDocument> =>{
+        getTaskListByUser: async(root, args: {owner: String}):Promise<[TaskListDocument]> =>{
 
             const taskList = await TaskList.findOne(args)
             .then((taskList)=>{console.log("found task");return taskList})
             .catch((taskList)=>{ console.log("cant find task list"); return taskList})
 
-            return taskList
+            return [taskList]
         }
     },
 

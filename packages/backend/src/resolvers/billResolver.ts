@@ -3,10 +3,10 @@ import { Bill } from '../models'
 import { Types } from 'mongoose'
 
 // TODO: update this function!
-async function modifyAmountFunc(billId:String, amount:Number):Promise<String | Boolean>{
+async function modifyBillAmountFunc(houseId:String, userId:String, amount:Number):Promise<Boolean>{
     let x;
-    const id = new Types.ObjectId(String(billId))
-    await Bill.findOneAndUpdate({_id:id}, { amount: amount}) .then(()=>{console.log("Bill amount succesfully updated"); x= amount}).catch(()=>{console.log("Failed to modify bill amount"); x= false})
+    // const id = new Types.ObjectId(String(houseId))
+    await Bill.findOneAndUpdate({houseId: houseId, userId: userId}, { amount: amount}) .then(()=>{console.log("Bill amount succesfully updated"); x= true}).catch(()=>{console.log("Failed to modify bill amount"); x= false})
     return x
 }
 
@@ -37,8 +37,8 @@ const resolvers = {
             return bill
         },
         
-        modifyAmount: async(root, args: {houseId: String, userId: String, amount: Number}):Promise<String | Boolean> =>{
-           return await modifyAmountFunc(args.houseId, args.amount)
+        modifyBillAmount: async(root, args: {houseId: String, userId: String, amount: Number}):Promise<Boolean> =>{
+           return await modifyBillAmountFunc(args.houseId, args.userId, args.amount)
         },
     }
 }

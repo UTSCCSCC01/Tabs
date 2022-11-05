@@ -5,6 +5,8 @@ import RentContainerComponent from './RentContainerComponent';
 
 export type Props = {
     houseId: string;
+    updatingUser: string,
+    setUpdatingUser: any,
     isUpdatingRent: boolean,
     setIsUpdatingRent: any,
 };
@@ -43,6 +45,8 @@ query GetBills($houseId: String!) {
 */
 const RentListComponent: React.FC<Props> = ({
     houseId,
+    updatingUser,
+    setUpdatingUser,
     isUpdatingRent,
     setIsUpdatingRent
 }) => {
@@ -68,7 +72,7 @@ const RentListComponent: React.FC<Props> = ({
             <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     data={DATA as readonly any[] | null | undefined}
-                    renderItem={({item}) => <RentContainerComponent user={item.userId} amount={item.amount} isUpdatingRent={isUpdatingRent} setIsUpdatingRent={setIsUpdatingRent}/> }
+                    renderItem={({item}) => <RentContainerComponent user={item.userId} amount={item.amount} updatingUser={updatingUser} setUpdatingUser={setUpdatingUser} isUpdatingRent={isUpdatingRent} setIsUpdatingRent={setIsUpdatingRent}/> }
                     refreshControl={<RefreshControl
                         colors={["#2493A1", "#2493A1"]}
                         refreshing={refreshing}

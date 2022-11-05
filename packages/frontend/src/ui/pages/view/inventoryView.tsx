@@ -326,16 +326,16 @@ const InvView = ({switchViewFunction, inventoryId, setAddItemFunction, userId} :
 
 
 
-  //console.log(":C");
+  //apollo update makes it so errors don't have causes anymore or smth
   if (editItemCategoryMutationData.loading || editItemNameMutationData.loading|| categoryQuery.loading || addCategoryMutationData.loading || findItemsQuery.loading || addItemMutationData.loading || addCapacityMutationData.loading || subtractCapacityMutationData.loading) return <Text>Loading...</Text>
-  else if (categoryQuery.error) return <Text>Error: {categoryQuery.error.name} - {categoryQuery.error.message}{"\n"}Caused by: {categoryQuery.error.cause}{"\n"}Extra info: {categoryQuery.error.extraInfo}</Text>
-  else if (addCategoryMutationData.error) return <Text>Error: {addCategoryMutationData.error.name} - {addCategoryMutationData.error.message}{"\n"}Caused by: {addCategoryMutationData.error.cause}{"\n"}Extra info: {addCategoryMutationData.error.extraInfo}</Text>
-  else if (findItemsQuery.error) return <Text>Error: {findItemsQuery.error.name} - {findItemsQuery.error.message}{"\n"}Caused by: {findItemsQuery.error.cause}{"\n"}Extra info: {findItemsQuery.error.extraInfo}</Text>
-  else if (addCapacityMutationData.error) return <Text>Error: {addCapacityMutationData.error.name} - {addCapacityMutationData.error.message}{"\n"}Caused by: {addCapacityMutationData.error.cause}{"\n"}Extra info: {addCapacityMutationData.error.extraInfo}</Text>
-  else if (addItemMutationData.error) return <Text>Error: {addItemMutationData.error.name} - {addItemMutationData.error.message}{"\n"}Caused by: {addItemMutationData.error.cause}{"\n"}Extra info: {addItemMutationData.error.extraInfo}</Text>
-  else if (subtractCapacityMutationData.error) return <Text>Error: {subtractCapacityMutationData.error.name} - {subtractCapacityMutationData.error.message}{"\n"}Caused by: {subtractCapacityMutationData.error.cause}{"\n"}Extra info: {subtractCapacityMutationData.error.extraInfo}</Text>
-  else if (editItemCategoryMutationData.error) return <Text>Error: {editItemCategoryMutationData.error.name} - {editItemCategoryMutationData.error.message}{"\n"}Caused by: {editItemCategoryMutationData.error.cause}{"\n"}Extra info: {editItemCategoryMutationData.error.extraInfo}</Text>
-  else if (editItemNameMutationData.error) return <Text>Error: {editItemNameMutationData.error.name} - {editItemNameMutationData.error.message}{"\n"}Caused by: {editItemNameMutationData.error.cause}{"\n"}Extra info: {editItemNameMutationData.error.extraInfo}</Text>
+  else if (categoryQuery.error) return <Text>Error: {categoryQuery.error.name} - {categoryQuery.error.message}{"\n"}Extra info: {categoryQuery.error.extraInfo}</Text>
+  else if (addCategoryMutationData.error) return <Text>Error: {addCategoryMutationData.error.name} - {addCategoryMutationData.error.message}{"\n"}Extra info: {addCategoryMutationData.error.extraInfo}</Text>
+  else if (findItemsQuery.error) return <Text>Error: {findItemsQuery.error.name} - {findItemsQuery.error.message}{"\n"}Extra info: {findItemsQuery.error.extraInfo}</Text>
+  else if (addCapacityMutationData.error) return <Text>Error: {addCapacityMutationData.error.name} - {addCapacityMutationData.error.message}{"\n"}Extra info: {addCapacityMutationData.error.extraInfo}</Text>
+  else if (addItemMutationData.error) return <Text>Error: {addItemMutationData.error.name} - {addItemMutationData.error.message}{"\n"}Extra info: {addItemMutationData.error.extraInfo}</Text>
+  else if (subtractCapacityMutationData.error) return <Text>Error: {subtractCapacityMutationData.error.name} - {subtractCapacityMutationData.error.message}{"\n"}Extra info: {subtractCapacityMutationData.error.extraInfo}</Text>
+  else if (editItemCategoryMutationData.error) return <Text>Error: {editItemCategoryMutationData.error.name} - {editItemCategoryMutationData.error.message}{"\n"}Extra info: {editItemCategoryMutationData.error.extraInfo}</Text>
+  else if (editItemNameMutationData.error) return <Text>Error: {editItemNameMutationData.error.name} - {editItemNameMutationData.error.message}{"\n"}Extra info: {editItemNameMutationData.error.extraInfo}</Text>
   
 
   

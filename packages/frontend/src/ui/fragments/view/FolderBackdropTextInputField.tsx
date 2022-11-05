@@ -1,3 +1,4 @@
+import React from 'react';
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 //import { ReactString } from '../../String';
 import { folderCommonStyles } from './FolderCommonStyles';

@@ -15,6 +15,7 @@ import RentAdminScreen from "./ui/pages/view/RentAdminScreen";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import DebtScreenView from "./ui/pages/view/DebtScreenView";
+import FullViewTaskaPage from "./ui/pages/view/ViewTasksPage";
 
 
 Notifications.setNotificationHandler({
@@ -104,7 +105,7 @@ const App = () => (
   const MyTabs=()=>{
     return (
       <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Calendar" component={FullInvView} options={{tabBarIcon: () => 
+        <Tab.Screen name="Calendar" component={FullViewTaskaPage} options={{tabBarIcon: () => 
           (<View><MaterialCommunityIcons name="calendar" size={24} color={"#E6E6E6B0"}/></View>)}}/>
 
         <Tab.Screen name="HomePage" component={HomePage} options={{tabBarIcon: () => (<View>

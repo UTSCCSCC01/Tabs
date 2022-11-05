@@ -4,6 +4,8 @@ import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 export type Props = {
     user: string; // roomate name
     amount: number;
+    updatingUser: string,
+    setUpdatingUser: any,
     isUpdatingRent: boolean,
     setIsUpdatingRent: any,
 };
@@ -11,9 +13,17 @@ export type Props = {
 const RentContainerComponent: React.FC<Props> = ({
     user,
     amount,
+    updatingUser,
+    setUpdatingUser,
     isUpdatingRent,
     setIsUpdatingRent
 }) => {
+
+    const setUpdate = () => {
+        setIsUpdatingRent(!isUpdatingRent);
+        setUpdatingUser(user);
+    }
+
   return (
       <View style={[styles.roundedContainer, styles.moneyContainer]}>
         <View style={styles.pfpContainer}>
@@ -22,7 +32,7 @@ const RentContainerComponent: React.FC<Props> = ({
         <Text style={styles.nameLabel}>{user}</Text>
         <Text style={styles.oweLabel}>Monthly Rent</Text>
         <Text style={styles.oweAmountLabel}>${amount}</Text>
-        <Pressable onPress={setIsUpdatingRent} style={({ pressed }) => ({
+        <Pressable onPress={setUpdate} style={({ pressed }) => ({
             left: '77%',
             top: '33%',
             width: '16%',
