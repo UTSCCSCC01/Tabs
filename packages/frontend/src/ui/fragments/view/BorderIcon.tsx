@@ -1,10 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { TextOBJ } from './TextOBJ';
+
 import { styles } from './mainViewStyles';
 
-export const BorderIcon = (iconName: TextOBJ) => {
+export const BorderIcon = ({iconName}:{iconName: string}) => {
   return (
 
     <View style={styles.iconBorder}>

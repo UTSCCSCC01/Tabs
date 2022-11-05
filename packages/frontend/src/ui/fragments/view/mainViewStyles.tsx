@@ -23,7 +23,8 @@ export const styles = StyleSheet.create({
       height: 3
     },
     shadowRadius: 3,
-    shadowOpacity: 0.5
+    shadowOpacity: 0.5,
+    maxHeight: 150,
   },
 
   myHeader: {
@@ -309,5 +310,49 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 24,
     fontFamily: "Arial"
+  },
+
+  smallBlueText:{
+    fontSize: 14,
+    fontFamily: "Arial",
+    color: "#34ACBC",
+  },
+
+  taskListItem:{
+
+    backgroundColor: "#212121E5",
+    zIndex: 1,
+    borderRadius: 8,
+    flex: 1,
+    flexDirection: 'row',
+    maxHeight: 150,
+    minHeight: 80,
+    width:"100%",
+    justifyContent: "flex-start",
+    marginTop: "4%",
+    padding: "4%",
+
+    alignContent: "center",
+    alignItems: "center",
+
+
+  },
+
+  thumbFormLightBlue: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: "8%",
+    paddingHorizontal: "10%",
+    paddingBottom: "30%",
+    position:'absolute',
+    overflowY: 'scroll',
+    backgroundColor: '#F2F1F1CC',
+    borderRadius: 60,
+    bottom: "-10%",
+    width:"100%",
   }
-});
+
+    
+  });

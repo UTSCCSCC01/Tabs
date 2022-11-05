@@ -14,11 +14,11 @@ export const DescBox2 = (data: DescBoxData) => {
     <View style={styles.rcorners1}>
       <TouchableOpacity style={styles.container}>
         <LinearGradient colors={['#34ACBC', '#9FD3DE']} style={styles.linearGradient1} start={[-0.04, 0]} end={[1.34, 1.34]}>
-          <MaterialCommunityIcons
+        {data.iconName != "none" && <MaterialCommunityIcons
             size={24}
             color={"#FFFFFF"}
             //@ts-ignore
-            name={data.iconName}></MaterialCommunityIcons>
+            name={data.iconName}></MaterialCommunityIcons>}
           <Text style={styles.whiteText2}>{data.text1}</Text>
           <Text style={styles.whiteText1}>{data.text2}</Text>
         </LinearGradient>

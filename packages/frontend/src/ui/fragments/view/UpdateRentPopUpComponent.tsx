@@ -1,13 +1,22 @@
-import React from 'react';
+import { gql, useMutation } from '@apollo/client';
+import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import SvgComponentLightBlue from '../../../assets/images/LightBlueVector';
 
 export type Props = {
+    updatingUser: string,
+    setUpdatingUser: any,
     isUpdatingRent: boolean,
     setIsUpdatingRent: any,
 };
 
+const MODIFY_BILL =
+gql`
+mutation ModifyBillAmount($houseId: String!, $userId:String!, $amount: Float) {
+    modifyBillAmount(houseId:$houseId, userId:$userId, amount:$amount)
+}
+`
 
 /**
 * @name UpdateRentPopUpComponent
@@ -17,13 +26,28 @@ export type Props = {
 * @see RentAdminScreen.tsx where UpdateRentPopUpComponent is used
 */
 const UpdateRentPopUpComponent: React.FC<Props> = ({
+    updatingUser,
+    setUpdatingUser,
     isUpdatingRent,
     setIsUpdatingRent
 }) => {
 
+
+    const [amountInput, setAmountInput] = useState('');
+    const [modifyBillAmount,  { loading, error }] = useMutation(MODIFY_BILL)
+
+    if(loading){
+        return  <Text>{'Loading...'} </Text>
+    }
+    if(error){
+        return <Text>{error.message}</Text>
+    }
+
     const submitHandle = () => {
+        modifyBillAmount({ variables: { houseId: "777", userId: {updatingUser}.updatingUser, amount: Number(amountInput) }}).catch(error => console.log('error: ', error));
         console.log("UPDATED RENT");
         setIsUpdatingRent(false);
+        setUpdatingUser('');
     }
 
   return (
@@ -32,6 +56,8 @@ const UpdateRentPopUpComponent: React.FC<Props> = ({
         <View style={styles.form}>
             <TextInput style={styles.field}
                 placeholder="New Monthly Rent"
+                value = {amountInput}
+                onChangeText={text => setAmountInput(text)}
             />
             <Pressable
                 onPress={submitHandle}

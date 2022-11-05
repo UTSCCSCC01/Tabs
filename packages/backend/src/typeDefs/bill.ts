@@ -24,8 +24,9 @@ export default gql`
             status: String
         ):Bill
 
-        modifyAmount(
-            billId: String
+        modifyBillAmount(
+            houseId: String
+            userId: String
             amount: Float
         ):Boolean
     }

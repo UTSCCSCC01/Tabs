@@ -19,6 +19,7 @@ export let removeAppliance = (debtId: string) => {
  * Display the list of inventory items
  * 
  * @name ViewAppliancesPageList
+ * @param userId User ID of the current user
  */
 const ViewAppliancesPageList: React.FC<Props> = ({
     userId
@@ -71,6 +72,7 @@ const ViewAppliancesPageList: React.FC<Props> = ({
                     <ViewAppliancesPageItem 
                         applianceId = {item.id}
                         name = {item.name}
+                        userId = {userId}
                         type = {item.type}
                         scheduled = {item.scheduled}
                     /> 

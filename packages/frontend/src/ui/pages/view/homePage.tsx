@@ -19,6 +19,8 @@ import ViewAppliancesView from './ViewAppliancesView';
 
 import { folderCommonStyles } from '../../fragments/view';
 import { SvgUri } from 'react-native-svg';
+import FullViewTasksAdminPage from './ViewTasksAdminPage';
+import FullViewTasksPage from './ViewTasksPage';
 
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
@@ -183,9 +185,9 @@ const Home = () => {
                 <Stack.Screen name = 'Inventory' component = {FullInvView} />
                 <Stack.Screen name = 'Rent' component = {RentAdminScreen} />
                 <Stack.Screen name = 'Notifications' component = {DebtScreenView} />
-                <Stack.Screen name = 'Calendar' component = {CalendarPage} />
+                <Stack.Screen name = 'Calendar' component = {FullViewTasksAdminPage} />
                 <Stack.Screen name = 'Appliances' component = {ViewAppliancesView} />
-                <Stack.Screen name = 'To Do' component = {ToDoListPage} />
+                <Stack.Screen name = 'To Do' component = {FullViewTasksPage} />
             </Stack.Navigator>
     )
 }
