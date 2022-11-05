@@ -5,6 +5,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import SvgComponentLightBlue from '../../../assets/images/LightBlueVector';
 
 export type Props = {
+    updatingUser: string,
+    setUpdatingUser: any,
     isUpdatingRent: boolean,
     setIsUpdatingRent: any,
 };
@@ -24,6 +26,8 @@ mutation ModifyBillAmount($houseId: String!, $userId:String!, $amount: Float) {
 * @see RentAdminScreen.tsx where UpdateRentPopUpComponent is used
 */
 const UpdateRentPopUpComponent: React.FC<Props> = ({
+    updatingUser,
+    setUpdatingUser,
     isUpdatingRent,
     setIsUpdatingRent
 }) => {
@@ -40,10 +44,10 @@ const UpdateRentPopUpComponent: React.FC<Props> = ({
     }
 
     const submitHandle = () => {
-        console.log(amountInput);
-        modifyBillAmount({ variables: { houseId: "777", userId: "Roommate garlicbread", amount: Number(amountInput) }}).catch(error => console.log('error: ', error));
+        modifyBillAmount({ variables: { houseId: "777", userId: {updatingUser}.updatingUser, amount: Number(amountInput) }}).catch(error => console.log('error: ', error));
         console.log("UPDATED RENT");
         setIsUpdatingRent(false);
+        setUpdatingUser('');
     }
 
   return (

@@ -14,6 +14,7 @@ import UpdateRentPopUpComponent from '../../fragments/view/UpdateRentPopUpCompon
 */
 const RentAdminScreen: React.FC = () => {
     const [isAddingRent, setIsAddingRent] = React.useState(false);
+    const [updatingUser, setUpdatingUser] = React.useState('');
     const [isUpdatingRent, setIsUpdatingRent] = React.useState(false);
     
     const handleAddRent = () =>
@@ -25,7 +26,7 @@ const RentAdminScreen: React.FC = () => {
             <HeaderComponent screenName='Household Rent'/>
 
             <SafeAreaView style={styles.scrollContainer}>
-                <RentListComponent houseId='777' isUpdatingRent={isUpdatingRent} setIsUpdatingRent={setIsUpdatingRent}/>
+                <RentListComponent houseId='777' updatingUser={updatingUser} setUpdatingUser={setUpdatingUser} isUpdatingRent={isUpdatingRent} setIsUpdatingRent={setIsUpdatingRent}/>
             </SafeAreaView>
             
             <FloatingActionButton name="add item" argument={1} myFunction={handleAddRent}/>
@@ -34,8 +35,8 @@ const RentAdminScreen: React.FC = () => {
             <AddRentPopUpComponent isAddingRent={isAddingRent} setIsAddingRent={setIsAddingRent}/>
             }
 
-            {isUpdatingRent &&
-            <UpdateRentPopUpComponent isUpdatingRent={isUpdatingRent} setIsUpdatingRent={setIsUpdatingRent}/>
+            {isUpdatingRent && (updatingUser != '') &&
+            <UpdateRentPopUpComponent updatingUser={updatingUser} setUpdatingUser={setUpdatingUser} isUpdatingRent={isUpdatingRent} setIsUpdatingRent={setIsUpdatingRent}/>
             }
             
         </View>
