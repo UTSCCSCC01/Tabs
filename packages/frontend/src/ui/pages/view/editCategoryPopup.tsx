@@ -2,76 +2,60 @@ import { Modal, Dimensions, StyleSheet, View, Text, Pressable, TouchableOpacity,
 import React, { useState } from 'react'
 import { shadowType } from 'react-native-floating-action';
 import { TextInput } from 'react-native-gesture-handler';
-
+import Checkbox from 'expo-checkbox';
+import {gql,useMutation} from '@apollo/client'
 let windowHeight = Dimensions.get('window').height;
 let popupHeight = 0.4*windowHeight;
-
-/* Copy paste this where you want to put this modal:
-
-    ***Need this import
-    import { useState } from 'react'
-
-    ***This goes before your return statement
-    const [modalVisible, setModalVisible] = useState(false);
-
-    const onShowPopup = () => {
-      setModalVisible(true)
-    }
-
-    const onClosePopup = () => {
-      setModalVisible(false)
-    }
-
-    *** Put this at the top of the view
-    <DebtPopup show = {modalVisible} closePopup = {onClosePopup} />
-
-    *** Example button that shows the popup
-    <TouchableOpacity onPress={onShowPopup} style= {{backgroundColor: 'yellow', width: 50, height: 50}}/>
-
-*/
 
 
 /**
 * @name AddRemoveButton
 * @param closePopup takes in a void function that is used to close the popup
 * @returns the two buttons used to either request money or send to
-* @see DebtPopup to see where this component is used
+* @see editCategoryPopup to see where this component is used
 */
 
+const EDIT_CATEGORY = gql`
+    mutation Mutation($userId: String, $categoryId: String, $categoryName: String,  $categoryDesc: String) {
 
-const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
+            changeCatName(userId: $userId, categoryId: $categoryId, categoryName: $categoryName)
+            changeCatDesc(userId: $userId, categoryId: $categoryId, categoryDesc: $categoryDesc)
+            toggleRestriction(userId: $userId, categoryId: $categoryId) 
+            }
+`
 
-  const onRequestFrom = () => {
-    props.closePopup()
-  }
+const AddRemoveButton = (props: {userId: string, categoryId: string, categoryName:string, categoryDesc:string, checkBoxValue:boolean, closePopup : (VoidFunction)}) => {
+  const [editCategoryFunction] = useMutation(EDIT_CATEGORY)
 
-  const onSendTo = () => {
-    props.closePopup()
-  }
 
   return(
     <View style = {styles.addRemoveContainer}>
-      <TouchableOpacity style = {styles.addRemoveButtons} onPress = {onRequestFrom}>
-        <Text style = {styles.buttonTextColor}> Request From </Text>
+      <TouchableOpacity style = {styles.addRemoveButtons} onPress = {()=>{
+              editCategoryFunction({variables:{userId:props.userId, categoryId:props.categoryId, categoryName:props.categoryName, categoryDesc:props.categoryDesc}});
+              props.closePopup()}}>
+
+        <Text style = {styles.buttonTextColor}> Edit </Text>
       </TouchableOpacity>
-      <TouchableOpacity style = {styles.addRemoveButtons} onPress = {onSendTo}>
-        <Text style = {styles.buttonTextColor}> Send To </Text>
-      </TouchableOpacity>
+
     </View>
   )
 }
 
 
 /**
-* @name DebtPopup
+* @name editCategoryPopup
+* @param categoryId the category we are editing
 * @param show takes in a boolean in order to define whether or not the popup should show
 * @param closePopup takes in a void function that is used to close the popup
 * @returns returns a popup that allows users to request or send debts to one another
-* @see RentScreen to see where this component is used
 */
 
+const EditCategoryPopup = (props: {userId:string, categoryId: string, categoryName:string, categoryDesc:string, isRestricted:boolean, show : boolean, closePopup : (VoidFunction) }) => {
+    // pass in a value for what it is
+    const [checkboxValue, checkboxUI] = useState(props.isRestricted);
+    const [categoryName, setCategoryName] = useState(props.categoryName)
+    const [categoryDesc, setCategoryDesc] = useState(props.categoryDesc)
 
-const DebtPopup = (props: {show : boolean, closePopup : () => void }) => {
     return (
         <Modal
               animationType="slide"
@@ -81,34 +65,39 @@ const DebtPopup = (props: {show : boolean, closePopup : () => void }) => {
                 props.closePopup();
               }}
             >
-                <TouchableWithoutFeedback
-                  onPress={props.closePopup}
-                >
+                <TouchableWithoutFeedback onPress={props.closePopup}>
                   <View style={styles.centeredView}>
                     <TouchableOpacity style={styles.modalView} activeOpacity={1}>
-                          <Text style={styles.modalText}>User</Text>
-                          <TextInput
-                            style={styles.transactionInput}
-                            keyboardType = 'default'
-                            textAlign='center'
-                            maxLength={28}
-                          />
-                          <Text style={styles.modalText}>Amount</Text>
-                            <TextInput 
-                              style={styles.transactionInput}
-                              keyboardType="number-pad"
-                              textAlign='center'
-                              maxLength={10}
-                            />
-                          <AddRemoveButton closePopup={props.closePopup}/>
+                          <Text style={styles.modalText}>Name</Text>
+                                <TextInput
+                                  style={styles.transactionInput}
+                                  keyboardType = 'default'
+                                  textAlign='center'
+                                  maxLength={28}
+                                  placeholder={categoryName}
+                                  onChangeText = {setCategoryName}
+                                />
+                          <Text style={styles.modalText}> Description</Text>
+                                <TextInput
+                                  style={styles.transactionInput}
+                                  keyboardType = 'default'
+                                  textAlign='center'
+                                  maxLength={28}
+                                  placeholder={categoryDesc}
+                                  onChangeText = {setCategoryDesc}
+                                />
+                                
+                                <Checkbox style = {{paddingRight: 15, backgroundColor: "white"}} value={checkboxValue} onValueChange = {checkboxUI}/>
+                                <Text style={{fontSize: 15}}>Designate Private</Text>
+                        
+                          <AddRemoveButton userId={props.userId} categoryId={props.categoryId} categoryName={categoryName} categoryDesc={categoryDesc} checkBoxValue={checkboxValue} closePopup={props.closePopup}/>
+
                       </TouchableOpacity>
                   </View>
                 </TouchableWithoutFeedback>
         </Modal>
     )
 }
-
-export default DebtPopup;
 
 const styles = StyleSheet.create({
     centeredView: {
@@ -204,4 +193,5 @@ const styles = StyleSheet.create({
     }
 
   });
-  
+
+  export default EditCategoryPopup
