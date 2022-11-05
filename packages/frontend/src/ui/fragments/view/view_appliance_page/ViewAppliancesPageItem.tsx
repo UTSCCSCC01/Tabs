@@ -182,6 +182,7 @@ const ViewAppliancesPageItem: React.FC<Props> = ({
   );
 };
 
+
 export type DeleteProps = {
   isAdmin: boolean;
   applianceId: string;

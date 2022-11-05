@@ -17,6 +17,7 @@ import ApplianceHeaderComponent from '../../fragments/view/ApplianceHeaderCompon
 import DebtPopup from './debtPopup';
 import AddAppliancePopup from './addAppliancePopup';
 import { isAdmin } from '../../../data/AdminUtils';
+
   
 const a = () => {
 
@@ -38,7 +39,6 @@ const ViewAppliancesView: React.FC = () => {
 
       <View style={styles.container}>
         <ApplianceHeaderComponent screenName='Appliances'/>
-
         <ViewAppliancesPageList userId={userId}/>
         
         <FloatingActionButton 
