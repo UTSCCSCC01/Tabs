@@ -5,7 +5,7 @@ const TaskSchema = new Schema(
     {
         houseId: String,
         taskListId:String,
-        author: String,
+        owner: String,
         task: String,
         dateDue: String,
         dateCreated:String,

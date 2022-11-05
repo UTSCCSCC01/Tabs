@@ -105,7 +105,7 @@ const App = () => (
   const MyTabs=()=>{
     return (
       <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Calendar" component={FullViewTaskaPage} options={{tabBarIcon: () => 
+        <Tab.Screen name="Calendar" component={FullInvView} options={{tabBarIcon: () => 
           (<View><MaterialCommunityIcons name="calendar" size={24} color={"#E6E6E6B0"}/></View>)}}/>
 
         <Tab.Screen name="HomePage" component={HomePage} options={{tabBarIcon: () => (<View>

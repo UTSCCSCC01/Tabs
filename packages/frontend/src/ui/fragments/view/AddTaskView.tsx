@@ -48,12 +48,12 @@ mutation CreateSubtask($parentId: String!, $ownerId: String, $taskName: String, 
 `
 
 /**
-* @name TaskListComponent
+* @name AddTaskComponent
 * @param userId id of current user
-* @param isUpdatingTasks a boolean for whether or not tasks are being updated
-* @param setIsUpdatingTasks a function to set isUpdatingTasks to true/false
-* @returns React component with a list of rents for each roommate
-* @see RentAdminScreen.tsx where RentListComponent is used
+* @param houseId id of user's house
+* @param setViewPortId function to swap which view parent renders
+* @returns React component with a form for adding a task for current user
+* @see ViewTasksAdminPage where RentListComponent is used
 */
 const AddTaskComponent = ({userId, houseId, setViewPortId}: {userId: string, houseId: string, setViewPortId: Function}) => {
 
@@ -76,7 +76,7 @@ const AddTaskComponent = ({userId, houseId, setViewPortId}: {userId: string, hou
 
     const addTaskHandler = () =>{
         
-        createTaskMutation({variables:{taskListId: "none", ownderId: userId, taskName: taskName, dateDue: "ASAP", houseId: houseId}}).then(()=>{
+        createTaskMutation({variables:{taskListId: "none", ownerId: userId, taskName: taskName, dateDue: "ASAP", houseId: houseId}}).then(()=>{
             console.log("MUTATION DATA IS: " +JSON.stringify(createSubTaskMutationData.data));
         for (var i in subTaskList){
             creatSubTaskMutation({variables:{parentId: createTaskMutationData.data.createTask.id, ownderId: userId, taskName: i, dateDue: "ASAP", houseId: houseId}})

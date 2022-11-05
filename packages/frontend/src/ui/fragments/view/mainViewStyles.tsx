@@ -350,7 +350,8 @@ export const styles = StyleSheet.create({
     overflowY: 'scroll',
     backgroundColor: '#F2F1F1CC',
     borderRadius: 60,
-    bottom: "-10%"
+    bottom: "-10%",
+    width:"100%",
   }
 
     

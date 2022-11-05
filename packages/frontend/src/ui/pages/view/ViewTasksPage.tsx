@@ -52,7 +52,7 @@ END BLOCK OF OLD CODE */
 
 
 /**
-* @name FullViewTaskaPage
+* @name FullViewTasksPage
 * @returns Component holding the entire view tasks page. Swaps between different sections depending on actions taken.
 */
 const FullViewTasksPage = () => {
@@ -71,6 +71,9 @@ const FullViewTasksPage = () => {
 
 /**
 * @name ViewTasksPage
+* @param userId id of current user
+* @param houseId id of user's house
+* @param setViewPortId function to swap which view parent renders
 * @returns Component to display every roommate's current taks, both completed and in progress.
 */
 const ViewTasksPage = ({houseId, userId, setViewportId} : {houseId:string, userId:string, setViewportId: Function})=>{
