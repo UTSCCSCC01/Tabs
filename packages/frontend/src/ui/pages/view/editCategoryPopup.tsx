@@ -4,16 +4,12 @@ import { shadowType } from 'react-native-floating-action';
 import { TextInput } from 'react-native-gesture-handler';
 import Checkbox from 'expo-checkbox';
 import {gql,useMutation} from '@apollo/client'
+import { InventoryCategory } from '../../fragments/view/InventoryCategory';
+import { useLinkProps } from '@react-navigation/native';
 let windowHeight = Dimensions.get('window').height;
 let popupHeight = 0.4*windowHeight;
 
 
-/**
-* @name AddRemoveButton
-* @param closePopup takes in a void function that is used to close the popup
-* @returns the two buttons used to either request money or send to
-* @see editCategoryPopup to see where this component is used
-*/
 
 const EDIT_CATEGORY = gql`
     mutation Mutation($userId: String, $categoryId: String, $categoryName: String,  $categoryDesc: String) {
@@ -23,8 +19,14 @@ const EDIT_CATEGORY = gql`
             toggleRestriction(userId: $userId, categoryId: $categoryId) 
             }
 `
+/**
+* @name AddRemoveButton
+* @param closePopup takes in a void function that is used to close the popup
+* @returns the two buttons used to either request money or send to
+* @see editCategoryPopup to see where this component is used
+*/
 
-const AddRemoveButton = (props: {userId: string, categoryId: string, categoryName:string, categoryDesc:string, checkBoxValue:boolean, closePopup : (VoidFunction)}) => {
+const AddRemoveButton = (props: {itemState:InventoryCategory, userId: string, categoryId: string, categoryName:string, categoryDesc:string, checkBoxValue:boolean, closePopup :(item:InventoryCategory)=>void} ) => {
   const [editCategoryFunction] = useMutation(EDIT_CATEGORY)
 
 
@@ -32,7 +34,12 @@ const AddRemoveButton = (props: {userId: string, categoryId: string, categoryNam
     <View style = {styles.addRemoveContainer}>
       <TouchableOpacity style = {styles.addRemoveButtons} onPress = {()=>{
               editCategoryFunction({variables:{userId:props.userId, categoryId:props.categoryId, categoryName:props.categoryName, categoryDesc:props.categoryDesc}});
-              props.closePopup()}}>
+              props.itemState.categoryName = props.categoryName
+              props.itemState.description = props.categoryDesc
+              props.itemState.isRestricted = props.checkBoxValue
+              props.closePopup(props.itemState);
+
+              }}>
 
         <Text style = {styles.buttonTextColor}> Edit </Text>
       </TouchableOpacity>
@@ -50,7 +57,7 @@ const AddRemoveButton = (props: {userId: string, categoryId: string, categoryNam
 * @returns returns a popup that allows users to request or send debts to one another
 */
 
-const EditCategoryPopup = (props: {userId:string, categoryId: string, categoryName:string, categoryDesc:string, isRestricted:boolean, show : boolean, closePopup : (VoidFunction) }) => {
+const EditCategoryPopup = (props: {itemState:InventoryCategory, userId:string, categoryId: string, categoryName:string, categoryDesc:string, isRestricted:boolean, show : boolean, closePopup : (item:InventoryCategory)=> void}) => {
     // pass in a value for what it is
     const [checkboxValue, checkboxUI] = useState(props.isRestricted);
     const [categoryName, setCategoryName] = useState(props.categoryName)
@@ -62,10 +69,10 @@ const EditCategoryPopup = (props: {userId:string, categoryId: string, categoryNa
               transparent={true}
               visible={props.show}
               onRequestClose={() => {
-                props.closePopup();
+                props.closePopup(props.itemState);
               }}
             >
-                <TouchableWithoutFeedback onPress={props.closePopup}>
+                <TouchableWithoutFeedback onPress={ () => {props.closePopup(props.itemState)}}>
                   <View style={styles.centeredView}>
                     <TouchableOpacity style={styles.modalView} activeOpacity={1}>
                           <Text style={styles.modalText}>Name</Text>
@@ -90,7 +97,7 @@ const EditCategoryPopup = (props: {userId:string, categoryId: string, categoryNa
                                 <Checkbox style = {{paddingRight: 15, backgroundColor: "white"}} value={checkboxValue} onValueChange = {checkboxUI}/>
                                 <Text style={{fontSize: 15}}>Designate Private</Text>
                         
-                          <AddRemoveButton userId={props.userId} categoryId={props.categoryId} categoryName={categoryName} categoryDesc={categoryDesc} checkBoxValue={checkboxValue} closePopup={props.closePopup}/>
+                          <AddRemoveButton itemState = {props.itemState} userId={props.userId} categoryId={props.categoryId} categoryName={categoryName} categoryDesc={categoryDesc} checkBoxValue={checkboxValue} closePopup={props.closePopup}/>
 
                       </TouchableOpacity>
                   </View>
