@@ -10,15 +10,15 @@ import { gql, useMutation } from '@apollo/client';
 
 
 export const TOGGLE_COMPLETION =gql`
-mutation DoneTask($taskId: String) {
-  doneTask(taskId: $taskId)
-}`
+mutation ToggleDoneTask($taskId: String, $doneStatus: Boolean) {
+    toggleDoneTask(taskId: $taskId, doneStatus: $doneStatus)
+  }`
 
 export const TaskListItem = ({taskDone, taskName, dueDate, author, subtasks, taskId}:{taskDone: boolean, 
     taskName: string, dueDate:string, author:string, taskId: string, 
     subtasks:{taskDone:boolean, taskName:string, dueDate:string, author: string}[]}) => {
   
-  console.log("LOADING TASK LIST ITEM");
+  console.log("LOADING TASK LIST ITE WITH NAME:" + taskName + "\nWITH ID: " + taskId);
 
   const [doneTask, toggleDoneTask] = useState(taskDone);
 
@@ -35,8 +35,9 @@ export const TaskListItem = ({taskDone, taskName, dueDate, author, subtasks, tas
     
    const toggleCompletionHandler = (value:boolean) => {
 
-    toggleCompletionMutationFunction({variables: {taskId: taskId}})
-    toggleDoneTask(!doneTask)
+    console.log("TOggling completion with value: " + value)
+    toggleCompletionMutationFunction({variables: {taskId: taskId, doneTask: value}});
+    toggleDoneTask(value);
     
 
    }

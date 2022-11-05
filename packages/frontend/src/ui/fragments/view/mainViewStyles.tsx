@@ -343,12 +343,14 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 52,
-    paddingBottom: 34,
-    gap: 20,
+    paddingTop: "8%",
+    paddingHorizontal: "10%",
+    paddingBottom: "30%",
+    position:'absolute',
     overflowY: 'scroll',
-    background: '#F2F1F1CC',
+    backgroundColor: '#F2F1F1CC',
     borderRadius: 60,
+    bottom: "-10%"
   }
 
     

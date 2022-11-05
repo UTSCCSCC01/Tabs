@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {MyHeader, DescBoxData, styles, DoubleDescBox, FloatingActionButton} from '../../fragments/view'
 import TaskListComponent from '../../fragments/view/TaskListComponent';
 import { TaskListFolder } from '../../fragments/view/TaskListFolder';
+import AddTaskComponent from '../../fragments/view/AddTaskView';
 
 
 
@@ -28,7 +29,7 @@ import { TaskListFolder } from '../../fragments/view/TaskListFolder';
 
 //initializing data to pass into this page's components
 
-const dbd1 = new DescBoxData("none", "7", "Assigned");
+const dbd1 = new DescBoxData("none", "1", "Assigned");
 const dbd2 = new DescBoxData("none", "1", "Completed");
 const data2 = [dbd1, dbd2];
 
@@ -60,7 +61,8 @@ const FullViewTasksPage = () => {
   return(
     <View>
 
-    {viewPortId == 0 && <ViewTasksPage houseId='testHouse' userId='testUser' setViewportId={setViewPortId}></ViewTasksPage>}
+    {viewPortId == 0 && <ViewTasksPage houseId='testHouse' userId='testUser' setViewportId={setViewPortId}/>}
+    {viewPortId == 1 && <AddTaskComponent houseId='testHouse' userId='testUser' setViewPortId={setViewPortId}/>}
     </View>
   )
 
