@@ -1,4 +1,5 @@
-import React from 'react';
+import { gql, useMutation } from '@apollo/client';
+import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import SvgComponentLightBlue from '../../../assets/images/LightBlueVector';
@@ -8,6 +9,12 @@ export type Props = {
     setIsUpdatingRent: any,
 };
 
+const MODIFY_BILL =
+gql`
+mutation ModifyBillAmount($houseId: String!, $userId:String!, $amount: Float) {
+    modifyBillAmount(houseId:$houseId, userId:$userId, amount:$amount)
+}
+`
 
 /**
 * @name UpdateRentPopUpComponent
@@ -21,7 +28,20 @@ const UpdateRentPopUpComponent: React.FC<Props> = ({
     setIsUpdatingRent
 }) => {
 
+
+    const [amountInput, setAmountInput] = useState('');
+    const [modifyBillAmount,  { loading, error }] = useMutation(MODIFY_BILL)
+
+    if(loading){
+        return  <Text>{'Loading...'} </Text>
+    }
+    if(error){
+        return <Text>{error.message}</Text>
+    }
+
     const submitHandle = () => {
+        console.log(amountInput);
+        modifyBillAmount({ variables: { houseId: "777", userId: "Roommate garlicbread", amount: Number(amountInput) }}).catch(error => console.log('error: ', error));
         console.log("UPDATED RENT");
         setIsUpdatingRent(false);
     }
@@ -32,6 +52,8 @@ const UpdateRentPopUpComponent: React.FC<Props> = ({
         <View style={styles.form}>
             <TextInput style={styles.field}
                 placeholder="New Monthly Rent"
+                value = {amountInput}
+                onChangeText={text => setAmountInput(text)}
             />
             <Pressable
                 onPress={submitHandle}
