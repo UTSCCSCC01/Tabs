@@ -17,6 +17,11 @@ export default gql`
             houseId: String
             isAdmin: Boolean
             isOwner: Boolean
+            isBusy: Boolean
+            phoneNumber: String
+            emailAddress: String
+            silentHours: String
+            additionalInfo: String
         ): HouseMember
         updateHouseMemberAdmin(
             userId: String!
@@ -26,6 +31,26 @@ export default gql`
             userId: String!
             isOwner: Boolean!
         ):Boolean!
+        updateHouseMemberBusy(
+            userId: String!
+            isBusy: Boolean!
+        ):Boolean!
+        updateHouseMemberPhone(
+            userId: String!
+            phoneNumber: String!
+        ):Boolean!
+        updateHouseMemberEmail(
+            userId: String!
+            emailAddress: String!
+        ):Boolean!
+        updateHouseMemberSilentHours(
+            userId: String!
+            silentHours: String!
+        ):Boolean!
+        updateHouseMemberAdditionalInfo(
+            userId: String!
+            additionalInfo: String!
+        ):Boolean!
     }
   
     type HouseMember {
@@ -33,5 +58,10 @@ export default gql`
         houseId: String!
         isAdmin: Boolean!
         isOwner: Boolean!
+        isBusy: Boolean!
+        phoneNumber: String!
+        emailAddress: String!
+        silentHours: String!
+        additionalInfo: String!
     }
 `

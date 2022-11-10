@@ -7,6 +7,11 @@ const HouseMemberSchema = new Schema(
         houseId: String,
         isAdmin: Boolean,
         isOwner: Boolean,
+        isBusy: Boolean,
+        phoneNumber: String,
+        emailAddress: String,
+        silentHours: String,
+        additionalInfo: String
     }
 )
 
