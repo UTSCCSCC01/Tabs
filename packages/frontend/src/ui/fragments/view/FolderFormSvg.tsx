@@ -9,10 +9,11 @@ import { FolderFormListItem } from "./FolderFormListItem";
 export const FolderFormSvg = (data: FolderSvgForm) => {
 
   console.log(data.folder.title);
+  console.log("\n\nLoading a folder form svg\n\n")
 
   return (
     <View style={styles.maxContainer}>
-      <SvgComponentLightBlue zIndex={-1} />
+      <SvgComponentLightBlue />
 
 
       <GestureRecognizer style={styles.folderLabelHolder} onSwipeDown={() => data.swipeFunction.myFunction(true)} onSwipeUp={() => data.swipeFunction.myFunction(false)}>

@@ -14,6 +14,7 @@ import {MyHeader, FunctionObject, HeaderData, DescBoxData, FolderItemData, Inven
 
 import Checkbox from 'expo-checkbox';
 import { folderCommonStyles } from '../../fragments/view/FolderCommonStyles';
+import { foodExpiryScheduleNotification } from '../../fragments/notifications';
 
 
 
@@ -276,6 +277,8 @@ const InvView = ({switchViewFunction, inventoryId, setAddItemFunction, userId} :
     // while (addItemMutationData.loading) {
     //   console.log("Waiting")
     // } 
+
+    foodExpiryScheduleNotification("12/27/2001");
     backButton();
   }
 

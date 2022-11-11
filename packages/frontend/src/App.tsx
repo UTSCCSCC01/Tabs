@@ -16,6 +16,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import DebtScreenView from "./ui/pages/view/DebtScreenView";
 import FullViewTaskaPage from "./ui/pages/view/ViewTasksPage";
+import FullInvView2 from "./ui/pages/view/inventoryView2";
 
 
 Notifications.setNotificationHandler({
@@ -105,7 +106,7 @@ const App = () => (
   const MyTabs=()=>{
     return (
       <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Calendar" component={FullInvView} options={{tabBarIcon: () => 
+        <Tab.Screen name="Calendar" component={FullInvView2} options={{tabBarIcon: () => 
           (<View><MaterialCommunityIcons name="calendar" size={24} color={"#E6E6E6B0"}/></View>)}}/>
 
         <Tab.Screen name="HomePage" component={HomePage} options={{tabBarIcon: () => (<View>

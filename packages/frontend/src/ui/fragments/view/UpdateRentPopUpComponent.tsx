@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import SvgComponentLightBlue from '../../../assets/images/LightBlueVector';
+import { rentScheduleNotification } from '../notifications';
 
 export type Props = {
     updatingUser: string,
@@ -46,6 +47,7 @@ const UpdateRentPopUpComponent: React.FC<Props> = ({
     const submitHandle = () => {
         modifyBillAmount({ variables: { houseId: "777", userId: {updatingUser}.updatingUser, amount: Number(amountInput) }}).catch(error => console.log('error: ', error));
         console.log("UPDATED RENT");
+        rentScheduleNotification("12/27/2001");
         setIsUpdatingRent(false);
         setUpdatingUser('');
     }
