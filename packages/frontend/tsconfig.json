@@ -1,7 +1,8 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
-    "strictPropertyInitialization": false
+    "strict": false,
+    "strictPropertyInitialization": false,
+    "noImplicitAny": false
   }
 }

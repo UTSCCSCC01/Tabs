@@ -1,7 +1,6 @@
 import { SvgUri } from "react-native-svg";
 
 export class ApplianceModel {
-
     id: string;
     name: string;
     type: ApplianceType;
