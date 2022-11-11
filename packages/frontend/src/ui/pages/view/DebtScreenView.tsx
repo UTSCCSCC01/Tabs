@@ -1,9 +1,9 @@
 import { gql, InMemoryCache, useLazyQuery, useQuery } from '@apollo/client';
 import React from 'react';
 import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar, RefreshControl} from 'react-native';
-import HeaderComponent from '../../fragments/view/HeaderComponent';
-import { FloatingActionButton } from '../../fragments/view/FloatingActionButton';
-import ActiveDebtListComponent from '../../fragments/view/ActiveDebtListComponent';
+import HeaderComponent from '../../fragments/view/common/HeaderComponent';
+import { FloatingActionButton } from '../../fragments/view/common/FloatingActionButton';
+import ActiveDebtListComponent from '../../fragments/view/debt/ActiveDebtListComponent';
   
 const handleRequestDebt = () => {
 
