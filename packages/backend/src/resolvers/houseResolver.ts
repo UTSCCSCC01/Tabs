@@ -25,15 +25,15 @@ const resolvers = {
             root,
             args: {owner: String, name: String; address: String, dateCreated: String}
         ): Promise<HouseDocument> =>{
-            const empty = new House();
+
             const house = await House.create(args)
             .then((house)=>{ 
                 console.log("Successfuly added house to server");
                 return house
             })
-            .catch(()=>{
+            .catch((house)=>{
                 console.log("Failure to add house to server");
-                return empty
+                return house
             })
             return house
         },
@@ -86,10 +86,13 @@ const resolvers = {
                 return false;
             })
             const empty = new House();
+            empty._id = null
+
             //checks if owner is found
             if (check == true){
             const house = await House.findByIdAndUpdate(args.houseId, {$set:{name: args.name}})
             .then((house)=>{ 
+                house.name = args.name
                 console.log("Successfuly modified house name");
                 return house
             })
@@ -100,7 +103,7 @@ const resolvers = {
                 return house
             }
             else{
-                return empty
+                return empty;
             }
          },
                  
@@ -119,10 +122,13 @@ const resolvers = {
                 return false;
             })
             const empty = new House();
+            empty._id = null
+
             //checks if owner is found 
             if (check == true){
             const house = await House.findByIdAndUpdate(args.houseId, {$set:{owner: args.newOwner}})
             .then((house)=>{ 
+                house.owner = args.newOwner;
                 console.log("Successfuly modified house owner");
                 return house
             })
@@ -153,20 +159,23 @@ const resolvers = {
                 return false;
             })
             const empty = new House();
+            empty._id = null
             //checks if owner is found 
             if (check == true){
             const house = await House.findByIdAndUpdate(args.houseId, {$set:{address: args.address}})
             .then((house)=>{ 
-                console.log("Successfuly modified house owner");
+                house.address = args.address
+                console.log("Successfuly modified house address");
                 return house
             })
             .catch((house)=>{
-                console.log("Failure to modify house owner");
+                console.log("Failure to modify house address");
                 return house
             })
                 return house
             }
             else{
+
                 return empty
             }
          },

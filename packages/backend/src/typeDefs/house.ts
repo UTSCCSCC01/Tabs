@@ -29,23 +29,23 @@ export default gql`
             houseId:String
             owner: String
             name: String
-        ): House
+        ):House
 
         modifyHouseOwner(
             houseId:String
             owner: String
             newOwner:String
-        ): House
+        ):House
 
         modifyHouseAddress(
             houseId:String
             owner: String
             address: String
-        ): House
+        ):House
     }
   
     type House {
-        id: String,
+        id: ID,
         owner: String, #user Id
         name: String,
         address: String,
