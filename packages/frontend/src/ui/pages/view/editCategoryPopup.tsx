@@ -4,7 +4,7 @@ import { shadowType } from 'react-native-floating-action';
 import { TextInput } from 'react-native-gesture-handler';
 import Checkbox from 'expo-checkbox';
 import {gql,useMutation} from '@apollo/client'
-import { InventoryCategory } from '../../fragments/view/InventoryCategory';
+import { InventoryCategory } from '../../fragments/view/inventory/InventoryCategory';
 import { useLinkProps } from '@react-navigation/native';
 let windowHeight = Dimensions.get('window').height;
 let popupHeight = 0.4*windowHeight;

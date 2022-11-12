@@ -8,4 +8,5 @@ import bill from './bill'
 import task from './task'
 import taskList from './taskList'
 import houseMember from './houseMember'
-export default [root,user,inventory,item,category,debt,bill, task, taskList, houseMember]
+import house from './house'
+export default [root,user,inventory,item,category,debt,bill, task, taskList, houseMember, house]
