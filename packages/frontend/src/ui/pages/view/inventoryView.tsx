@@ -6,14 +6,13 @@ import { FloatingAction } from "react-native-floating-action";
 
 import { gql, useMutation, useQuery } from '@apollo/client';
 
-import inventoryController from '../controller/inventoryController';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import AddItemView from './AddFoodItemView';
 import {MyHeader, FunctionObject, HeaderData, DescBoxData, FolderItemData, InventoryItem,FolderItemList,FolderSvgForm,FormItemList,FormItem, styles, TextForm, FolderFormSvg, FloatingActionButton, FolderSvg,DoubleDescBox,FolderBackdropActionButton, FolderBackdropActionButtonArgument,InventoryCategory} from '../../fragments/view'
 
 import Checkbox from 'expo-checkbox';
-import { folderCommonStyles } from '../../fragments/view/FolderCommonStyles';
+import { folderCommonStyles } from '../../fragments/view/common/FolderCommonStyles';
 
 
 
