@@ -26,10 +26,35 @@ async function hasPermissionFunc(userId: String, categoryId: String): Promise<Bo
     return x
 }
 
+
+async function findNumberItems(categoryId: String):Promise<number>{
+    const item = await Item.countDocuments({categoryId: categoryId})
+    return item
+}
+
+async function findNumberExpiredFunc(categoryId: String):Promise<number>{
+    const date = Date.now();
+    const expired = await Item.countDocuments({ categoryId: categoryId, expiration: {$lt:date}})
+    return expired
+}
+
+async function findSoonExpiredItemsFunc(categoryId: String, time: number):Promise<ItemDocument[]>{
+    const date = Date.now();
+    const item = await Item.find({categoryId: categoryId, expiration:{$gte:date, $lte:time}})
+    return item
+}
+
+async function findAllExpiredItemsFunc():Promise<ItemDocument[]>{
+    const date = Date.now();
+    const item = await Item.find({expiration: {$lt:date}})
+    return item
+}
+
 async function findItemFunc(itemId:String):Promise<ItemDocument> {
     const item = await Item.findById(itemId)
     return item
 }
+
 
 async function findItemsByCategoryFunc(categoryId:String):Promise<ItemDocument[]>{
     const items = await Item.find({categoryId:categoryId})
@@ -106,6 +131,18 @@ const resolvers = {
         },
         findItemsByCategory: async(root, args: {categoryId: String}, context):Promise<ItemDocument[] | void> => {
             return await findItemsByCategoryFunc(args.categoryId)
+        },
+        findAllExpiredItems: async(root, args):Promise<ItemDocument[]> => {
+            return await findAllExpiredItemsFunc()
+        },
+        findNumberItems: async(root, args:{categoryId: String}):Promise<number> => {
+            return await findNumberItems(args.categoryId)
+        },
+        findNumberExpiredFunc: async(root, args:{categoryId: String}):Promise<number> => {
+            return await findNumberExpiredFunc(args.categoryId)
+        },
+        findSoonExpiredItems: async(root, args:{categoryId: String, time:number}):Promise<ItemDocument[]> =>{
+            return await findSoonExpiredItemsFunc(args.categoryId, args.time)
         }
     },
 

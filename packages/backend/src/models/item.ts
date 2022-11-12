@@ -6,7 +6,7 @@ const ItemSchema = new Schema(
         name: String,
         categoryId:String,
         quantity:Number,
-        expiration:String,
+        expiration: Number,
         tags:[String]
     }
 )

@@ -4,7 +4,7 @@ export interface ItemDocument extends Document {
     name: String,
     categoryId:String,
     quantity:Number,
-    expiration:String,
+    expiration:Number,
     tags:[String]
 }
 //interface

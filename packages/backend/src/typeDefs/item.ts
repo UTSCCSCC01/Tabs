@@ -39,7 +39,7 @@ export default gql`
   type Item {
     id: String,
     quantity:Int,
-    expiration:String,
+    expiration:Int,
     tags:[String]
     categoryId: String,
     name: String
