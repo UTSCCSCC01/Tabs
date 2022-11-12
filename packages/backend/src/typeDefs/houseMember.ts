@@ -14,12 +14,11 @@ export default gql`
     extend type Mutation {
         addHouseMember(
             userId: String
+            name: String
             houseId: String
             isAdmin: Boolean
             isOwner: Boolean
             isBusy: Boolean
-            phoneNumber: String
-            emailAddress: String
             silentHours: String
             additionalInfo: String
         ): HouseMember
@@ -35,14 +34,6 @@ export default gql`
             userId: String!
             isBusy: Boolean!
         ):Boolean!
-        updateHouseMemberPhone(
-            userId: String!
-            phoneNumber: String!
-        ):Boolean!
-        updateHouseMemberEmail(
-            userId: String!
-            emailAddress: String!
-        ):Boolean!
         updateHouseMemberSilentHours(
             userId: String!
             silentHours: String!
@@ -55,12 +46,11 @@ export default gql`
   
     type HouseMember {
         userId: String!
+        name: String!
         houseId: String!
         isAdmin: Boolean!
         isOwner: Boolean!
         isBusy: Boolean!
-        phoneNumber: String!
-        emailAddress: String!
         silentHours: String!
         additionalInfo: String!
     }

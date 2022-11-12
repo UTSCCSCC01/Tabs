@@ -22,18 +22,6 @@ async function updateHouseMemberBusyFunc(userId:String, isBusy:Boolean):Promise<
     return x
 }
 
-async function updateHouseMemberPhoneFunc(userId:String, phoneNumber:String):Promise<Boolean>{
-    let x;
-    await HouseMember.findOneAndUpdate({userId: userId}, { phoneNumber: phoneNumber}) .then(()=>{console.log("House Member phone number succesfully updated"); x= true}).catch(()=>{console.log("Failed to modify house member phone number"); x= false})
-    return x
-}
-
-async function updateHouseMemberEmailFunc(userId:String, emailAddress:String):Promise<Boolean>{
-    let x;
-    await HouseMember.findOneAndUpdate({userId: userId}, { emailAddress: emailAddress}) .then(()=>{console.log("House Member email address succesfully updated"); x= true}).catch(()=>{console.log("Failed to modify house member email address"); x= false})
-    return x
-}
-
 async function updateHouseMemberSilentHoursFunc(userId:String, silentHours:String):Promise<Boolean>{
     let x;
     await HouseMember.findOneAndUpdate({userId: userId}, { silentHours: silentHours}) .then(()=>{console.log("House Member silent hours succesfully updated"); x= true}).catch(()=>{console.log("Failed to modify house member silent hours"); x= false})
@@ -65,7 +53,7 @@ const resolvers = {
     Mutation: {
         addHouseMember: async(
             root,
-            args: {userId: String, houseId: String; isAdmin: Boolean, isOwner: Boolean, isBusy: Boolean, phoneNumber: String, emailAddress: String, silentHours: String, additionalInfo: String}
+            args: {userId: String, name: String; houseId: String; isAdmin: Boolean, isOwner: Boolean, isBusy: Boolean, silentHours: String, additionalInfo: String}
         ): Promise<HouseMemberDocument> =>{
             const houseMember = await HouseMember.create(args)
             console.log("Successfuly added new House Member to server")
@@ -82,14 +70,6 @@ const resolvers = {
 
         updateHouseMemberBusy: async(root, args: {userId: String, isBusy: Boolean}):Promise<Boolean> =>{
             return await updateHouseMemberBusyFunc(args.userId, args.isBusy);
-        },
-
-        updateHouseMemberPhone: async(root, args: {userId: String, phoneNumber: String}):Promise<Boolean> =>{
-        return await updateHouseMemberPhoneFunc(args.userId, args.phoneNumber);
-        },
-
-        updateHouseMemberEmail: async(root, args: {userId: String, emailAddress: String}):Promise<Boolean> =>{
-            return await updateHouseMemberEmailFunc(args.userId, args.emailAddress);
         },
 
         updateHouseMemberSilentHours: async(root, args: {userId: String, silentHours: String}):Promise<Boolean> =>{
