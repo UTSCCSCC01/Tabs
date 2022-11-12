@@ -90,7 +90,7 @@ async function subtractItemFunc(userId:String, itemId:String):Promise<Boolean> {
     
 }
 
-async function createItemfunc(userId:String, categoryId:String, name:String, expiration:String):Promise<String>{
+async function createItemfunc(userId:String, categoryId:String, name:String, expiration:Number):Promise<String>{
     if (await hasPermissionFunc(userId, categoryId) == false) {
         return ""
     }
@@ -153,7 +153,7 @@ const resolvers = {
         subtractItem: async(root, args:{userId:String, itemId:String}, context):Promise<Boolean> => {
             return await subtractItemFunc(args.userId, args.itemId)
         },
-        createItem: async(root, args:{userId:String, categoryId:String, name:String, expiration:String}, context):Promise<String> =>{
+        createItem: async(root, args:{userId:String, categoryId:String, name:String, expiration:Number}, context):Promise<String> =>{
             return await createItemfunc(args.userId, args.categoryId, args.name, args.expiration)
         },
         modifyItemName: async(root, args: {userId:String, itemId: String, name: String}, context):Promise<Boolean> =>{
