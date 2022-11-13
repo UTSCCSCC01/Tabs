@@ -6,11 +6,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 import {MyHeader, DescBoxData, styles, DoubleDescBox, FloatingActionButton, InventoryCategory} from '../../fragments/view'
-import TaskListComponent from '../../fragments/view/TaskListComponent';
-import { TaskListFolder } from '../../fragments/view/TaskListFolder';
-import AddTaskComponent from '../../fragments/view/AddTaskView';
+import TaskListComponent from '../../fragments/view/tasks/TaskListComponent';
+import { TaskListFolder } from '../../fragments/view/tasks/TaskListFolder';
+import AddTaskComponent from '../../fragments/view/tasks/AddTaskView';
 import DropDownPicker from 'react-native-dropdown-picker';
-import AddTaskAdminComponent from '../../fragments/view/AddTaskAdminView';
+import AddTaskAdminComponent from '../../fragments/view/tasks/AddTaskAdminView';
 
 
 

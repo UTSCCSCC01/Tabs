@@ -1,11 +1,11 @@
 import { gql, InMemoryCache, useLazyQuery, useQuery } from '@apollo/client';
 import React from 'react';
 import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar, RefreshControl} from 'react-native';
-import HeaderComponent from '../../fragments/view/HeaderComponent';
-import { FloatingActionButton } from '../../fragments/view/FloatingActionButton';
-import RentListComponent from '../../fragments/view/RentListComponent';
-import AddRentPopUpComponent from '../../fragments/view/AddRentPopUpComponent';
-import UpdateRentPopUpComponent from '../../fragments/view/UpdateRentPopUpComponent';
+import HeaderComponent from '../../fragments/view/common/HeaderComponent';
+import { FloatingActionButton } from '../../fragments/view/common/FloatingActionButton';
+import RentListComponent from '../../fragments/view/rent/RentListComponent';
+import AddRentPopUpComponent from '../../fragments/view/rent/AddRentPopUpComponent';
+import UpdateRentPopUpComponent from '../../fragments/view/rent/UpdateRentPopUpComponent';
 
 
 /**
