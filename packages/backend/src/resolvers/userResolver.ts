@@ -27,7 +27,7 @@ const resolvers = {
             root,
             args: {username: String, password: String}
         ): Promise<UserDocument> =>{
-            const user = await User.findOne({ username: args.username }).select("password")
+            const user = await User.findOne({ username: args.username })
             if (user == null) {
                 console.log("User not found")
             } else if (await user.matchesPassword(args.password)) {
