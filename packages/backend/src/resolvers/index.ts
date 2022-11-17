@@ -6,6 +6,7 @@ import debt from './debtResolver'
 import bill from './billResolver'
 import taskList from './taskListResolver'
 import task from './taskResolver'
+import houseMember from './houseMemberResolver'
 import house from './houseResolver'
 
-export default [user,inventory,category,item,debt,bill,task,taskList,house]
+export default [user,inventory,category,item,debt,bill,task,taskList,houseMember,house]
