@@ -20,7 +20,7 @@ export default gql`
     ):Int
     findSoonExpiredItems(
       categoryId:String
-      time: Int
+      time: String
     ):[Item]
   }
   extend type Mutation {
@@ -28,7 +28,7 @@ export default gql`
       userId: String
       categoryId: String,
       name: String,
-      expiration: Int
+      expiration: String
     ): String
     addItem(
       userId: String
@@ -48,11 +48,15 @@ export default gql`
       itemId:String,
       categoryId:String
     ): Boolean
+    modifyItemExpiration(
+      userId: String,
+      expiration: String
+    ): Boolean
   }
   type Item {
     id: String,
     quantity:Int,
-    expiration:Int,
+    expiration:String,
     tags:[String]
     categoryId: String,
     name: String

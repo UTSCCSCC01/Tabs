@@ -6,20 +6,20 @@ import item from '../typeDefs/item'
 
 
 async function hasPermissionFunc(userId: String, categoryId: String): Promise<Boolean> {
-    let x
+    let x;
     const res = await Category.findById(categoryId)
     .then((res) => {
-        console.log("categoryId was found")
-        if (res.isRestricted == false || res.isRestricted == null ||
-           res.isRestricted == true && (res.owner == userId || res.admins.includes(userId))) {
+        console.log("categoryId was found...")
+        if (res.isRestricted == false ||
+           (res.isRestricted == true && (res.owner == userId || res.admins.includes(userId)))) {
+            console.log("Permission")
             x=true
         } else {
             console.log("no permission :(")
             x=false
         }
-    })
-    .catch(() => {
-        console.log("categoryId was not found")
+    }).catch(() => {
+        console.log("categoryId was not found...")
         x=false
     })
 
@@ -38,15 +38,16 @@ async function findNumberExpiredFunc(categoryId: String):Promise<number>{
     return expired
 }
 
-async function findSoonExpiredItemsFunc(categoryId: String, time: number):Promise<ItemDocument[]>{
+async function findSoonExpiredItemsFunc(categoryId: String, time: String):Promise<ItemDocument[]>{
     const date = Date.now();
-    const item = await Item.find({categoryId: categoryId, expiration:{$gte:date, $lte:time}})
+    const t = Number(time)
+    const item = await Item.find({categoryId: categoryId, expiration:{$gte:date, $lte:t}})
     return item
 }
 
-async function findAllExpiredItemsFunc():Promise<ItemDocument[]>{
+async function findAllExpiredItemsFunc(categoryId: String):Promise<ItemDocument[]>{
     const date = Date.now();
-    const item = await Item.find({expiration: {$lt:date}})
+    const item = await Item.find({categoryId: categoryId,expiration: {$lt:date}})
     return item
 }
 
@@ -90,12 +91,13 @@ async function subtractItemFunc(userId:String, itemId:String):Promise<Boolean> {
     
 }
 
-async function createItemfunc(userId:String, categoryId:String, name:String, expiration:Number):Promise<String>{
+async function createItemfunc(userId:String, categoryId:String, name:String, expiration:String):Promise<String>{
     if (await hasPermissionFunc(userId, categoryId) == false) {
         return ""
     }
     let x;
-    const res = await Item.create({categoryId:categoryId, name:name, expiration:expiration}).then((res)=>{console.log("Created Item"); x=res.id}).catch(()=>{console.log("Failed to create Item"); x=""})
+    const exp = Number(expiration)
+    const res = await Item.create({categoryId:categoryId, name:name, expiration:exp}).then((res)=>{console.log("Created Item"); x=res.id}).catch(()=>{console.log("Failed to create Item"); x=""})
     return x
 
 }
@@ -123,6 +125,19 @@ async function modifyItemCategoryFunc(userId:String, itemId: String, categoryId:
 
     return x
 }
+
+async function modifyItemExpriationFunc(userId: String, itemId:String, expiration: String): Promise<Boolean> {
+    const res = await Item.findById(itemId)
+    if (await hasPermissionFunc(userId, res.categoryId) == false) {
+        return false
+    }
+    let x
+    await Item.findByIdAndUpdate(itemId, { expiration: expiration}).then(()=>{console.log("Successfully modified item category"); x=true}).catch(()=>{console.log("Failed to modify item category"); x=false})
+
+    return x
+}
+
+
 const resolvers = {
     
     Query:{
@@ -132,8 +147,8 @@ const resolvers = {
         findItemsByCategory: async(root, args: {categoryId: String}, context):Promise<ItemDocument[] | void> => {
             return await findItemsByCategoryFunc(args.categoryId)
         },
-        findAllExpiredItems: async(root, args):Promise<ItemDocument[]> => {
-            return await findAllExpiredItemsFunc()
+        findAllExpiredItems: async(root, args:{categoryId:String}):Promise<ItemDocument[]> => {
+            return await findAllExpiredItemsFunc(args.categoryId)
         },
         findNumberItems: async(root, args:{categoryId: String}):Promise<number> => {
             return await findNumberItems(args.categoryId)
@@ -141,7 +156,7 @@ const resolvers = {
         findNumberExpiredFunc: async(root, args:{categoryId: String}):Promise<number> => {
             return await findNumberExpiredFunc(args.categoryId)
         },
-        findSoonExpiredItems: async(root, args:{categoryId: String, time:number}):Promise<ItemDocument[]> =>{
+        findSoonExpiredItems: async(root, args:{categoryId: String, time:String}):Promise<ItemDocument[]> =>{
             return await findSoonExpiredItemsFunc(args.categoryId, args.time)
         }
     },
@@ -153,7 +168,7 @@ const resolvers = {
         subtractItem: async(root, args:{userId:String, itemId:String}, context):Promise<Boolean> => {
             return await subtractItemFunc(args.userId, args.itemId)
         },
-        createItem: async(root, args:{userId:String, categoryId:String, name:String, expiration:Number}, context):Promise<String> =>{
+        createItem: async(root, args:{userId:String, categoryId:String, name:String, expiration:String}, context):Promise<String> =>{
             return await createItemfunc(args.userId, args.categoryId, args.name, args.expiration)
         },
         modifyItemName: async(root, args: {userId:String, itemId: String, name: String}, context):Promise<Boolean> =>{
@@ -162,6 +177,10 @@ const resolvers = {
         modifyItemCategory: async(root, args:{userId:String, itemId: String, categoryId: String}, context):Promise<Boolean> =>{
 
             return await modifyItemCategoryFunc(args.userId, args.itemId, args.categoryId)
+        },
+        modifyItemExpiration: async(root, args:{userId:String, itemId:String, expiration: String }, context):Promise<Boolean> =>{
+
+            return await modifyItemExpriationFunc(args.userId, args.itemId, args.expiration)
         }
 
     }
