@@ -28,7 +28,6 @@ const IndividualProfilePageView = () => {
   // QUERY DB HERE TO UPDATE STATUS
 
 
-
   let [status, setStatus] = React.useState('Available')
   let [statusColour, setStatusColour] = React.useState('#1adb87')
 
