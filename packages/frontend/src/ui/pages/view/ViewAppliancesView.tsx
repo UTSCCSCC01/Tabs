@@ -38,7 +38,7 @@ const ViewAppliancesView: React.FC = () => {
     return (
 
       <View style={styles.container}>
-        <ApplianceHeaderComponent screenName='Appliances'/>
+        <HeaderComponent screenName='Appliances'/>
         <ViewAppliancesPageList userId={userId}/>
         
         <FloatingActionButton 

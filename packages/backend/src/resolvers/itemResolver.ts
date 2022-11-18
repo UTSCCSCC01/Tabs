@@ -132,7 +132,8 @@ async function modifyItemExpriationFunc(userId: String, itemId:String, expiratio
         return false
     }
     let x
-    await Item.findByIdAndUpdate(itemId, { expiration: expiration}).then(()=>{console.log("Successfully modified item category"); x=true}).catch(()=>{console.log("Failed to modify item category"); x=false})
+    let exp = Number(expiration)
+    await Item.findByIdAndUpdate(itemId, { expiration: exp}).then(()=>{console.log("Successfully modified item category"); x=true}).catch(()=>{console.log("Failed to modify item category"); x=false})
 
     return x
 }
