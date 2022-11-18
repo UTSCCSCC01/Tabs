@@ -21,6 +21,7 @@ import { folderCommonStyles } from '../../fragments/view';
 import { SvgUri } from 'react-native-svg';
 import FullViewTasksAdminPage from './ViewTasksAdminPage';
 import FullViewTasksPage from './ViewTasksPage';
+import IndividualProfilePageView, { UserProps } from './IndividualProfilePageView';
 
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
@@ -29,6 +30,33 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
             height: '100%',
             backgroundColor: '#85C4CF'
         }}>
+            <TouchableOpacity style = {[
+                {
+                    padding: 20,
+                    position: 'absolute',
+                    backgroundColor: '#3fbfb9',
+                    right: 0,
+                    borderRadius: 20,
+                    margin: 20,
+                    width: 50,
+                    height: 50
+                }
+            ]}
+            onPress={() => navigation.navigate('User Profile')}
+            >
+                <SvgUri 
+                        uri={"https://cdn.discordapp.com/attachments/852224878185676831/1043107861682724905/Vector.svg"}
+                        style ={{
+                            width: 50,
+                            position: 'absolute',
+                            left: 10,
+                            top: 10
+                        }}
+                        viewBox="0 0 140 140"
+                        preserveAspectRatio='none'
+                    />
+
+            </TouchableOpacity>
             <View style={styles.mainView}>
                 {/* Title row with folder cutout */}
                 <View style = {[folderCommonStyles.row]}>
@@ -177,6 +205,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
 }
 
 const Stack = createNativeStackNavigator();
+const userName: UserProps = {user: 'John Smith'}
 
 const Home = () => {
     return (
@@ -188,6 +217,7 @@ const Home = () => {
                 <Stack.Screen name = 'Calendar' component = {FullViewTasksAdminPage} />
                 <Stack.Screen name = 'Appliances' component = {ViewAppliancesView} />
                 <Stack.Screen name = 'To Do' component = {FullViewTasksPage} />
+                <Stack.Screen name = 'User Profile' component = {IndividualProfilePageView} />
             </Stack.Navigator>
     )
 }
