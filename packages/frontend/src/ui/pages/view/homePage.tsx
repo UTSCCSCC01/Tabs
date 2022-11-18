@@ -65,6 +65,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                         
                                     </SvgUri>
                                 </View>
+                                <Text style={styles.label}>Food Inventory</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Rent')}>
@@ -85,6 +86,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                         }}
                                     ></SvgUri> 
                                 </View>
+                                <Text style={styles.label}>Rent</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Notifications')}>
@@ -101,10 +103,11 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                             width: '100%',
                                             height: '100%',
                                             top: '30%',
-                                            left: '30%'
+                                            left: '38%'
                                         }}
                                     ></SvgUri>
                                 </View>
+                                <Text style={styles.label}>Manage Debts</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -127,6 +130,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                         }}
                                     ></SvgUri>
                                 </View>
+                                <Text style={styles.label}>Tasks</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Appliances')}>
@@ -138,15 +142,16 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                     backgroundColor: '#34ACBC',
                                 }}>
                                     <SvgUri 
-                                        uri={""}
+                                        uri={"https://cdn.discordapp.com/attachments/939188901585752104/1043006426085343262/applianceIcon.svg"}
                                         style ={{
                                             width: '100%',
                                             height: '100%',
                                             top: '30%',
-                                            left: '30%'
+                                            left: '25%'
                                         }}
                                     ></SvgUri>
                                 </View>
+                                <Text style={styles.label}>Appliances</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('To Do')}>
                                 <View style={{
@@ -166,8 +171,10 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                         }}
                                     ></SvgUri>
                                 </View>
+                                <Text style={styles.label}>Roommates</Text>
                             </TouchableOpacity>
                         </View>
+
                     </View>
                 </View>
                 
@@ -183,7 +190,7 @@ const Home = () => {
             <Stack.Navigator initialRouteName='HomePage'>
                 <Stack.Screen name = 'Home' component = {HomePage}/>
                 <Stack.Screen name = 'Inventory' component = {FullInvView} />
-                <Stack.Screen name = 'Rent' component = {RentAdminScreen} />
+                <Stack.Screen name = 'Rent' component = {RentScreen} />
                 <Stack.Screen name = 'Notifications' component = {DebtScreenView} />
                 <Stack.Screen name = 'Calendar' component = {FullViewTasksAdminPage} />
                 <Stack.Screen name = 'Appliances' component = {ViewAppliancesView} />
@@ -198,7 +205,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#85C4CF',
         flexDirection: 'column',
         position: 'absolute',
-        bottom: 0
+        bottom: 0,
     },
     navBoxBack: {
         backgroundColor: '#2C2C2C',
@@ -218,7 +225,7 @@ const styles = StyleSheet.create({
         left: 0,
         position: 'absolute',
         justifyContent: 'flex-end',
-        opacity: 50
+        opacity: 50,
     },
     navPanelStyle: {
         flexDirection: 'row',
@@ -228,6 +235,13 @@ const styles = StyleSheet.create({
     navigatorStyle: {
         justifyContent: 'space-evenly',
         backgroundColor: '#1C4048'
+    },
+
+    label: {
+        color: 'white',
+        fontSize: 11,
+        fontWeight: '800',
+        top: '43%',
     }
 })
 
