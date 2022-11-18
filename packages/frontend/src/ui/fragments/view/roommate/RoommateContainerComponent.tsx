@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export type Props = {
     name: string; // roomate name
@@ -13,25 +14,27 @@ const RoommateContainerComponent: React.FC<Props> = ({
     silentHours
 }) => {
 
-  return (
-     <Pressable style={({ pressed }) => ({
-        paddingBottom: '3%',
-          width: '100%',
-          shadowColor: 'grey',
-          opacity: pressed ? 0.5 : 1
-      })}>
-        <View style={[styles.roundedContainer, styles.roommateContainer]}>
-            <View style={styles.pfpContainer}>
+    var navigation = useNavigation();
+
+    return (
+        <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => ({
+            paddingBottom: '3%',
+            width: '100%',
+            shadowColor: 'grey',
+            opacity: pressed ? 0.5 : 1
+        })}>
+            <View style={[styles.roundedContainer, styles.roommateContainer]}>
+                <View style={styles.pfpContainer}>
+                </View>
+                <View style={styles.infoContainer}>
+                    <Text style={styles.nameLabel}>{name}</Text>
+                    {isBusy && <Text style={styles.busyLabel}>is currently busy...</Text>}
+                    <Text style={styles.silentHoursLabel}>DND: {silentHours}</Text>
+                </View>
+            
             </View>
-            <View style={styles.infoContainer}>
-                <Text style={styles.nameLabel}>{name}</Text>
-                {isBusy && <Text style={styles.busyLabel}>is currently busy...</Text>}
-                <Text style={styles.silentHoursLabel}>DND: {silentHours}</Text>
-            </View>
-        
-        </View>
-    </Pressable>
-  );
+        </Pressable>
+    );
 };
 
 const styles = StyleSheet.create({
