@@ -63,9 +63,9 @@ const resolvers = {
     Mutation: {
         createAppliance: async(
             root,
-            args: {name: String, houseId: String}
+            args: {name: String, houseId: String, type: String}
         ): Promise<ApplianceDocument> =>{
-            const appliance = await Appliance.create({name: args.name, houseId: args.houseId, availability: true})
+            const appliance = await Appliance.create({type: args.type, name: args.name, houseId: args.houseId, availability: true})
             .catch((appliance)=>{
                 console.log("created appliance")
                 return appliance
