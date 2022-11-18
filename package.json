@@ -22,6 +22,7 @@
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.0",
     "apollo-client": "^2.6.10",
+    "bcryptjs": "^2.4.3",
     "css-tree": "^2.2.1",
     "dotenv": "^16.0.2",
     "eslint": "^8.23.1",
