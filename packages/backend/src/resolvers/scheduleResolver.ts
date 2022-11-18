@@ -33,7 +33,10 @@ const resolvers = {
                 start: String,
                 end: String}
         ): Promise<ScheduleDocument> =>{
-            const schedule = await Schedule.create(args)
+
+            const start = Number(args.start)
+            const end = Number(args.end)
+            const schedule = await Schedule.create({applianceId: args.applianceId, start: start, end: end})
             .catch((schedule)=>{
                 console.log("created schedule")
                 return schedule
@@ -49,14 +52,14 @@ const resolvers = {
             root,
             args: {scheduleId: String}
         ): Promise<Boolean> =>{
-            const schedule = await Schedule.findByIdAndDelete(args.scheduleId)
+            const schedule = await Schedule.findByIdAndRemove(args.scheduleId)
             .catch(()=>{
-                console.log("created appliance")
+                console.log("deleted schedule")
                 return true
             })
             .then(
                 ()=>{
-                    console.log("failed to create appliance")
+                    console.log("failed to delete schedule")
                     return false
                 })
             return schedule

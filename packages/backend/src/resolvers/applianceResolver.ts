@@ -131,7 +131,7 @@ const resolvers = {
             root,
             args: {applianceId: String}
         ): Promise<Boolean> =>{
-            const appliance = await Appliance.findByIdAndDelete(args.applianceId)
+            const appliance = await Appliance.findByIdAndRemove(args.applianceId)
             .catch(()=>{
                 console.log("deleted appliance")
                 return true
@@ -147,7 +147,7 @@ const resolvers = {
             root,
             args: {applianceId: String, userId: String}
         ): Promise<Boolean> =>{
-            const appliance = await Appliance.findByIdAndDelete(args.applianceId)
+            const appliance = await Appliance.findByIdAndUpdate(args.applianceId, {$push: {}})
             .catch(()=>{
                 console.log("deleted appliance")
                 return true
