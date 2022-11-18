@@ -60,13 +60,14 @@ const AddRemoveButton = (props: {closePopup : (VoidFunction), userIdInput: strin
     }
 
   const onRequestFrom = () => {
+    
     // debt to THIS user id (replace 7)
-    console.log(props.userIdInput + ", " + props.amountInput);
-    addDebt({ variables: { debtTo:"7", debtFrom: props.userIdInput, amount: props.amountInput, description: '', dateCreated: (new Date()).toLocaleDateString() } }).catch(error => console.log('error: ', error));
+    addDebt({ variables: { debtTo:'7', debtFrom: props.userIdInput, amount: props.amountInput, description: '', dateCreated: (new Date()).toLocaleDateString() } }).catch(error => console.log('error: ', error));
     props.closePopup()
   }
 
   const onSendTo = () => {
+    addDebt({ variables: { debtTo: props.userIdInput, debtFrom: '7', amount: props.amountInput, description: '', dateCreated: (new Date()).toLocaleDateString() } }).catch(error => console.log('error: ', error));
     props.closePopup()
   }
 
