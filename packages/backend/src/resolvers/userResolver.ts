@@ -30,12 +30,14 @@ const resolvers = {
             const user = await User.findOne({ username: args.username })
             if (user == null) {
                 console.log("User not found")
+                return null
             } else if (await user.matchesPassword(args.password)) {
                 console.log("Password matches")
+                return user
             } else {
                 console.log("Password does not match")
-            }
-            return user
+                return null
+            }            
         },
 
         signOut: async(
