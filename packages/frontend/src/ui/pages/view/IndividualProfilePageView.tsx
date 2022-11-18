@@ -1,10 +1,10 @@
-import { gql, InMemoryCache, useLazyQuery, useQuery } from '@apollo/client';
+import { gql, InMemoryCache, useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar, RefreshControl, TouchableOpacity} from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import { folderCommonStyles } from '../../fragments/view';
 
-let user: string = 'John Smith'
+let user: string = 'paco'
 let isCurrentUser: boolean = true
 
 export const setUserToShow = (userShown: string, isCurrentUser_: boolean) => {
@@ -16,6 +16,28 @@ export type UserProps = {
   user: String;
 };
 
+const CHANGE_STATUS = gql`
+mutation UpdateHouseMemberBusy($userId: String!, $isBusy: Boolean!) {
+  updateHouseMemberBusy(userId: $userId, isBusy: $isBusy)
+}`
+
+const GET_STATUS = gql`
+query GetHouseMember($userId: String!) {
+  getHouseMember(userId: $userId) {
+    userId
+    isBusy
+    isOwner
+    isAdmin
+    houseId
+    name
+    silentHours
+    additionalInfo
+    isBusy
+  }
+}`
+
+let lastStatus = 'Available'
+let lastStatusDisplayed = 'Available'
 /**
  * Show user info
  * 
@@ -24,12 +46,49 @@ export type UserProps = {
  */
 const IndividualProfilePageView = () => {
   
+  const [initial, setInitial] = React.useState(false)
   
-  // QUERY DB HERE TO UPDATE STATUS
+  const { loading, data, refetch, error } = useQuery(GET_STATUS, {
+    variables: {
+      userId: user
+    }
+  })
+
+
+  if (error || loading) {
+      console.log(error? error.message : '')
+      console.log(loading)
+     // return <Text>{'Loading...'}</Text>
+  }
+
+
+  let queriedUserStatus = data.getHouseMember
 
 
   let [status, setStatus] = React.useState('Available')
   let [statusColour, setStatusColour] = React.useState('#1adb87')
+
+  if (!error && !loading && status != lastStatusDisplayed && !initial) {
+    lastStatusDisplayed = status
+    setStatus(!queriedUserStatus.isBusy ? 'Available' : 'Busy')
+    setStatusColour(queriedUserStatus.isBusy == 'Available' ? '#1adb87' : '#f7cdc8')
+    setInitial(true)
+  }
+
+  {
+    const [changeStatus,  { loading, error}] = useMutation(CHANGE_STATUS)
+
+    if (!loading && !error && status != lastStatus) {
+      lastStatus = status
+      changeStatus( {variables: {
+        userId: user,
+        isBusy: !(status == 'Available' ? true : false)
+        
+      }})
+
+      console.log(error)
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -60,7 +119,15 @@ const IndividualProfilePageView = () => {
             <Text style={{
               fontSize: 20
             }}>
-              {user}
+              {data.getHouseMember.name}
+            </Text>
+            <View style = {{padding: 5}}>
+
+            </View>
+            <Text style={{
+              fontSize: 15
+            }}>
+              {data.getHouseMember.additionalInfo}
             </Text>
           </View>
         </View>
@@ -73,15 +140,6 @@ const IndividualProfilePageView = () => {
         }} 
         onPress = {() => {
           if (isCurrentUser) {
-
-
-
-            
-            // QUERY DB TO CHANGE STATUS HERE
-
-
-
-
             setStatus(status == 'Available' ? 'Busy' : 'Available')
             setStatusColour(status != 'Available' ? '#1adb87' : '#f7cdc8')
           }
