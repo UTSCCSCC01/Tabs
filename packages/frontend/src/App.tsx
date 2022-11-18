@@ -107,7 +107,7 @@ const App = () => (
     return (
       <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>
         <Tab.Screen name="Calendar" component={FullInvView}/>
-        <Tab.Screen name="HomePage" component={HomePage}/>
+        <Tab.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
       </Tab.Navigator>
     );
   }

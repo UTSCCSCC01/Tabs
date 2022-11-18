@@ -212,7 +212,7 @@ const Stack = createNativeStackNavigator();
 
 const Home = () => {
     return (
-            <Stack.Navigator initialRouteName='HomePage'>
+            <Stack.Navigator initialRouteName='HomePage' screenOptions={{headerShown: false}}>
                 <Stack.Screen name = 'Home' component = {HomePage}/>
                 <Stack.Screen name = 'Inventory' component = {FullInvView} />
                 <Stack.Screen name = 'Rent' component = {RentScreen} />
