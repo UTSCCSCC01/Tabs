@@ -11,6 +11,7 @@ import { TaskListFolder } from '../../fragments/view/tasks/TaskListFolder';
 import AddTaskComponent from '../../fragments/view/tasks/AddTaskView';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AddTaskAdminComponent from '../../fragments/view/tasks/AddTaskAdminView';
+import HeaderComponent from '../../fragments/view/common/HeaderComponent';
 
 
 
@@ -174,8 +175,9 @@ const ViewTasksAdminPage = ({houseId, userId, setViewportId} : {houseId:string, 
 return(
       //the background is a gradient so...
       <LinearGradient colors={["#FFFFFF", "#85C4CF", "#127589" ]} style={styles.page} start={[0, 0]} end={[1, 1]} locations={[0.05, 0.1, 1]}>
-        <MyHeader backFunction={{myFunction:()=>{}, name:"unset", argument:null}} title={"Tasks"}/>{// the title of the page plus the back button, could make this more modular but lazy
-        }
+        <HeaderComponent screenName={"Tasks"}></HeaderComponent>
+        {/* <MyHeader backFunction={{myFunction:()=>{}, name:"unset", argument:null}} title={"Tasks"}/>{// the title of the page plus the back button, could make this more modular but lazy
+        } */}
         <View style={styles.flexPage}>{// container for rest of page...
         }
 
