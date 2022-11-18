@@ -21,6 +21,7 @@ import { folderCommonStyles } from '../../fragments/view';
 import { SvgUri } from 'react-native-svg';
 import FullViewTasksAdminPage from './ViewTasksAdminPage';
 import FullViewTasksPage from './ViewTasksPage';
+import DebtRequestsView from './DebtRequestsView';
 
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
@@ -89,7 +90,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                 <Text style={styles.label}>Rent</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('Notifications')}>
+                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('ManageDebts')}>
                                 <View style={{
                                     borderRadius: 1000,
                                     width: "60%",
@@ -175,6 +176,30 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                             </TouchableOpacity>
                         </View>
 
+                        <View style={styles.navPanelStyle}>
+                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('DebtRequests')}>
+                                <View style={{
+                                    borderRadius: 1000,
+                                    width: "60%",
+                                    height: "60%",
+                                    top: "20%",
+                                    backgroundColor: '#dc8d0c',
+                                }}>
+                                    <SvgUri 
+                                        uri={"https://cdn.discordapp.com/attachments/939188901585752104/1043033793084264458/request.svg"}
+                                        style ={{
+                                            width: '100%',
+                                            height: '100%',
+                                            top: '35%',
+                                            left: '30%'
+                                        }}
+                                    ></SvgUri>
+                                </View>
+                                <Text style={styles.label}>Debt Requests</Text>
+                            </TouchableOpacity>
+                        </View>
+
+
                     </View>
                 </View>
                 
@@ -191,10 +216,11 @@ const Home = () => {
                 <Stack.Screen name = 'Home' component = {HomePage}/>
                 <Stack.Screen name = 'Inventory' component = {FullInvView} />
                 <Stack.Screen name = 'Rent' component = {RentScreen} />
-                <Stack.Screen name = 'Notifications' component = {DebtScreenView} />
+                <Stack.Screen name = 'ManageDebts' component = {DebtScreenView} />
                 <Stack.Screen name = 'Calendar' component = {FullViewTasksAdminPage} />
                 <Stack.Screen name = 'Appliances' component = {ViewAppliancesView} />
                 <Stack.Screen name = 'To Do' component = {FullViewTasksPage} />
+                <Stack.Screen name = 'DebtRequests' component = {DebtRequestsView} />
             </Stack.Navigator>
     )
 }
