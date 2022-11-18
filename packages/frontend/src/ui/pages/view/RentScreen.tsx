@@ -27,10 +27,10 @@ const RentScreen: React.FC = (
     return (
         <View style={styles.container}>
             <HeaderComponent screenName='Rent & Finance'/>
-            <UpcomingRentComponent houseId='777' userId='Roommate No.1'/>
+            <UpcomingRentComponent houseId='777' userId='7'/>
 
             <SafeAreaView style={styles.scrollContainer}>
-                <DebtListComponent userId='Bob Jones'/>
+                <DebtListComponent userId='7'/>
             </SafeAreaView>
             
             <FloatingActionButton 

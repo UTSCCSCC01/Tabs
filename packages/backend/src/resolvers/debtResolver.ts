@@ -1,5 +1,5 @@
 import { DebtDocument } from '../types'
-import { Debt } from '../models'
+import { Debt, HouseMember } from '../models'
 import { Types } from 'mongoose'
 
 async function modifyAmountFunc(debtId:String, amount:Number):Promise<String | Boolean>{
@@ -30,6 +30,12 @@ const resolvers = {
         getDebts: async(root,
             args: {debtFrom: String, debtTo: String},
             ):Promise<DebtDocument[]> => {
+                var oldRet = (await Debt.find( { debtTo: args.debtTo } )).concat(await Debt.find( { debtFrom: args.debtFrom }));
+                var debtToHM = await HouseMember.findOne( { userId: args.debtTo } );
+                console.log(debtToHM);
+                var debtFromHM = await HouseMember.findOne( { userId: args.debtFrom } );
+                console.log(debtFromHM);
+                
                 return (await Debt.find( { debtTo: args.debtTo } )).concat(await Debt.find( { debtFrom: args.debtFrom } ));
         },
     },
@@ -40,7 +46,21 @@ const resolvers = {
             args: {debtId: String, debtTo: String; debtFrom: String, amount: Number, description: String, dateCreated: String, requestAccepted?: Boolean}
         ): Promise<DebtDocument | Boolean> =>{
             args.requestAccepted = null;
-            const debt = await Debt.create(args)
+
+            var debtToName = (await HouseMember.findOne( { userId: args.debtTo } ))["name"];
+            var debtFromName = (await HouseMember.findOne( { userId: args.debtFrom } ))["name"];
+            
+            var newArgs = { debtId: args.debtId,
+                debtTo: args.debtTo, 
+                debtFrom: args.debtFrom,
+                debtToName: debtToName,
+                debtFromName: debtFromName,
+                amount: args.amount,
+                description: args.description,
+                dateCreated: args.dateCreated,
+                requestAccepted: args.requestAccepted, };
+            
+            const debt = await Debt.create(newArgs)
             console.log("Successfuly added Debt to server")
             return debt
         },

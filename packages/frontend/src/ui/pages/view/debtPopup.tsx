@@ -2,9 +2,19 @@ import { Modal, Dimensions, StyleSheet, View, Text, Pressable, TouchableOpacity,
 import React, { useState } from 'react'
 import { shadowType } from 'react-native-floating-action';
 import { TextInput } from 'react-native-gesture-handler';
+import { gql } from '@apollo/client';
 
 let windowHeight = Dimensions.get('window').height;
 let popupHeight = 0.4*windowHeight;
+
+// debtTo and debtFrom should be userId's
+const ADD_DEBT =
+gql`
+mutation AddDebt($debtTo: String!, $debtFrom: String!, $amount: Float!, $description: String!, $dateCreated: String!) {
+    addDebt(debtTo:$debtTo, debtFrom:$debtFrom, amount:$amount, description:$description, dateCreated:$dateCreated) {
+      debtTo, debtFrom, amount, description, dateCreated
+    }
+}`
 
 /* Copy paste this where you want to put this modal:
 
@@ -27,7 +37,7 @@ let popupHeight = 0.4*windowHeight;
 
     *** Example button that shows the popup
     <TouchableOpacity onPress={onShowPopup} style= {{backgroundColor: 'yellow', width: 50, height: 50}}/>
-
+    
 */
 
 
