@@ -235,8 +235,8 @@ const styles = StyleSheet.create({
     navigatorStyle: {
         justifyContent: 'space-evenly',
         backgroundColor: '#1C4048',
-        paddingTop: 20,
-        paddingBottom: 20,
+        paddingTop: 30,
+        paddingBottom: 70,
     },
 
     label: {
