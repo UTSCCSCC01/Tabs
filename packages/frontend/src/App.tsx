@@ -16,6 +16,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import DebtScreenView from "./ui/pages/view/DebtScreenView";
 import FullViewTaskaPage from "./ui/pages/view/ViewTasksPage";
+import ViewRoommatesScreen from "./ui/pages/view/ViewRoommatesScreen";
 
 
 Notifications.setNotificationHandler({
@@ -112,7 +113,7 @@ const App = () => (
           <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
 
-        <Tab.Screen name="Notifications" component={DebtRequestsView} options={{tabBarIcon: () => (<View>
+        <Tab.Screen name="Notifications" component={ViewRoommatesScreen} options={{tabBarIcon: () => (<View>
 
           <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
         </View>)}}/>
