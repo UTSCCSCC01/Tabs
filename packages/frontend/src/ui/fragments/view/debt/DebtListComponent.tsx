@@ -15,7 +15,7 @@ const GET_DEBTS =
 gql`
 query GetDebts($debtFrom: String!, $debtTo: String!) {
     getDebts(debtFrom: $debtFrom, debtTo: $debtTo) {
-      debtTo, debtTo, debtFrom, amount
+      debtTo, debtFrom, debtToName, debtFromName, amount
     }
 }`
 
@@ -45,12 +45,12 @@ const DebtListComponent: React.FC<Props> = ({
     if (error)
         return <Text>{error.message}</Text>;
 
-    return data.getDebts.map((element: { debtTo: string, debtFrom: string, amount: number}) => {
+    return data.getDebts.map((element: { debtTo: string, debtFrom: string, debtToName: string, debtFromName: string, amount: number}) => {
 
-        const findNameDisplay = (debtTo: string, debtFrom: string) => {
+        const findNameDisplay = (debtTo: string, debtFrom: string, debtToName: string, debtFromName: string) => {
             if (debtTo == userId)
-                return debtFrom
-            return debtTo;
+                return debtFromName
+            return debtToName;
         }
 
         const findWhoOwes = (debtTo: string) => {
@@ -65,7 +65,7 @@ const DebtListComponent: React.FC<Props> = ({
             <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     data={DATA as readonly any[] | null | undefined}
-                    renderItem={({item}) => <OweContainer from={findNameDisplay(item.debtTo, item.debtFrom)} amount={item.amount} whoOwes={findWhoOwes(item.debtTo)}/> }
+                    renderItem={({item}) => <OweContainer from={findNameDisplay(item.debtTo, item.debtFrom, item.debtToName, item.debtFromName)} amount={item.amount} whoOwes={findWhoOwes(item.debtTo)}/> }
                     refreshControl={<RefreshControl
                         colors={["#2493A1", "#2493A1"]}
                         refreshing={refreshing}
