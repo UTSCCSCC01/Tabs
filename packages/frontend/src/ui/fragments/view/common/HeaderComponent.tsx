@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export type Props = {
@@ -14,9 +14,9 @@ const HeaderComponent: React.FC<Props> = ({
 
         <View style={styles.rowFlex2}>
 
-        <MaterialCommunityIcons name="arrow-left" size={24} style={styles.headerIcon}/>
+            <MaterialCommunityIcons name="arrow-left" size={24} style={styles.headerIcon}/>
 
-        <Text style={styles.myHeaderText}>{screenName}</Text>
+            <Text style={styles.myHeaderText}>{screenName}</Text>
 
         </View>
 
@@ -33,25 +33,24 @@ const styles = StyleSheet.create({
       },
     
       myHeaderText: {
-        textAlign: 'left',
+        flex: 10,
+        textAlign: 'center',
         fontWeight: "bold",
         fontSize: 18,
         fontFamily: "Arial",
-        width: "66%",
       },
 
       rowFlex2:{
+        display: 'flex',
         flex: 1,
         flexDirection: "row",
-        justifyContent: "space-evenly",
         height:"100%",
         width:"100%",
-    
         alignItems: 'center',
       },
 
       headerIcon: {
-        width: "33%",
+        flex: 1,
        },
     
 
