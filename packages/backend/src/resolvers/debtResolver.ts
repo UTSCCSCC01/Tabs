@@ -30,12 +30,6 @@ const resolvers = {
         getDebts: async(root,
             args: {debtFrom: String, debtTo: String},
             ):Promise<DebtDocument[]> => {
-                var oldRet = (await Debt.find( { debtTo: args.debtTo } )).concat(await Debt.find( { debtFrom: args.debtFrom }));
-                var debtToHM = await HouseMember.findOne( { userId: args.debtTo } );
-                console.log(debtToHM);
-                var debtFromHM = await HouseMember.findOne( { userId: args.debtFrom } );
-                console.log(debtFromHM);
-                
                 return (await Debt.find( { debtTo: args.debtTo } )).concat(await Debt.find( { debtFrom: args.debtFrom } ));
         },
     },

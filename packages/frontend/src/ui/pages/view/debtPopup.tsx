@@ -2,7 +2,7 @@ import { Modal, Dimensions, StyleSheet, View, Text, Pressable, TouchableOpacity,
 import React, { useState } from 'react'
 import { shadowType } from 'react-native-floating-action';
 import { TextInput } from 'react-native-gesture-handler';
-import { gql } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 
 let windowHeight = Dimensions.get('window').height;
 let popupHeight = 0.4*windowHeight;
@@ -48,10 +48,21 @@ mutation AddDebt($debtTo: String!, $debtFrom: String!, $amount: Float!, $descrip
 * @see DebtPopup to see where this component is used
 */
 
+const AddRemoveButton = (props: {closePopup : (VoidFunction), userIdInput: string, amountInput: number}) => {
 
-const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
+    const [addDebt,  { loading, error }] = useMutation(ADD_DEBT);
+
+    if(loading){
+        return  <Text>{'Loading...'} </Text>
+    }
+    if(error){
+        return <Text>{error.message}</Text>
+    }
 
   const onRequestFrom = () => {
+    // debt to THIS user id (replace 7)
+    console.log(props.userIdInput + ", " + props.amountInput);
+    addDebt({ variables: { debtTo:"7", debtFrom: props.userIdInput, amount: props.amountInput, description: '', dateCreated: (new Date()).toLocaleDateString() } }).catch(error => console.log('error: ', error));
     props.closePopup()
   }
 
@@ -82,6 +93,9 @@ const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
 
 
 const DebtPopup = (props: {show : boolean, closePopup : () => void }) => {
+    const [userIdInput, setUserIdInput] = useState('');
+    const [amountInput, setAmountInput] = useState(0);
+
     return (
         <Modal
               animationType="slide"
@@ -102,6 +116,7 @@ const DebtPopup = (props: {show : boolean, closePopup : () => void }) => {
                             keyboardType = 'default'
                             textAlign='center'
                             maxLength={28}
+                            onChangeText={newText => setUserIdInput(newText)}
                           />
                           <Text style={styles.modalText}>Amount</Text>
                             <TextInput 
@@ -109,8 +124,9 @@ const DebtPopup = (props: {show : boolean, closePopup : () => void }) => {
                               keyboardType="number-pad"
                               textAlign='center'
                               maxLength={10}
+                              onChangeText={newAmount => setAmountInput(Number(newAmount))}
                             />
-                          <AddRemoveButton closePopup={props.closePopup}/>
+                          <AddRemoveButton closePopup={props.closePopup} userIdInput={userIdInput} amountInput={amountInput}/>
                       </TouchableOpacity>
                   </View>
                 </TouchableWithoutFeedback>
