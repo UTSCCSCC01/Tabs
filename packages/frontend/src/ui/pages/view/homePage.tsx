@@ -103,7 +103,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                             width: '100%',
                                             height: '100%',
                                             top: '30%',
-                                            left: '38%'
+                                            left: '30%'
                                         }}
                                     ></SvgUri>
                                 </View>
@@ -230,11 +230,13 @@ const styles = StyleSheet.create({
     navPanelStyle: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        paddingVertical: 20
+        paddingVertical: 20,
     },
     navigatorStyle: {
         justifyContent: 'space-evenly',
-        backgroundColor: '#1C4048'
+        backgroundColor: '#1C4048',
+        paddingTop: 20,
+        paddingBottom: 20,
     },
 
     label: {
