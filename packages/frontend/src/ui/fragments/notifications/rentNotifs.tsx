@@ -1,7 +1,5 @@
 import * as Notifications from 'expo-notifications';
 
-
-
 export async function rentScheduleNotification(dateStr: String): Promise<String> {
     console.log("schedule rent for" + dateStr)
     // convert it into the seconds

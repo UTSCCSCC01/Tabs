@@ -2,14 +2,14 @@ import { registerRootComponent } from 'expo';
 import React from 'react';
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { FolderBackdropListFragment } from '../../fragments/view/FolderBackdropFragment';
+import { FolderBackdropListFragment } from '../../fragments/view/common/FolderBackdropFragment';
 import FolderBackdropAsset from '../../../assets/images/FolderBackgdrop.svg';
-import { folderCommonStyles } from '../../fragments/view/FolderCommonStyles';
+import { folderCommonStyles } from '../../fragments/view/common/FolderCommonStyles';
 import { SvgXml } from 'react-native-svg';
-import { BackButton, MyHeader } from '../../fragments/view/MyHeader';
-import { FunctionObject } from '../../fragments/view/FunctionObject';
+import { BackButton, MyHeader } from '../../fragments/view/common/MyHeader';
+import { FunctionObject } from '../../fragments/view/common/FunctionObject';
 import { gql, useMutation } from '@apollo/client';
-import { InventoryItem } from '../../fragments/view/InventoryItem';
+import { InventoryItem } from '../../fragments/view/inventory/InventoryItem';
 
 
 const icon = `<svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">

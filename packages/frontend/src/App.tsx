@@ -17,6 +17,7 @@ import * as Notifications from 'expo-notifications';
 import DebtScreenView from "./ui/pages/view/DebtScreenView";
 import FullViewTaskaPage from "./ui/pages/view/ViewTasksPage";
 import FullInvView2 from "./ui/pages/view/inventoryView2";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
 Notifications.setNotificationHandler({
@@ -96,7 +97,7 @@ const App = () => (
   );
 
 
-  const Tab = createBottomTabNavigator();
+  const Tab = createNativeStackNavigator();
 
 
   /**
@@ -106,17 +107,8 @@ const App = () => (
   const MyTabs=()=>{
     return (
       <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Calendar" component={FullInvView2} options={{tabBarIcon: () => 
-          (<View><MaterialCommunityIcons name="calendar" size={24} color={"#E6E6E6B0"}/></View>)}}/>
-
-        <Tab.Screen name="HomePage" component={HomePage} options={{tabBarIcon: () => (<View>
-          <MaterialCommunityIcons name="home" size={24} color={"#E6E6E6B0"}/>
-        </View>)}}/>
-
-        <Tab.Screen name="Notifications" component={DebtRequestsView} options={{tabBarIcon: () => (<View>
-
-          <MaterialCommunityIcons name="bell" size={24} color={"#E6E6E6B0"}/>
-        </View>)}}/>
+        <Tab.Screen name="Calendar" component={FullInvView2}/>
+        <Tab.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
       </Tab.Navigator>
     );
   }
