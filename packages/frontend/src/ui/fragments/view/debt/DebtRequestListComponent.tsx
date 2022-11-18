@@ -50,7 +50,7 @@ const DebtRequestListComponent: React.FC<Props> = ({
             renderItem = {({item}) => 
                 (<DebtContainerComponent 
                     debtId = {item.id} 
-                    debtFrom = {item.debtFrom} 
+                    debtFrom = {item.debtFromName} 
                     amount = {item.amount} 
                 /> )
             }

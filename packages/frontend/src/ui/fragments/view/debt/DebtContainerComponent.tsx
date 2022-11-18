@@ -32,6 +32,7 @@ query FindDebtsRequested {
     id
     debtTo
     debtFrom
+    debtFromName
     amount
     description
     dateCreated
