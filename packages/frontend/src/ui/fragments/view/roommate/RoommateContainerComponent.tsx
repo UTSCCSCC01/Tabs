@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { SvgUri } from 'react-native-svg';
 
 export type Props = {
     name: string; // roomate name
@@ -25,6 +26,16 @@ const RoommateContainerComponent: React.FC<Props> = ({
         })}>
             <View style={[styles.roundedContainer, styles.roommateContainer]}>
                 <View style={styles.pfpContainer}>
+                    <SvgUri 
+                    uri={"https://cdn.discordapp.com/attachments/939188901585752104/1043011528133189742/User.svg"}
+                    style ={{
+                        width: '20%',
+                        height: '20%',
+                        top: '10%',
+                        left: '4%'
+                    }}
+                    >
+                    </SvgUri>
                 </View>
                 <View style={styles.infoContainer}>
                     <Text style={styles.nameLabel}>{name}</Text>
@@ -61,7 +72,7 @@ const styles = StyleSheet.create({
     // top: '11%',
     // left: '7%',
     // position: 'absolute',
-    width: 0.21 * Dimensions.get('window').width,
+    width: 0.18 * Dimensions.get('window').width,
     backgroundColor: '#2493A1',
     borderRadius: 15,
     aspectRatio: 1,
@@ -90,7 +101,7 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // left: '7%',
     // top: '70%',
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: '500',
     color: '#34ACBC',
   },
