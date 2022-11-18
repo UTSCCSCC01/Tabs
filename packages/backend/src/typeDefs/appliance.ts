@@ -12,7 +12,8 @@ export default gql`
     extend type Mutation {
         createAppliance(
             houseId:String,
-            name:String
+            name:String,
+            type: String
         ): Appliance
         addQueue(
             applianceId: String
