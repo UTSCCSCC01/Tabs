@@ -31,6 +31,7 @@ let popupHeight = 0.5*windowHeight;
     <TouchableOpacity onPress={onShowPopup} style= {{backgroundColor: 'yellow', width: 50, height: 50}}/>
 
 */
+
 const CREATE_APPLIANCE =
 gql`
 mutation CreateAppliance($houseId: String!, $name: String!, $type: String!) {

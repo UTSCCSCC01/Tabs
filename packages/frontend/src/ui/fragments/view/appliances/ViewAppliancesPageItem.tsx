@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';import { SvgUri } from 'react-native-svg';
 import { isAdmin } from '../../../../controllers/Admin';
@@ -23,6 +23,12 @@ query FindAppliances($houseId: String!) {
     findAppliances(houseId: $houseId) {
       id, name, type, queue, availability, houseId
     }
+}`
+
+const DELETE_APPLIANCE =
+gql`
+mutation DeleteAppliance($applianceId: String!) {
+    deleteAppliance(applianceId:$applianceId)
 }`
 
 /**
@@ -71,27 +77,34 @@ const ViewAppliancesPageItem: React.FC<Props> = ({
   type,
   scheduled
 }) => {
-  let [opened, setOpened] = React.useState(false)
 
-  let currentTime = Date.now() / 1000;
-  let futureStatus = '';
-  let futureTime = 0;
-  let futureTimeInEnglish = '';
+    const [deleteApplianceMutationFunction, deleteApplianceMutationData] = useMutation(DELETE_APPLIANCE,
+        {
+            refetchQueries: [{query: FIND_APPLIANCES}, "Query"],
+            awaitRefetchQueries: true
+        })
 
-  for (let i = 0; i < scheduled.length; ++i) {
-    let scheduledTime = scheduled[i];
+    let [opened, setOpened] = React.useState(false)
 
-    if (scheduledTime.startTime <= currentTime && scheduledTime.endTime >= currentTime) {
-      futureStatus = 'Available in\n'
-      futureTime = scheduledTime.endTime - currentTime;
-      break;
-    } else {
-      if (scheduledTime.startTime >= currentTime) {
-        futureStatus = 'In use in\n'
-        futureTime = Math.min(scheduledTime.startTime - currentTime)
-      }
+    let currentTime = Date.now() / 1000;
+    let futureStatus = '';
+    let futureTime = 0;
+    let futureTimeInEnglish = '';
+
+    for (let i = 0; i < scheduled.length; ++i) {
+        let scheduledTime = scheduled[i];
+
+        if (scheduledTime.startTime <= currentTime && scheduledTime.endTime >= currentTime) {
+        futureStatus = 'Available in\n'
+        futureTime = scheduledTime.endTime - currentTime;
+        break;
+        } else {
+        if (scheduledTime.startTime >= currentTime) {
+            futureStatus = 'In use in\n'
+            futureTime = Math.min(scheduledTime.startTime - currentTime)
+        }
+        }
     }
-  }
 
   if (futureTime > 0) {
     let days = Math.floor(futureTime / (3600 * 24))
@@ -181,6 +194,7 @@ const ViewAppliancesPageItem: React.FC<Props> = ({
                 isAdmin={isAdmin(userId)}
                 applianceId= {applianceId}
                 isOpen= {opened}
+                deleteApplianceMutationFunction={deleteApplianceMutationFunction}
               ></DeleteButton>
             </View>
           </View>
@@ -196,35 +210,41 @@ export type DeleteProps = {
   isAdmin: boolean;
   applianceId: string;
   isOpen: boolean;
+  deleteApplianceMutationFunction: any;
 };
 
-const DeleteButton: React.FC<DeleteProps> = ({isAdmin, applianceId, isOpen}) => {
-  if (!isAdmin) {
-    return (<View></View>)
-  }
+const DeleteButton: React.FC<DeleteProps> = ({isAdmin, applianceId, isOpen, deleteApplianceMutationFunction}) => {
 
-  if (isOpen) {
-    return (<View></View>)
-  }
+    const onDelete = () => {
+        deleteApplianceMutationFunction({ variables: { applianceId } }).catch((error: any) => console.log('error: ', error));
+      }
+        
+    if (!isAdmin) {
+        return (<View></View>)
+    }
 
-  return (
-    <Pressable style ={[{
-      backgroundColor: '#127589',
-      alignSelf: 'flex-start',
-      marginTop: 10,
-      borderRadius: 20,
-      paddingHorizontal: 20,
-      padding: 10,
-      marginLeft: 20
-    }]}>
-      <Text style ={{
-        color: 'white',
-        fontSize: 25
-      }}>
-        {'Delete'}
-      </Text>
-    </Pressable>
-  )
+    if (isOpen) {
+        return (<View></View>)
+    }
+
+    return (
+        <Pressable onPress={onDelete} style ={[{
+        backgroundColor: '#127589',
+        alignSelf: 'flex-start',
+        marginTop: 10,
+        borderRadius: 20,
+        paddingHorizontal: 20,
+        padding: 10,
+        marginLeft: 20
+        }]}>
+        <Text style ={{
+            color: 'white',
+            fontSize: 25
+        }}>
+            {'Delete'}
+        </Text>
+        </Pressable>
+    )
 }
 
 const setVisible = (visible: boolean) => {
