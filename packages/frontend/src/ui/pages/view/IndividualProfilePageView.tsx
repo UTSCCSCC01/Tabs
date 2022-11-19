@@ -38,7 +38,8 @@ let lastStatusDisplayed = 'Available'
  * @returns React component
  */
 const IndividualProfilePageView = () => {
-  
+
+    
     const [initial, setInitial] = React.useState(false);
     let [status, setStatus] = React.useState('Available')
     let [statusColour, setStatusColour] = React.useState('#1adb87')
@@ -46,7 +47,7 @@ const IndividualProfilePageView = () => {
 
     const { loading, data, refetch, error } = useQuery(GET_STATUS, {
         variables: {
-        userId: '7'
+        userId: user
         }
     })
 
