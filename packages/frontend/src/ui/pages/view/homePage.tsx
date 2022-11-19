@@ -23,6 +23,7 @@ import FullViewTasksAdminPage from './ViewTasksAdminPage';
 import FullViewTasksPage from './ViewTasksPage';
 import IndividualProfilePageView, { UserProps } from './IndividualProfilePageView';
 import DebtRequestsView from './DebtRequestsView';
+import ViewRoommatesScreen from './ViewRoommatesScreen';
 
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
@@ -182,7 +183,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                                 </View>
                                 <Text style={styles.label}>Appliances</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('To Do')}>
+                            <TouchableOpacity style={styles.navBoxBack} onPress={() => navigation.navigate('ViewAllProfiles')}>
                                 <View style={{
                                     borderRadius: 1000,
                                     width: "60%",
@@ -251,6 +252,7 @@ const Home = () => {
                 <Stack.Screen name = 'To Do' component = {FullViewTasksPage} />
                 <Stack.Screen name = 'User Profile' component = {IndividualProfilePageView} />
                 <Stack.Screen name = 'DebtRequests' component = {DebtRequestsView} />
+                <Stack.Screen name = 'ViewAllProfiles' component = {ViewRoommatesScreen} />
             </Stack.Navigator>
     )
 }
