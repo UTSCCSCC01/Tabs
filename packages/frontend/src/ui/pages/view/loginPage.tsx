@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Text, View, StyleSheet, Dimensions, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let windowHeight = Dimensions.get('window').height;
 
