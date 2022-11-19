@@ -56,6 +56,8 @@ const ItemListComponent = ({setItemId ,userId, categoryId, itemListViewPortId, s
 
     const allItems = ItemListSingleton({categoryId: categoryId});
 
+    
+
     if (allItems.length == null) return allItems; //returns loading or error if it is either of those
     
  
@@ -70,7 +72,7 @@ const ItemListComponent = ({setItemId ,userId, categoryId, itemListViewPortId, s
             <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     data={allItems as readonly any[] | null | undefined}
-                    renderItem={({item}) => <ItemListItem setItemId={setItemId} tags={item.tags} capacity={item.capacity} fullItem={item} switchViewPort={switchViewPort}  itemName={item.itemName} itemType={item.type} categoryId={item.categoryId} itemId={item.id}/>}
+                    renderItem={({item}) => <ItemListItem setItemId={setItemId} tags={item.tags} capacity={item.quantity} fullItem={item} switchViewPort={switchViewPort}  itemName={item.name} itemType={item.type} categoryId={item.categoryId} itemId={item.id}/>}
             />
         );
     }

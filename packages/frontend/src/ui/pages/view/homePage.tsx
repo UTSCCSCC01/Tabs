@@ -22,6 +22,7 @@ import { SvgUri } from 'react-native-svg';
 import FullViewTasksAdminPage from './ViewTasksAdminPage';
 import FullViewTasksPage from './ViewTasksPage';
 import DebtRequestsView from './DebtRequestsView';
+import FullInvView2 from './inventoryView2';
 
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
@@ -214,7 +215,7 @@ const Home = () => {
     return (
             <Stack.Navigator initialRouteName='HomePage' screenOptions={{headerShown: false}}>
                 <Stack.Screen name = 'Home' component = {HomePage}/>
-                <Stack.Screen name = 'Inventory' component = {FullInvView} />
+                <Stack.Screen name = 'Inventory' component = {FullInvView2} />
                 <Stack.Screen name = 'Rent' component = {RentScreen} />
                 <Stack.Screen name = 'ManageDebts' component = {DebtScreenView} />
                 <Stack.Screen name = 'Calendar' component = {FullViewTasksAdminPage} />

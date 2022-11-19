@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import { styles } from '../mainViewStyles';
-import { BorderIcon } from '../BorderIcon';
+import { styles } from '../common/mainViewStyles';
+import { BorderIcon } from '../common/BorderIcon';
 import { gql, useMutation } from '@apollo/client';
 import EditCategoryPopup from '../../../pages/view/editCategoryPopup';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
@@ -41,7 +41,7 @@ export const ItemListItem = ({itemName, itemType, categoryId, switchViewPort, fu
    console.log("\n\nShould render item now with name: ", itemName + "\n\n\n");
 
    return (
-    <TouchableOpacity style={{flex:1}} onPress={() => {setItemId(itemId); switchViewPort(2)}}>
+    <TouchableOpacity style={{flex:1}} onPress={() => { switchViewPort(2);setItemId(itemId); console.log("huhh");}}>
         <View style={styles.flexPage}>
 
       

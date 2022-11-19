@@ -12,13 +12,9 @@ import AddItemView from './AddFoodItemView';
 import {MyHeader, FunctionObject, HeaderData, DescBoxData, FolderItemData, InventoryItem,FolderItemList,FolderSvgForm,FormItemList,FormItem, styles, TextForm, FolderFormSvg, FloatingActionButton, FolderSvg,DoubleDescBox,FolderBackdropActionButton, FolderBackdropActionButtonArgument,InventoryCategory} from '../../fragments/view'
 
 import Checkbox from 'expo-checkbox';
-<<<<<<< HEAD
-import { folderCommonStyles } from '../../fragments/view/FolderCommonStyles';
 import { foodExpiryScheduleNotification } from '../../fragments/notifications';
-=======
 import { folderCommonStyles } from '../../fragments/view/common/FolderCommonStyles';
 import HeaderComponent from '../../fragments/view/common/HeaderComponent';
->>>>>>> a7eee46067bb63eb307769710972d8b8e2100907
 
 
 
@@ -169,7 +165,7 @@ const InvView = ({switchViewFunction, inventoryId, setAddItemFunction, userId} :
 
   if (console == null) return <Text>Something went horribly wrong</Text>
   if (console.log == null) return <Text>Something is still horribly wrong</Text>
-  const dummyItem = new InventoryItem("none", "none", "none", "none")
+  const dummyItem = new InventoryItem("none", "none", -1, "none")
   dummyItem.id = "none"
 
   const [showDoubleDescBox, toggleDoubleDescBox] = useState(true);
@@ -478,8 +474,8 @@ const folderItemList = new FolderItemList([folderItem, folderItem2], "Categories
 const queriedCategoryList = new FolderItemList(catList, "Categories")
 const queriedItemList = new FolderItemList(itemList, "Items")
 
-const folderItemA = new InventoryItem("Potatoes", "vegetable", "today", "testcat");
-const folderItemB = new InventoryItem("Tomatoes", "fruit", "tomorrow", "5033");
+const folderItemA = new InventoryItem("Potatoes", "vegetable", -1, "testcat");
+const folderItemB = new InventoryItem("Tomatoes", "fruit", -1, "5033");
 const folderItemList2 = new FolderItemList([folderItemA, folderItemB], "Items");
 
 

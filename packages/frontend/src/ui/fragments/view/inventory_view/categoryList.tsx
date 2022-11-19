@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, Pressable, FlatList, RefreshControl, ScrollView } from 'react-native';
+import Loading from '../loading';
 import { CategoryListItem } from './categoryListItem';
 import { CategoryListSingleton } from './querySingletons';
 
@@ -44,6 +45,8 @@ const CategoryListComponent = ({userId, inventoryId, itemListViewPortId, switchV
 
 
     const allCats = CategoryListSingleton({inventoryId: inventoryId});
+
+
 
     if (allCats.length == null) return allCats; //returns loading or error if it is either of those
     

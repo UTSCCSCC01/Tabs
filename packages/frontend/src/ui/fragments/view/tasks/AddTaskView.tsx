@@ -1,25 +1,12 @@
 import { gql, useMutation } from '@apollo/client';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
-<<<<<<< HEAD:packages/frontend/src/ui/fragments/view/AddTaskView.tsx
-import { Button, StyleSheet, Text, View, Image, Pressable, FlatList, RefreshControl, ScrollView } from 'react-native';
-import { taskExpiryScheduleNotification } from '../notifications';
-import { DoubleDescBox } from './DoubleDescBox';
-import { FloatingActionButton } from './FloatingActionButton';
-import { FolderBackdropActionButton } from './FolderBackdropActionButton';
-import { FolderBackdropTextInputField } from './FolderBackdropTextInputField';
-import { styles } from './mainViewStyles';
-import { MyHeader } from './MyHeader';
-import RentContainerComponent from './RentContainerComponent';
-import { TaskListFolder } from './TaskListFolder';
-import { TaskListItem } from './TaskListItem';
-=======
 import { Text, View } from 'react-native';
+import { taskExpiryScheduleNotification } from '../../notifications';
 import { FolderBackdropActionButton } from '../common/FolderBackdropActionButton';
 import { FolderBackdropTextInputField } from '../common/FolderBackdropTextInputField';
 import { styles } from '../common/mainViewStyles';
 import { MyHeader } from '../common/MyHeader';
->>>>>>> a7eee46067bb63eb307769710972d8b8e2100907:packages/frontend/src/ui/fragments/view/tasks/AddTaskView.tsx
 
 const CREATE_TASK = gql`
 mutation CreateTask($taskListId: String, $ownerId: String, $taskName: String, $dateDue: String, $houseId: String) {

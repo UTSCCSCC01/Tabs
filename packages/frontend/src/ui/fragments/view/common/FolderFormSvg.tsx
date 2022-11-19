@@ -22,7 +22,7 @@ export const FolderFormSvg = (data: FolderSvgForm) => {
         </View>
       </GestureRecognizer>
 
-      <View style={styles.folderList}>
+      <View style={[styles.folderList, {minHeight: "100%"}]}>
 
 
         <SafeAreaView>

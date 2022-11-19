@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import { styles } from '../mainViewStyles';
-import { BorderIcon } from '../BorderIcon';
+import { styles } from '../common/mainViewStyles';
+import { BorderIcon } from '../common/BorderIcon';
 import { gql, useMutation } from '@apollo/client';
 import EditCategoryPopup from '../../../pages/view/editCategoryPopup';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import { FolderBackdropActionButton } from '../FolderBackdropActionButton';
-import { FIND_ITEMS } from './itemList';
-import { FolderFormSvg } from '../FolderFormSvg';
-import { FIND_ITEM, itemSingleton } from './querySingletons';
+import { FolderBackdropActionButton } from '../common/FolderBackdropActionButton';
+import { FolderFormSvg } from '../common/FolderFormSvg';
+import { FIND_ITEM, itemSingleton, FIND_ITEMS } from './querySingletons';
 import Loading from '../loading';
+import { EditItemForm } from './editItemForm';
 
 
 
@@ -46,7 +46,7 @@ const ItemDataChosen = ({name, capacity, tags}: {name:string, capacity:number, t
     )
   }
 
-export const ItemData = ({itemId, userId, categoryId, setViewPortId, setSubViewPortId, editItemViewPortId, swipeFunction}:{itemId: string, userId: string, categoryId: string, setViewPortId:Function, setSubViewPortId: Function, editItemViewPortId: number, swipeFunction:Function}) => {
+export const ItemData = ({itemId, userId, categoryId, setViewPortId, setSubViewPortId, editItemViewPortId, swipeFunction, inventoryId}:{itemId: string, userId: string, categoryId: string, setViewPortId:Function, setSubViewPortId: Function, editItemViewPortId: number, swipeFunction:Function, inventoryId:string}) => {
   
   console.log("LOADING DATA FOR ITEM WITH NAME:" + "\nWITH ID: " + itemId);
 
@@ -58,13 +58,13 @@ export const ItemData = ({itemId, userId, categoryId, setViewPortId, setSubViewP
 
   const [addCapacityMutationFunction, addCapacityMutationData] = useMutation(ADD_CAPACITY,
     {
-      refetchQueries: [{query: FIND_ITEMS}, "ItemsQuery", {query: FIND_ITEM}, "ItemQuery"],
+      refetchQueries: [{query: FIND_ITEMS}, "ItemsQuery", {query: FIND_ITEM}, "FindItem"],
       awaitRefetchQueries: true
     });
 
     const [subtractCapacityMutationFunction, subtractCapacityMutationData] = useMutation(SUBTRACT_CAPACITY,
       {
-        refetchQueries: [{query: FIND_ITEMS}, "ItemsQuery", {query: FIND_ITEM}, "ItemQuery"],
+        refetchQueries: [{query: FIND_ITEMS}, "ItemsQuery", {query: FIND_ITEM}, "FindItem"],
         awaitRefetchQueries: true
       });
 
@@ -81,7 +81,8 @@ export const ItemData = ({itemId, userId, categoryId, setViewPortId, setSubViewP
   //early returns
 
   if (myItem == null){
-    setViewPortId(1);
+    console.log("null item somehow\n");
+    //setViewPortId(1);
     return <Loading/>
   }
   if (myItem.name == null) return myItem; //returns loading or error if it is either of those
@@ -159,15 +160,15 @@ const formList = [selItemData, editItemButton, addToItemButton, subtractFromItem
 }
   
 
-export const FullItemData = ({itemId, userId, categoryId, setViewPortId, swipeFunction}: {itemId: string, userId:string, categoryId:string, setViewPortId:Function, swipeFunction:Function}) => {
+export const FullItemData = ({itemId, userId, categoryId, setViewPortId, swipeFunction, inventoryId}: {itemId: string, userId:string, categoryId:string, setViewPortId:Function, swipeFunction:Function, inventoryId:string}) => {
     
   const [viewPortId, setSubViewPortId] = useState(0);
 
     
   return(
     <View style={styles.container}>
-    {viewPortId == 0 && <ItemData itemId={itemId} userId={userId} categoryId={categoryId} setViewPortId={setViewPortId} setSubViewPortId={setSubViewPortId} editItemViewPortId={1} swipeFunction={swipeFunction}/>}
-
+    {viewPortId == 0 && <ItemData inventoryId={inventoryId} itemId={itemId} userId={userId} categoryId={categoryId} setViewPortId={setViewPortId} setSubViewPortId={setSubViewPortId} editItemViewPortId={1} swipeFunction={swipeFunction}/>}
+    {viewPortId == 1 && <EditItemForm itemId={itemId} userId={userId} setViewPortId={() => setSubViewPortId(0)} inventoryId={inventoryId} swipeFunction={swipeFunction}/>}
     </View>
 
   )

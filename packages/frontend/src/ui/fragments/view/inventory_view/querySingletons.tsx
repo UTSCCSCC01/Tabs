@@ -99,6 +99,8 @@ export const CategoryListSingleton = ({inventoryId}:{inventoryId:string}) => {
   }
   
   const allCats = categoryQuery.data.findCatsByInvId;
+
+  if (allCats == null) return <Loading/>;
   
   return allCats;
 }
@@ -116,7 +118,9 @@ export const ItemListSingleton = ({categoryId}:{categoryId:string}) => {
         if (i.error) return <Text style={{fontSize: 8}}>{i.error.message}:{"\n" + JSON.stringify(i.error)}</Text>;
         console.log(JSON.stringify(i.data) + "\nThis is data... hoping it is not null");
     }
-    const allItems = itemQuery.data.findItemsByCategory
+    const allItems = itemQuery.data.findItemsByCategory;
+
+    if (allItems == null) return <Loading/>;
   
   return allItems;
 }
@@ -135,6 +139,8 @@ export const itemSingleton = ({itemId}:{itemId:string}) => {
         console.log(JSON.stringify(i.data) + "\nThis is data... hoping it is not null");
     }
     const item = itemQuery.data.findItem
+
+    if (item == null) return <Loading/>;
   
   return item;
 }

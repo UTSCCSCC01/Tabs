@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import { styles } from '../mainViewStyles';
-import { BorderIcon } from '../BorderIcon';
+import { styles } from '../common/mainViewStyles';
+import { BorderIcon } from '../common/BorderIcon';
 import { gql, useMutation } from '@apollo/client';
 import EditCategoryPopup from '../../../pages/view/editCategoryPopup';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import { FolderBackdropActionButton } from '../FolderBackdropActionButton';
-import { FIND_ITEMS } from './itemList';
-import { FolderFormSvg } from '../FolderFormSvg';
+import { FolderBackdropActionButton } from '../common/FolderBackdropActionButton';
+import { FIND_ITEMS } from './querySingletons';
+import { FolderFormSvg } from '../common/FolderFormSvg';
 
 
 
