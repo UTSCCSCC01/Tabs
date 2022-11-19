@@ -7,18 +7,18 @@ export type Props = {
     name: string; // roomate name
     isBusy: boolean; // busy/notbusy
     silentHours: string; // phone number
+    navigation: any;
 };
 
 const RoommateContainerComponent: React.FC<Props> = ({
     name,
     isBusy,
-    silentHours
+    silentHours,
+    navigation
 }) => {
 
-    var navigation = useNavigation();
-
     return (
-        <Pressable onPress={() => navigation.goBack()} style={({ pressed }) => ({
+        <Pressable onPress={() => navigation.navigate('User Profile')} style={({ pressed }) => ({
             paddingBottom: '3%',
             width: '100%',
             shadowColor: 'grey',

@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar, RefreshControl, TouchableOpacity} from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import { folderCommonStyles } from '../../fragments/view';
+import HeaderComponent from '../../fragments/view/common/HeaderComponent';
 
 let user: string = 'paco'
 let isCurrentUser: boolean = true
@@ -18,22 +19,14 @@ export type UserProps = {
 
 const CHANGE_STATUS = gql`
 mutation UpdateHouseMemberBusy($userId: String!, $isBusy: Boolean!) {
-  updateHouseMemberBusy(userId: $userId, isBusy: $isBusy)
+    updateHouseMemberBusy(userId: $userId, isBusy: $isBusy)
 }`
 
 const GET_STATUS = gql`
 query GetHouseMember($userId: String!) {
-  getHouseMember(userId: $userId) {
-    userId
-    isBusy
-    isOwner
-    isAdmin
-    houseId
-    name
-    silentHours
-    additionalInfo
-    isBusy
-  }
+    getHouseMember(userId: $userId) {
+        userId isBusy isOwner isAdmin houseId name silentHours additionalInfo isBusy
+    }
 }`
 
 let lastStatus = 'Available'
@@ -46,60 +39,60 @@ let lastStatusDisplayed = 'Available'
  */
 const IndividualProfilePageView = () => {
   
-  const [initial, setInitial] = React.useState(false)
-  
-  const { loading, data, refetch, error } = useQuery(GET_STATUS, {
-    variables: {
-      userId: user
+    const [initial, setInitial] = React.useState(false);
+    let [status, setStatus] = React.useState('Available')
+    let [statusColour, setStatusColour] = React.useState('#1adb87')
+    const [changeStatus,  { loading: changeStatusLoading, error: changeStatusError}] = useMutation(CHANGE_STATUS)
+
+    const { loading, data, refetch, error } = useQuery(GET_STATUS, {
+        variables: {
+        userId: '7'
+        }
+    })
+
+
+    if (loading) {
+            return <Text>{'Loading...'}</Text>
+    } 
+
+    if (error) {
+        console.log(error.message);
+        return <Text>{error.message}</Text>
+    } 
+
+
+    let queriedUserStatus = data.getHouseMember;
+
+
+    if (!error && !loading && status != lastStatusDisplayed && !initial) {
+        lastStatusDisplayed = status
+        setStatus(!queriedUserStatus.isBusy ? 'Available' : 'Busy')
+        setStatusColour(queriedUserStatus.isBusy == 'Available' ? '#1adb87' : '#f7cdc8')
+        setInitial(true)
     }
-  })
 
-
-  if (error || loading) {
-      console.log(error? error.message : '')
-      console.log(loading)
-     // return <Text>{'Loading...'}</Text>
-  }
-
-
-  let queriedUserStatus = data.getHouseMember
-
-
-  let [status, setStatus] = React.useState('Available')
-  let [statusColour, setStatusColour] = React.useState('#1adb87')
-
-  if (!error && !loading && status != lastStatusDisplayed && !initial) {
-    lastStatusDisplayed = status
-    setStatus(!queriedUserStatus.isBusy ? 'Available' : 'Busy')
-    setStatusColour(queriedUserStatus.isBusy == 'Available' ? '#1adb87' : '#f7cdc8')
-    setInitial(true)
-  }
-
-  {
-    const [changeStatus,  { loading, error}] = useMutation(CHANGE_STATUS)
-
-    if (!loading && !error && status != lastStatus) {
-      lastStatus = status
-      changeStatus( {variables: {
+    if (!changeStatusLoading && !changeStatusError && status != lastStatus) {
+        lastStatus = status
+        changeStatus( {variables: {
         userId: user,
         isBusy: !(status == 'Available' ? true : false)
         
-      }})
+        }})
 
-      console.log(error)
+        console.log(error)
     }
-  }
 
   return (
     <View style={styles.container}>
+        <HeaderComponent screenName={'Profile Page'}></HeaderComponent>
       <View style ={[folderCommonStyles.column]}>
-        <View style= {[folderCommonStyles.row]}>
+        <View style= {[folderCommonStyles.row, styles.containee]}>
           <View style ={{
             backgroundColor: '#42d4f5',
             width: '30%',
             borderBottomLeftRadius: 20,
             borderTopLeftRadius: 20,
-            padding: 20
+            padding: 20,
           }}>
             <SvgUri 
                     uri={"https://cdn.discordapp.com/attachments/852224878185676831/1043107861682724905/Vector.svg"}
@@ -133,10 +126,11 @@ const IndividualProfilePageView = () => {
         </View>
 
         <TouchableOpacity style = {{
+            // position: 'absolute',
           backgroundColor: statusColour,
           borderRadius: 20,
           padding: 10,
-          marginTop: 20
+          marginTop: 10,
         }} 
         onPress = {() => {
           if (isCurrentUser) {
@@ -157,8 +151,12 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: '#c8d4f7',
-    height: '100%',
+    height: '90%',
     width: '100%',
+  },
+
+  containee: {
+    marginTop: 100,
   },
 
   scrollContainer: {
