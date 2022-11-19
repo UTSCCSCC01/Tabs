@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { Color } from 'react-native-svg';
@@ -15,9 +15,13 @@ import FullViewTasksPage from './ViewTasksPage';
 import IndividualProfilePageView, { UserProps } from './IndividualProfilePageView';
 import DebtRequestsView from './DebtRequestsView';
 import ViewRoommatesScreen from './ViewRoommatesScreen';
+import { UserServices } from '../../../controllers/UserServices';
+import LoginSignUp from './loginPage';
 
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
+
+
     return (
         <View style={{
             height: '100%',
@@ -232,6 +236,12 @@ const Stack = createNativeStackNavigator();
 const userName: UserProps = {user: 'John Smith'}
 
 const Home = () => {
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    if (!loggedIn && UserServices.currentUser!= "") setLoggedIn(true)
+
+
+    if (loggedIn)
     return (
             <Stack.Navigator initialRouteName='HomePage' screenOptions={{headerShown: false}}>
                 <Stack.Screen name = 'Home' component = {HomePage}/>
@@ -246,6 +256,11 @@ const Home = () => {
                 <Stack.Screen name = 'ViewAllProfiles' component = {ViewRoommatesScreen} />
             </Stack.Navigator>
     )
+
+    else return (<Stack.Navigator initialRouteName='Log In' screenOptions={{headerShown: false}}>
+    <Stack.Screen name = 'Home' component = {Home}/>
+    <Stack.Screen name = 'Log In' component = {LoginSignUp} />
+    </Stack.Navigator>)
 }
 
 const styles = StyleSheet.create({

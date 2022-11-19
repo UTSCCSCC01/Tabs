@@ -8,6 +8,7 @@ import {gql,useMutation} from '@apollo/client'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUpPage from './SignUpPage';
 import homePage from './homePage';
+import { UserServices } from '../../../controllers/UserServices';
 
 let windowHeight = Dimensions.get('window').height;
 
@@ -35,6 +36,8 @@ function LoginPage( {navigation}:{navigation:any} ) {
     const [LoginMutationFunction, LoginMutationFunctionData] = useMutation(LOGIN);
     const [hasError, setHasError] = useState(false);
 
+    const userServices = new UserServices;
+
     //backend function for login here, constants for username and password stored in username, password
     const onInput = () => {
         setHasError(false)
@@ -47,6 +50,8 @@ function LoginPage( {navigation}:{navigation:any} ) {
             setHasError(true);
         }
         else {
+
+            userServices.storeCurrentUser(LoginMutationFunctionData.data.user._id)
             navigation.navigate('HomePg');
         }
          }).catch(response => {
