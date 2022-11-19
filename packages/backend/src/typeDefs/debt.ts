@@ -54,7 +54,9 @@ export default gql`
     type Debt {
         id: ID
         debtTo: String
+        debtToName: String
         debtFrom: String
+        debtFromName: String
         amount: Float
         description: String
         dateCreated: String
