@@ -18,7 +18,7 @@ const RoommateContainerComponent: React.FC<Props> = ({
 }) => {
 
     return (
-        <Pressable onPress={() => navigation.navigate('Inventory')} style={({ pressed }) => ({
+        <Pressable onPress={() => navigation.navigate('User Profile')} style={({ pressed }) => ({
             paddingBottom: '3%',
             width: '100%',
             shadowColor: 'grey',
