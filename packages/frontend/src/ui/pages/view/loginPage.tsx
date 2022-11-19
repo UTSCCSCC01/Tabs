@@ -35,8 +35,8 @@ function LoginPage() {
     const onInput = () => {
         setHasError(false)
         LoginMutationFunction({variables: {"username":username, "password":password}});
-        if (LoginMutationFunctionData == null || LoginMutationFunctionData.error) {
-            setHasError(true)
+        if (LoginMutationFunctionData.data.signIn == null || LoginMutationFunctionData.error) {
+            setHasError(true);
         }
     }
 

@@ -17,6 +17,7 @@ import * as Notifications from 'expo-notifications';
 import DebtScreenView from "./ui/pages/view/DebtScreenView";
 import FullViewTaskaPage from "./ui/pages/view/ViewTasksPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import LoginPage from "./ui/pages/view/loginPage";
 
 
 Notifications.setNotificationHandler({
@@ -107,7 +108,7 @@ const App = () => (
     return (
       <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>
         <Tab.Screen name="Calendar" component={FullInvView}/>
-        <Tab.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
+        <Tab.Screen name="HomePage" component={LoginPage} options={{headerShown: false}}/>
       </Tab.Navigator>
     );
   }
