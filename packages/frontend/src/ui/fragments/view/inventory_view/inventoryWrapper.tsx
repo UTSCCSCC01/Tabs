@@ -1,13 +1,8 @@
 import React, { useState } from "react"
-import { View, FlatList, Text } from "react-native"
-import GestureRecognizer from "react-native-swipe-gestures"
-import SvgComponent from "../../../../assets/images/FolderBackdrop"
-import ItemListComponent from "./itemList"
-import { styles } from "../common/mainViewStyles"
+import { View } from "react-native"
 import { CategoryListFolder } from "./categoryListFolder"
 import { ItemListFolder } from "./itemListFolder"
 import { FullItemData } from "./itemData2"
-import AddFoodItemView2 from "./AddFoodItemView2"
 
 
 
