@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
+import { Time } from 'phaser';
 import React from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { SvgUri } from 'react-native-svg';
@@ -31,6 +32,9 @@ query FindAppliances($houseId: String!) {
 const ViewAppliancesPageList: React.FC<Props> = ({
     userId
 }) => {
+    var applianceListStart: any[] | (() => any[]) = [];
+    const [applianceList, setApplianceList] = React.useState(applianceListStart);
+
     console.log('Appliance page created')
     
     // TODO HOUSE ID
@@ -40,12 +44,6 @@ const ViewAppliancesPageList: React.FC<Props> = ({
 
     const [refreshing, setRefreshing] = React.useState(false);
 
-    // const onRefresh = React.useCallback(() => {
-    //     setRefreshing(true);
-    //     refetch();
-    //     wait(1000).then(() => setRefreshing(false));
-    // }, []);
-
     if (loading)
         return <Text>Loading ...</Text>;
     if (error)
@@ -53,7 +51,6 @@ const ViewAppliancesPageList: React.FC<Props> = ({
     
     // console.log(data.findAppliances);
     let dataList = data.findAppliances;
-    var applianceListStart: any[] | (() => any[]) = [];
     
     dataList.forEach((ele: { type: string; id: string; name: string; }) => {
 
@@ -78,25 +75,13 @@ const ViewAppliancesPageList: React.FC<Props> = ({
 
         
     });
-    // Mock data, update with backend connection in future sprint
-    // let applianceListStart = [
-    //    new ApplianceModel('1', 'Taco\'s washing machine', new WashingMachine(), [
-    //     new ScheduledTime(1677498639, 1667509639),
-    //     new ScheduledTime(1677798639, 1687599639)
-    //    ]),
+    console.log(new Date().toLocaleTimeString());
 
-    //    new ApplianceModel('2', 'Laco\'s stove', new Stove(), [
-    //     new ScheduledTime(1677118639, 1667509639),
-    //     new ScheduledTime(1677798639, 1687599639)
-    //    ]),
-
-    //    new ApplianceModel('3', 'Waco\'s oven', new Oven(), [
-    //     new ScheduledTime(1177498639, 1867509639)
-    //    ])
-    // ];
+    if (applianceList.length === 0) {
+        setApplianceList(applianceListStart);
+    }
 
     console.log(applianceListStart);
-    const [applianceList, setApplianceList] = React.useState(applianceListStart)
 
     removeAppliance = (id: string) => {
         let filteredList = applianceList.filter(

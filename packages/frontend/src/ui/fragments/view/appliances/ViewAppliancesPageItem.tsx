@@ -17,6 +17,14 @@ export type ListProps = {
   scheduled: ScheduledTime;
 };
 
+const FIND_APPLIANCES =
+gql`
+query FindAppliances($houseId: String!) {
+    findAppliances(houseId: $houseId) {
+      id, name, type, queue, availability, houseId
+    }
+}`
+
 /**
  * Displays the scheduled times for the given appliance
  * 
