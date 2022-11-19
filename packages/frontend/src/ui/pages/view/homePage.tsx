@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { Color } from 'react-native-svg';
@@ -15,9 +15,17 @@ import FullViewTasksPage from './ViewTasksPage';
 import IndividualProfilePageView, { UserProps } from './IndividualProfilePageView';
 import DebtRequestsView from './DebtRequestsView';
 import ViewRoommatesScreen from './ViewRoommatesScreen';
+import { UserServices } from '../../../controllers/UserServices';
+import FullLoginPage from './loginPage';
+import { SignUpPage } from './SignUpPage';
 
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
+
+    const userServices = new UserServices();
+
+    
+
     return (
         <View style={{
             height: '100%',
@@ -39,6 +47,33 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
             >
                 <SvgUri 
                         uri={"https://cdn.discordapp.com/attachments/852224878185676831/1043107861682724905/Vector.svg"}
+                        style ={{
+                            width: 50,
+                            position: 'absolute',
+                            left: 10,
+                            top: 10
+                        }}
+                        viewBox="0 0 140 140"
+                        preserveAspectRatio='none'
+                    />
+
+            </TouchableOpacity>
+            <TouchableOpacity style = {[
+                {
+                    padding: 20,
+                    position: 'absolute',
+                    backgroundColor: '#3fbfb9',
+                    left: 0,
+                    borderRadius: 20,
+                    margin: 20,
+                    width: 50,
+                    height: 50
+                }
+            ]}
+            onPress={() => {userServices.logOutCurrentUser(); navigation.navigate("Log In")}}
+            >
+                <SvgUri 
+                        uri={"https://cdn.discordapp.com/attachments/939188901585752104/1043455245499498536/Logout_veryverybig.svg"}
                         style ={{
                             width: 50,
                             position: 'absolute',
@@ -232,8 +267,12 @@ const Stack = createNativeStackNavigator();
 const userName: UserProps = {user: 'John Smith'}
 
 const Home = () => {
+
+
+
+
     return (
-            <Stack.Navigator initialRouteName='HomePage' screenOptions={{headerShown: false}}>
+            <Stack.Navigator initialRouteName='Log In' screenOptions={{headerShown: false}}>
                 <Stack.Screen name = 'Home' component = {HomePage}/>
                 <Stack.Screen name = 'Inventory' component = {FullInvView} />
                 <Stack.Screen name = 'Rent' component = {RentScreen} />
@@ -244,8 +283,13 @@ const Home = () => {
                 <Stack.Screen name = 'User Profile' component = {IndividualProfilePageView} />
                 <Stack.Screen name = 'DebtRequests' component = {DebtRequestsView} />
                 <Stack.Screen name = 'ViewAllProfiles' component = {ViewRoommatesScreen} />
+                <Stack.Screen name = 'Log In' component = {FullLoginPage} />
+                <Stack.Screen name = 'signUpPg' component = {SignUpPage} />
+
             </Stack.Navigator>
     )
+
+
 }
 
 const styles = StyleSheet.create({

@@ -4,17 +4,51 @@ import { Text, View, StyleSheet, Dimensions, KeyboardAvoidingView, TouchableOpac
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from 'react-native-gesture-handler';
 import {gql,useMutation} from '@apollo/client'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignUpPage from './SignUpPage';
-import homePage from './homePage';
+import { UserServices } from '../../../controllers/UserServices';
+import Loading from '../../fragments/view/loading';
 
 let windowHeight = Dimensions.get('window').height;
+
+export const FullLoginPage = ({navigation}:{navigation:any}) =>{
+    const userServices = new UserServices;
+
+    const [loading, setLoading] = useState(true);
+
+
+    userServices.getCurrentUser().then(value=>{
+        setLoading(false);
+        console.log("userID is :c: " + value)
+        if (value != "" && value != undefined && value != null){
+        console.log("BY THE BIG RESULT PART 1\n\n\n\n\n\n");
+
+            navigation.navigate('Home');
+        }else{
+            return(
+                <LoginPage navigation={navigation} userServices={userServices}/>
+            )
+        }
+
+        if (value == undefined) return <LoginPage navigation={navigation} userServices={userServices}/>
+        console.log("BY THE BIG RESULT PART 2\n\n\n\n\n\n");
+
+
+    })
+
+    if (loading)
+    return (<Loading/>)
+
+    else return(
+        <LoginPage navigation={navigation} userServices={userServices}/>
+    )
+}
 
 /**
 * @name LoginPage
 * @returns a login form with two text inputs, username and password. Also includes a button to navigate to signup and a login button
 */
-function LoginPage( {navigation}:{navigation:any} ) {
+export const LoginPage = ({navigation, userServices}:{navigation:any, userServices:UserServices}) => {
+
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -34,6 +68,8 @@ function LoginPage( {navigation}:{navigation:any} ) {
     const [LoginMutationFunction, LoginMutationFunctionData] = useMutation(LOGIN);
     const [hasError, setHasError] = useState(false);
 
+
+
     //backend function for login here, constants for username and password stored in username, password
     const onInput = () => {
         setHasError(false)
@@ -46,9 +82,13 @@ function LoginPage( {navigation}:{navigation:any} ) {
             setHasError(true);
         }
         else {
-            navigation.navigate('HomePg');
+            console.log("strange behaviour\n\n\n\n" + JSON.stringify(response))
+
+            userServices.storeCurrentUser(response.data.signIn.id)
+            navigation.navigate('Home');
         }
          }).catch(response => {
+            console.log("strange behaviour\n\n\n\n" + JSON.stringify(response))
             setHasError(true);
          });
     }
@@ -172,17 +212,9 @@ const stylesheet = StyleSheet.create({
     }
 })
 
-const Stack = createNativeStackNavigator();
+
 
 // TODO: Change FullInvView to the profile page when it's done
-const LoginSignUp = () => {
-    return (
-            <Stack.Navigator initialRouteName='MainView' screenOptions={{headerShown: false}}>
-                <Stack.Screen name = 'MainView' component = {LoginPage}/>
-                <Stack.Screen name = 'signUpPg' component = {SignUpPage} />
-                <Stack.Screen name = 'HomePg' component = {homePage} />
-            </Stack.Navigator>
-    )
-}
 
-export default LoginSignUp;
+
+export default FullLoginPage;

@@ -1,6 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient"
 import React, { useState } from "react"
 import { View } from "react-native"
+import { UserServices } from "../../../controllers/UserServices";
 import { DescBoxData, DoubleDescBox, MyHeader, styles } from "../../fragments/view"
 import AddFoodItemView2 from "../../fragments/view/inventory_view/AddFoodItemView2";
 import { InventoryWrapper } from "../../fragments/view/inventory_view/inventoryWrapper";
@@ -15,7 +16,7 @@ const data2 = [dbd1, dbd2];
 const FullInvView = ({navigation}:{navigation:any}) => {
     const [showDoubleDescBox, toggleDoubleDescBox] = useState(true);
     const inventoryId = "testInv"
-    const userId="testUser"
+    const userId=UserServices.currentUser
 
     const [outerViewPortId, setOuterViewPortId] = useState(0);
 

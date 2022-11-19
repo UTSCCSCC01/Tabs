@@ -9,7 +9,9 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import AddItemView from './AddFoodItemView';
-import {MyHeader, FunctionObject, HeaderData, DescBoxData, FolderItemData, InventoryItem,FolderItemList,FolderSvgForm,FormItemList,FormItem, styles, TextForm, FolderFormSvg, FloatingActionButton, FolderSvg,DoubleDescBox,FolderBackdropActionButton, FolderBackdropActionButtonArgument,InventoryCategory} from '../../../fragments/view'
+import {MyHeader, FunctionObject, HeaderData, DescBoxData, FolderItemData ,FolderItemList,FolderSvgForm,FormItemList,FormItem, styles, TextForm, FloatingActionButton, FolderSvg,DoubleDescBox,FolderBackdropActionButton, FolderBackdropActionButtonArgument,InventoryCategory} from '../../../fragments/view'
+import { InventoryItem } from '../../../fragments/view/inventory/InventoryItem';
+import { FolderFormSvg } from '../../../fragments/view/common/FolderFormSvg';
 
 import Checkbox from 'expo-checkbox';
 import { foodExpiryScheduleNotification } from '../../../fragments/notifications';
