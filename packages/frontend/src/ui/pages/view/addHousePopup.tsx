@@ -20,11 +20,13 @@ let popupHeight = 0.4*windowHeight;
 */
 
 const AddRemoveButton = (props: {houseId: String, userId:String, closePopup :(VoidFunction)} ) => {
-
+    const close = () => {
+        props.closePopup()
+      }
 
   return(
     <View style = {styles.addRemoveContainer}>
-      <TouchableOpacity style = {styles.addRemoveButtons} onPress = {()=>{}}>
+      <TouchableOpacity style = {styles.addRemoveButtons} onPress = {()=>{close}}>
         <Text style = {styles.buttonTextColor}> Join house </Text>
       </TouchableOpacity>
 
@@ -57,7 +59,7 @@ const AddHousePopup = (props: { houseId: String, userId: String, show : boolean,
                 <TouchableWithoutFeedback onPress={ () => {props.closePopup()}}>
                   <View style={styles.centeredView}>
                     <TouchableOpacity style={styles.modalView} activeOpacity={1}>
-                          <Text style={styles.modalText}>Name</Text>
+                          <Text style={styles.modalText}>house ID</Text>
                                 <TextInput
                                   style={styles.transactionInput}
                                   keyboardType = 'default'
