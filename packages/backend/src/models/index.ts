@@ -18,3 +18,7 @@ export { default as TaskList } from './taskList'
 export { default as HouseMember } from './houseMember'
 
 export { default as House } from './house'
+
+export { default as Appliance } from './appliance'
+
+export { default as  Schedule } from './schedule'
