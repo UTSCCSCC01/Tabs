@@ -6,6 +6,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import {gql,useMutation} from '@apollo/client'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUpPage from './SignUpPage';
+import homePage from './homePage';
 
 let windowHeight = Dimensions.get('window').height;
 
@@ -40,10 +41,16 @@ function LoginPage( {navigation}:{navigation:any} ) {
             setHasError(true);
             return;
         }
-        LoginMutationFunction({variables: {"username":username, "password":password}});
-        if (LoginMutationFunctionData.data.signIn == null || LoginMutationFunctionData.error) {
+        LoginMutationFunction({variables: {"username":username, "password":password}}).then(response => {
+            if (response == null ||response.data == null || response.data.signIn == null || LoginMutationFunctionData.error) {
             setHasError(true);
         }
+        else {
+            navigation.navigate('HomePg');
+        }
+         }).catch(response => {
+            setHasError(true);
+         });
     }
 
     //Navigate to the signin page
@@ -173,6 +180,7 @@ const LoginSignUp = () => {
             <Stack.Navigator initialRouteName='MainView' screenOptions={{headerShown: false}}>
                 <Stack.Screen name = 'MainView' component = {LoginPage}/>
                 <Stack.Screen name = 'signUpPg' component = {SignUpPage} />
+                <Stack.Screen name = 'HomePg' component = {homePage} />
             </Stack.Navigator>
     )
 }

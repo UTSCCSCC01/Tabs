@@ -47,10 +47,13 @@ function SignUpPage( {navigation}:{navigation:any} ) {
                 return;
         }
 
-        SignupMutationFunction({variables: {"email":email, "username":username, "password":password, "phone":phoneNumber}});
-        if (SignupMutationFunctionData.data.signUp == null || SignupMutationFunctionData.error) {
-            setHasError(true)
+        SignupMutationFunction({variables: {"email":email, "username":username, "password":password, "phone":phoneNumber}}).then(response => {
+            if (response == null ||response.data == null || response.data.signIn == null) {
+            setHasError(true);
         }
+         }).catch(response => {
+            setHasError(true);
+         });
     }
     //Navigate to the signin page
     const onSwitchToLogIn = () => {
