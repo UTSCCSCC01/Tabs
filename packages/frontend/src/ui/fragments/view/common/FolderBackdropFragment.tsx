@@ -7,6 +7,8 @@ import { FolderBackdropActionButton, FolderBackdropActionButtonArgument } from '
 import { FolderBackdropTextInputField, FolderBackdropTextInputFieldArgument } from './FolderBackdropTextInputField';
 import { folderCommonStyles } from './FolderCommonStyles';
 import { InventoryItem } from '../inventory/InventoryItem';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { styles } from './mainViewStyles';
 
 const ADD_ITEM=gql`
 mutation AddItem($itemName: string, $capacity: number, $categoryKey: string){
@@ -44,7 +46,13 @@ export const FolderBackdropListFragment = (props: any) => {
     const [checkboxValue, checkboxUI] = useState(false);
     const [itemName, itemNameFunc] = useState("");
     const [itemType, itemTypeFunc] = useState("");
-    const [itemExpirationDate, itemExpirationDateFunc] = useState("");
+    const [itemExpirationDate, setItemExpirationDate] = useState(-1);
+    console.log("Item expiration date in folder frag is: " + itemExpirationDate + "\n\n\n\n\n");
+
+    const expDateHandler = (date:Date) => {
+        setItemExpirationDate(Date.parse(date.toUTCString()))
+        
+    }
 
     const [addItem, {loading, error}] = useMutation(ADD_ITEM);
     const addItemHandler=(item: InventoryItem) => {
@@ -80,7 +88,16 @@ export const FolderBackdropListFragment = (props: any) => {
 
                     <FolderBackdropTextInputField backRefFunction={itemTypeFunc} info={typeInfo}/>
 
-                    <FolderBackdropTextInputField backRefFunction={itemExpirationDateFunc} info={expireInfo}/>
+
+                    <View style={[styles.rowFlex1, {alignItems:"center", justifyContent: "space-around"}]}>
+
+                    <Text style = {{
+                    fontSize: 15,
+                    paddingBottom: 5
+                }}> Expiration Date</Text>
+                    <DateTimePicker style={{height:"30%", width: "33%"}} value={new Date()} onChange={(event:any, date?: Date) => {if (date == null) return; expDateHandler(date)}} />
+
+                    </View>
                     
                     <View style = {[folderCommonStyles.row, {marginTop: 40, justifyContent: "center"}]}>
                         <Checkbox

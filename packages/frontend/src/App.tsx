@@ -1,21 +1,13 @@
-import React, { useState } from "react"
-import { TextInput, View, Text, Button, StyleSheet, Platform} from 'react-native';
-import { ApolloClient, InMemoryCache, ApolloProvider, gql, useMutation } from '@apollo/client';
-import { LinearGradient } from 'expo-linear-gradient';
+import React from "react"
+import { Platform} from 'react-native';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { registerRootComponent } from 'expo';
-import FullInvView from './ui/pages/view/inventoryView'
+import FullInvView from './ui/pages/view/DEPRECATED/inventoryView'
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomePage from "./ui/pages/view/homePage";
-import RentScreen from "./ui/pages/view/RentScreen";
 
-import DebtRequestsView from "./ui/pages/view/DebtRequestsView";
-import RentAdminScreen from "./ui/pages/view/RentAdminScreen";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import DebtScreenView from "./ui/pages/view/DebtScreenView";
-import FullViewTaskaPage from "./ui/pages/view/ViewTasksPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginPage from "./ui/pages/view/loginPage";
 

@@ -3,12 +3,12 @@ import { FolderItemData } from '../common/FolderItemData';
 
 export class InventoryItem extends FolderItemData {
   capacity: number;
-  expirationDate: string;
+  expirationDate: number;
   categoryKey: string;
   type: string;
   tags: string[];
 
-  constructor(itemName: string, type:string, expirationDate: string,  categoryKey: string) {
+  constructor(itemName: string, type:string, expirationDate: number,  categoryKey: string) {
     super(itemName, "none", "", new FunctionObject(() => { }, null, itemName + "'s TouchFunction"));
     this.capacity = 1;
     this.type=type;

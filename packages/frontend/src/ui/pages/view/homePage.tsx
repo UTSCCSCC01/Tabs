@@ -1,20 +1,11 @@
 import React from 'react';
 import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
-import FolderIcon from '../../../assets/images/folder';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Directions, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 // import { Color } from 'react-native-svg';
 
-import RentPage from './rentPage';
-import CalendarPage from './calendarPage';
-import NotificationsPage from './notificationsPage';
-import AppliancesPage from './appliancesPage';
-import ToDoListPage from './ToDoListPage';
 import RentScreen from './RentScreen';
 import FullInvView from './inventoryView';
 import DebtScreenView from './DebtScreenView';
-import RentAdminScreen from './RentAdminScreen';
 import ViewAppliancesView from './ViewAppliancesView';
 
 import { folderCommonStyles } from '../../fragments/view';
