@@ -27,7 +27,7 @@ export async function foodExpiryScheduleNotification(dateStr: String): Promise<S
          body: 'do something about it'
 
        },
-       trigger: { seconds: 3},
+       trigger: { seconds: expiry_time},
      });
    return notifId
 }

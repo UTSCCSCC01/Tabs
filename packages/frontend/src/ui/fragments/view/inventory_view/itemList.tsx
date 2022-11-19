@@ -17,18 +17,7 @@ import { ItemListSingleton } from './querySingletons';
 
 
 
-export const FIND_ITEMS=gql`
-query ItemsQuery($categoryId: String) {
-  findItemsByCategory(categoryId: $categoryId) {
-    id
-    quantity
-    expiration
-    tags
-    categoryId
-    name
-  }
-}
-`
+
 
 
 /**

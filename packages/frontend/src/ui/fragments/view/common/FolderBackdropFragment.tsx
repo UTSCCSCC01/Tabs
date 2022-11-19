@@ -47,9 +47,11 @@ export const FolderBackdropListFragment = (props: any) => {
     const [itemName, itemNameFunc] = useState("");
     const [itemType, itemTypeFunc] = useState("");
     const [itemExpirationDate, setItemExpirationDate] = useState(-1);
+    console.log("Item expiration date in folder frag is: " + itemExpirationDate + "\n\n\n\n\n");
 
     const expDateHandler = (date:Date) => {
         setItemExpirationDate(Date.parse(date.toUTCString()))
+        
     }
 
     const [addItem, {loading, error}] = useMutation(ADD_ITEM);
