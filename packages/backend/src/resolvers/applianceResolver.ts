@@ -147,9 +147,24 @@ const resolvers = {
             root,
             args: {applianceId: String, userId: String}
         ): Promise<Boolean> =>{
-            var queueList = (await Appliance.findOne({ id: args.applianceId })).queue;
-            queueList.push(args.userId);
-            const appliance = await Appliance.findOneAndUpdate({ id: args.applianceId }, { queue: queueList })
+
+            const appliance = await Appliance.findOneAndUpdate({_id: args.applianceId}, {$push: { queue: [args.userId] }})
+            .then(()=>{
+                console.log("updated appliance queue")
+                return true
+            })
+            .catch(
+                ()=>{
+                    console.log("failed to update appliance queue")
+                    return false
+                })
+            return appliance
+        },
+        popQueue:  async(
+            root,
+            args: {applianceId: String}
+        ): Promise<Boolean> =>{
+            const appliance = await Appliance.findOneAndUpdate({_id: args.applianceId}, {$pop: { queue: -1}})
             .then(()=>{
                 console.log("updated appliance queue")
                 return true

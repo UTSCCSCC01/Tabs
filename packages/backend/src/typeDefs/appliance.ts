@@ -19,6 +19,9 @@ export default gql`
             applianceId: String
             userId: String
         ): Boolean
+        popQueue(
+            applianceId: String
+        ): Boolean
         updateApplianceName(
             applianceId: String
             name: String
