@@ -16,11 +16,15 @@ import IndividualProfilePageView, { UserProps } from './IndividualProfilePageVie
 import DebtRequestsView from './DebtRequestsView';
 import ViewRoommatesScreen from './ViewRoommatesScreen';
 import { UserServices } from '../../../controllers/UserServices';
-import LoginSignUp from './loginPage';
+import FullLoginPage from './loginPage';
+import { SignUpPage } from './SignUpPage';
 
 
 const HomePage = ( {navigation}:{navigation:any} ) => {
 
+    const userServices = new UserServices();
+
+    
 
     return (
         <View style={{
@@ -43,6 +47,33 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
             >
                 <SvgUri 
                         uri={"https://cdn.discordapp.com/attachments/852224878185676831/1043107861682724905/Vector.svg"}
+                        style ={{
+                            width: 50,
+                            position: 'absolute',
+                            left: 10,
+                            top: 10
+                        }}
+                        viewBox="0 0 140 140"
+                        preserveAspectRatio='none'
+                    />
+
+            </TouchableOpacity>
+            <TouchableOpacity style = {[
+                {
+                    padding: 20,
+                    position: 'absolute',
+                    backgroundColor: '#3fbfb9',
+                    left: 0,
+                    borderRadius: 20,
+                    margin: 20,
+                    width: 50,
+                    height: 50
+                }
+            ]}
+            onPress={() => {userServices.logOutCurrentUser(); navigation.navigate("Log In")}}
+            >
+                <SvgUri 
+                        uri={"https://cdn.discordapp.com/attachments/939188901585752104/1043455245499498536/Logout_veryverybig.svg"}
                         style ={{
                             width: 50,
                             position: 'absolute',
@@ -236,9 +267,7 @@ const Stack = createNativeStackNavigator();
 const userName: UserProps = {user: 'John Smith'}
 
 const Home = () => {
-    const [loggedIn, setLoggedIn] = useState(false);
 
-    console.log("strange behaviour\n\n\n\n :c\n" + JSON.stringify(loggedIn))
 
 
 
@@ -254,7 +283,8 @@ const Home = () => {
                 <Stack.Screen name = 'User Profile' component = {IndividualProfilePageView} />
                 <Stack.Screen name = 'DebtRequests' component = {DebtRequestsView} />
                 <Stack.Screen name = 'ViewAllProfiles' component = {ViewRoommatesScreen} />
-                <Stack.Screen name = 'Log In' component = {LoginSignUp} />
+                <Stack.Screen name = 'Log In' component = {FullLoginPage} />
+                <Stack.Screen name = 'signUpPg' component = {SignUpPage} />
 
             </Stack.Navigator>
     )

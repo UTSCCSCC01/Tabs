@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export class UserServices{
 
     static currentUser = "";
+    static currentHouse = "";
 
 
 
@@ -31,6 +32,7 @@ export class UserServices{
 
     try {
         await AsyncStorage.setItem('@houseId', houseId)
+        UserServices.currentHouse = houseId
         return houseId;
       } catch (e) {
         // saving error
@@ -63,6 +65,8 @@ export class UserServices{
     try {
       const value = await AsyncStorage.getItem('@houseId')
       if(value !== null) {
+        UserServices.currentHouse = value
+
             return value;
         }
     } catch(e) {
@@ -74,6 +78,6 @@ export class UserServices{
 
 
 
- logOutCurrentUser = () => {this.storeCurrentUser("");}
+ logOutCurrentUser = () => {this.storeCurrentUser(""); this.storeCurrentHouse("");}
 
 }

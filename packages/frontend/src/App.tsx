@@ -98,10 +98,7 @@ const App = () => (
   */
   const MyTabs=()=>{
     return (
-      <Tab.Navigator initialRouteName="HomePage" screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Calendar" component={FullInvView}/>
-        <Tab.Screen name="HomePage" component={LoginPage} options={{headerShown: false}}/>
-      </Tab.Navigator>
+      <HomePage/>
     );
   }
 

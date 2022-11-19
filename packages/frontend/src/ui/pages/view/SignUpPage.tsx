@@ -6,8 +6,6 @@ import { TextInput } from 'react-native-gesture-handler';
 import { useHeaderHeight } from '@react-navigation/elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {gql,useMutation} from '@apollo/client'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginSignUp from './loginPage';
 import { UserServices } from '../../../controllers/UserServices';
 
 let windowHeight = Dimensions.get('window').height;
@@ -16,7 +14,7 @@ let windowHeight = Dimensions.get('window').height;
 * @name SignUpPage
 * @returns a login form with two text inputs, username and password. Also includes a button to navigate to signup and a login button
 */
-function SignUpPage( {navigation}:{navigation:any} ) {
+export const SignUpPage = ( {navigation}:{navigation:any} ) =>  {
 
     
 
@@ -53,10 +51,11 @@ function SignUpPage( {navigation}:{navigation:any} ) {
         }
 
         SignupMutationFunction({variables: {"email":email, "username":username, "password":password, "phone":phoneNumber}}).then(response => {
-            if (response == null ||response.data == null || response.data.signIn == null) {
+            if (response == null ||response.data == null || response.data.signUp == null) {
             setHasError(true);
         }else{
-            userServices.storeCurrentUser(SignupMutationFunctionData.data.user._id)
+            userServices.storeCurrentUser(response.data.signUp.id);
+            navigation.navigate('Home')
 
         }
          }).catch(response => {
@@ -211,16 +210,6 @@ const stylesheet = StyleSheet.create({
     }
 })
 
-const Stack = createNativeStackNavigator();
-
 // TODO: Change FullInvView to the profile page when it's done
-const SignUpLogin = () => {
-    return (
-            <Stack.Navigator initialRouteName='MainView' screenOptions={{headerShown: false}}>
-                <Stack.Screen name = 'MainView' component = {SignUpPage}/>
-                <Stack.Screen name = 'loginPg' component = {LoginSignUp} />
-            </Stack.Navigator>
-    )
-}
 
-export default SignUpLogin;
+
