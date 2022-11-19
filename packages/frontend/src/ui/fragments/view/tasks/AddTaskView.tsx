@@ -2,6 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
+import { taskExpiryScheduleNotification } from '../../notifications';
 import { FolderBackdropActionButton } from '../common/FolderBackdropActionButton';
 import { FolderBackdropTextInputField } from '../common/FolderBackdropTextInputField';
 import { styles } from '../common/mainViewStyles';
@@ -61,6 +62,8 @@ const AddTaskComponent = ({userId, houseId, setViewPortId}: {userId: string, hou
 
         }
         })
+
+        taskExpiryScheduleNotification("12/27/2001");
             
         setViewPortId(0);
     }

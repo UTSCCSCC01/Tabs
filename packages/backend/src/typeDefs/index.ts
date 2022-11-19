@@ -9,4 +9,6 @@ import task from './task'
 import taskList from './taskList'
 import houseMember from './houseMember'
 import house from './house'
-export default [root,user,inventory,item,category,debt,bill, task, taskList, houseMember, house]
+import appliance from './appliance'
+import schedule from './schedule'
+export default [root,user,inventory,item,category,debt,bill, task, taskList, houseMember, house, appliance, schedule]

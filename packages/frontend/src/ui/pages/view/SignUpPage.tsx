@@ -5,6 +5,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from 'react-native-gesture-handler';
 import { useHeaderHeight } from '@react-navigation/elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {gql,useMutation} from '@apollo/client'
+import { UserServices } from '../../../controllers/UserServices';
 
 let windowHeight = Dimensions.get('window').height;
 
@@ -12,7 +14,9 @@ let windowHeight = Dimensions.get('window').height;
 * @name SignUpPage
 * @returns a login form with two text inputs, username and password. Also includes a button to navigate to signup and a login button
 */
-function SignUpPage() {
+export const SignUpPage = ( {navigation}:{navigation:any} ) =>  {
+
+    
 
     const height = useHeaderHeight()
     const [username, setUsername] = useState("")
@@ -20,12 +24,47 @@ function SignUpPage() {
     const [email, setEmail] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
 
+    const SIGNUP = gql`
+    mutation SignUp($email: String!, $username: String!, $password: String!, $phone: String!) {
+        signUp(email: $email, username: $username, password: $password, phone: $phone) {
+            id
+            email
+            username
+            password
+            phone
+        }
+    }
+    `
+
+    const [SignupMutationFunction, SignupMutationFunctionData] = useMutation(SIGNUP);
+
+    const [hasError, setHasError] = useState(false);
+
+    const userServices = new UserServices();
+
     //backend function for login here, constants for username and password stored in username, password
     const onInput = () => {
-    }
+        setHasError(false)
+        if (username == '' || password == '' || email == '' || phoneNumber == '') {
+                setHasError(true);
+                return;
+        }
 
+        SignupMutationFunction({variables: {"email":email, "username":username, "password":password, "phone":phoneNumber}}).then(response => {
+            if (response == null ||response.data == null || response.data.signUp == null) {
+            setHasError(true);
+        }else{
+            userServices.storeCurrentUser(response.data.signUp.id);
+            navigation.navigate('Home')
+
+        }
+         }).catch(response => {
+            setHasError(true);
+         });
+    }
     //Navigate to the signin page
     const onSwitchToLogIn = () => {
+        navigation.navigate('loginPg');
     }
 
     return (
@@ -75,7 +114,10 @@ function SignUpPage() {
                         <Text style={stylesheet.buttonText}> Sign Up </Text>
                     </TouchableOpacity>
                 </View>
-            
+                
+                <View>
+                    {hasError && <Text style={stylesheet.buttonText}>Signup failed</Text>}
+                </View>
                 </View>
         </KeyboardAwareScrollView>
         </SafeAreaView>
@@ -83,8 +125,6 @@ function SignUpPage() {
         
     );
 }
-
-export default SignUpPage;
 
 const stylesheet = StyleSheet.create({
     mainView: {
@@ -169,3 +209,7 @@ const stylesheet = StyleSheet.create({
         color: 'white',
     }
 })
+
+// TODO: Change FullInvView to the profile page when it's done
+
+

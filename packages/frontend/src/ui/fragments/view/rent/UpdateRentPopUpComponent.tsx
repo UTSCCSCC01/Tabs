@@ -2,7 +2,12 @@ import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+<<<<<<< HEAD:packages/frontend/src/ui/fragments/view/UpdateRentPopUpComponent.tsx
+import SvgComponentLightBlue from '../../../assets/images/LightBlueVector';
+import { rentScheduleNotification } from '../notifications';
+=======
 import SvgComponentLightBlue from '../../../../assets/images/LightBlueVector';
+>>>>>>> a7eee46067bb63eb307769710972d8b8e2100907:packages/frontend/src/ui/fragments/view/rent/UpdateRentPopUpComponent.tsx
 
 export type Props = {
     updatingUser: string,
@@ -46,6 +51,7 @@ const UpdateRentPopUpComponent: React.FC<Props> = ({
     const submitHandle = () => {
         modifyBillAmount({ variables: { houseId: "777", userId: {updatingUser}.updatingUser, amount: Number(amountInput) }}).catch(error => console.log('error: ', error));
         console.log("UPDATED RENT");
+        rentScheduleNotification("12/27/2001");
         setIsUpdatingRent(false);
         setUpdatingUser('');
     }

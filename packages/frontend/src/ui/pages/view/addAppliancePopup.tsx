@@ -2,9 +2,11 @@ import { Modal, Dimensions, StyleSheet, View, Text, Pressable, TouchableOpacity,
 import React, { useState } from 'react'
 import { shadowType } from 'react-native-floating-action';
 import { TextInput } from 'react-native-gesture-handler';
+import { SelectList } from 'react-native-dropdown-select-list'
+import { gql, useMutation } from '@apollo/client';
 
 let windowHeight = Dimensions.get('window').height;
-let popupHeight = 0.3*windowHeight;
+let popupHeight = 0.5*windowHeight;
 
 /* Copy paste this where you want to put this modal:
 
@@ -30,6 +32,22 @@ let popupHeight = 0.3*windowHeight;
 
 */
 
+const CREATE_APPLIANCE =
+gql`
+mutation CreateAppliance($houseId: String!, $name: String!, $type: String!) {
+    createAppliance(houseId:$houseId, name:$name, type:$type) {
+      id, name type queue scheduled availability houseId
+    }
+}`
+
+const FIND_APPLIANCES =
+gql`
+query FindAppliances($houseId: String!) {
+    findAppliances(houseId: $houseId) {
+      id, name, type, queue, availability, houseId
+    }
+}`
+
 
 /**
 * @name AddRemoveButton
@@ -38,13 +56,15 @@ let popupHeight = 0.3*windowHeight;
 * @see AddAppliancePopup to see where this component is used
 */
 
-const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
-
+const AddRemoveButton = (props: {closePopup : (VoidFunction), addApplianceMutationFunction: any, selected: any, applianceName: string}) => {
+    
   const cancel = () => {
     props.closePopup()
   }
 
   const addAppliance = () => {
+    props.addApplianceMutationFunction({ variables: { houseId:"777", name: props.applianceName, type: props.selected} }).catch((error: any) => console.log('error: ', error));
+
     props.closePopup()
   }
 
@@ -60,7 +80,6 @@ const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
   )
 }
 
-
 /**
 * @name AddAppliancePopup
 * @param show takes in a boolean in order to define whether or not the popup should show
@@ -71,6 +90,25 @@ const AddRemoveButton = (props: {closePopup : (VoidFunction)}) => {
 
 
 const AddAppliancePopup = (props: {show : boolean, closePopup : (VoidFunction) }) => {
+
+    const [addApplianceMutationFunction, addApplianceMutationData] = useMutation(CREATE_APPLIANCE,
+        {
+            refetchQueries: [{query: FIND_APPLIANCES}, "Query"],
+            awaitRefetchQueries: true
+        })
+
+    const [applianceName, setApplianceName] = useState('');
+    const [selected, setSelected] = React.useState("");
+  
+  const data = [
+      {key:'1', value:'Washing Machine', disabled:true},
+      {key:'2', value:'Dryer'},
+      {key:'3', value:'Stove'},
+      {key:'4', value:'Oven'},
+      {key:'5', value:'Dish Washer'},
+      {key:'6', value:'Other Appliance'},
+  ]
+
     return (
         <Modal
               animationType="slide"
@@ -90,9 +128,17 @@ const AddAppliancePopup = (props: {show : boolean, closePopup : (VoidFunction) }
                               style={styles.transactionInput}
                               keyboardType="default"
                               textAlign='center'
-                              maxLength={10}
+                              onChangeText={newText => setApplianceName(newText)}
+                              maxLength={30}
                             />
-                          <AddRemoveButton closePopup={props.closePopup}/>
+                            <SelectList
+                                maxHeight={100}
+                                defaultOption={{key:'1', value:'Washing Machine'}}
+                                setSelected={(val: React.SetStateAction<string>) => setSelected(val)} 
+                                data={data} 
+                                save="value"
+                            />
+                          <AddRemoveButton closePopup={props.closePopup} addApplianceMutationFunction={addApplianceMutationFunction} selected={selected} applianceName={applianceName}/>
                       </TouchableOpacity>
                   </View>
                 </TouchableWithoutFeedback>
@@ -138,7 +184,7 @@ const styles = StyleSheet.create({
     button: {
       borderRadius: 20,
       padding: 10,
-      elevation: 2
+      elevation: 2,
     },
     buttonOpen: {
       backgroundColor: "#F194FF",
@@ -191,7 +237,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#E3EFF1',
       marginTop: 0,
       marginBottom: "2%",
-      height: '20%',
+      height: '12%',
       width: '90%',
       borderRadius: 20
     }

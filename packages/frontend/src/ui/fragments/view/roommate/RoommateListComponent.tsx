@@ -5,6 +5,7 @@ import RoommateContainerComponent from './RoommateContainerComponent';
 
 export type Props = {
     houseId: string;
+    navigation: any;
 };
 
 const wait = (timeout: number | undefined) => {
@@ -27,6 +28,7 @@ query GetHouseMembers($houseId: String!) {
 */
 const RoommateListComponent: React.FC<Props> = ({
     houseId,
+    navigation,
 }) => {
     const { loading, data, refetch, error } = useQuery(GET_HOUSEMEMBERS, {
         variables: { houseId: houseId},
@@ -52,7 +54,7 @@ const RoommateListComponent: React.FC<Props> = ({
             <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     data={DATA as readonly any[] | null | undefined}
-                    renderItem={({item}) => <RoommateContainerComponent name={item.name} isBusy={item.isBusy} silentHours={item.silentHours}/> }
+                    renderItem={({item}) => <RoommateContainerComponent name={item.name} isBusy={item.isBusy} silentHours={item.silentHours} navigation={navigation}/> }
                     refreshControl={<RefreshControl
                         colors={["#2493A1", "#2493A1"]}
                         refreshing={refreshing}

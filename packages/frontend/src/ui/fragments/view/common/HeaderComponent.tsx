@@ -30,7 +30,7 @@ const HeaderComponent: React.FC<Props> = ({
 const styles = StyleSheet.create({
     myHeader: {
         paddingHorizontal:"4%",
-        marginTop:"8%",
+        marginTop:"15%",
         width:"100%",
         height: '4%',
       },
