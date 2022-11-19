@@ -59,7 +59,7 @@ Daily Stand-ups Total Mark: 10 / 10
   - 1 mark = two or more stories in Trello Backlog do not follow the template
   - 0 marks = the majority of stories in Trello Backlog do not follow the template or no stories at all
 
-  Your Mark: 0
+  Your Mark: 2
 
 - Broken down into tasks/subtasks (max 2 marks)
 
@@ -91,9 +91,9 @@ Daily Stand-ups Total Mark: 10 / 10
   - 1 mark = one or more Sprint 1 stories do not have clearly defined or testable acceptance criteria
   - 0 marks = the majority of the Sprint1 stories do not have clearly defined or testable acceptance criteria
 
-  Your Mark: 0
+  Your Mark: 2
 
-User Stories Total Mark: 6 / 10
+User Stories Total Mark: 10 / 10
 
 ---
 
@@ -277,4 +277,4 @@ Your Mark: 14 / 14
 
 ## Total Mark
 
-88 / 93
+92 / 93
