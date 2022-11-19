@@ -13,6 +13,7 @@ import ViewAppliancesView from './ViewAppliancesView';
 import FullViewTasksAdminPage from './ViewTasksAdminPage';
 import FullViewTasksPage from './ViewTasksPage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import IndividualProfilePageView from './IndividualProfilePageView';
 
 
 /**
@@ -39,7 +40,7 @@ const ViewAllProfiles = () => {
     return (
             <Stack.Navigator initialRouteName='MainView' screenOptions={{headerShown: false}}>
                 <Stack.Screen name = 'MainView' component = {ViewRoommatesScreen}/>
-                <Stack.Screen name = 'ProfilePage' component = {FullInvView} />
+                <Stack.Screen name = 'ProfilePage' component = {IndividualProfilePageView} />
             </Stack.Navigator>
     )
 }
