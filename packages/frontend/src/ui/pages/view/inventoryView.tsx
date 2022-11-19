@@ -6,14 +6,14 @@ import { FloatingAction } from "react-native-floating-action";
 
 import { gql, useMutation, useQuery } from '@apollo/client';
 
-import inventoryController from '../controller/inventoryController';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import AddItemView from './AddFoodItemView';
 import {MyHeader, FunctionObject, HeaderData, DescBoxData, FolderItemData, InventoryItem,FolderItemList,FolderSvgForm,FormItemList,FormItem, styles, TextForm, FolderFormSvg, FloatingActionButton, FolderSvg,DoubleDescBox,FolderBackdropActionButton, FolderBackdropActionButtonArgument,InventoryCategory} from '../../fragments/view'
 
 import Checkbox from 'expo-checkbox';
-import { folderCommonStyles } from '../../fragments/view/FolderCommonStyles';
+import { folderCommonStyles } from '../../fragments/view/common/FolderCommonStyles';
+import HeaderComponent from '../../fragments/view/common/HeaderComponent';
 
 
 
@@ -591,8 +591,9 @@ console.log("chosen item name is: " + chosenItemData.name)
 return(
       //the background is a gradient so...
       <LinearGradient colors={["#FFFFFF", "#85C4CF", "#127589" ]} style={styles.page} start={[0, 0]} end={[1, 1]} locations={[0.05, 0.1, 1]}>
-        <MyHeader backFunction={headerData.backFunction} title={headerData.title}/>{// the title of the page plus the back button, could make this more modular but lazy
-        }
+        <HeaderComponent screenName={headerData.title}></HeaderComponent>
+        {/* <MyHeader backFunction={headerData.backFunction} title={headerData.title}/>{// the title of the page plus the back button, could make this more modular but lazy
+        } */}
         <View style={styles.flexPage}>{// container for rest of page...
         }
 

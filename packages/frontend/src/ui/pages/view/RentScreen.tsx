@@ -1,11 +1,11 @@
 import { gql, InMemoryCache, useLazyQuery, useQuery } from '@apollo/client';
 import React from 'react';
 import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar, RefreshControl} from 'react-native';
-import HeaderComponent from '../../fragments/view/HeaderComponent';
-import OweContainer from '../../fragments/view/OweComponent';
-import UpcomingRentComponent from '../../fragments/view/UpcomingRentComponent';
-import DebtListComponent from '../../fragments/view/DebtListComponent';
-import { FloatingActionButton } from '../../fragments/view/FloatingActionButton';
+import HeaderComponent from '../../fragments/view/common/HeaderComponent';
+import OweContainer from '../../fragments/view/debt/OweComponent';
+import UpcomingRentComponent from '../../fragments/view/rent/UpcomingRentComponent';
+import DebtListComponent from '../../fragments/view/debt/DebtListComponent';
+import { FloatingActionButton } from '../../fragments/view/common/FloatingActionButton';
   
 // export type Props = {
 //     houseId: string;
@@ -27,10 +27,10 @@ const RentScreen: React.FC = (
     return (
         <View style={styles.container}>
             <HeaderComponent screenName='Rent & Finance'/>
-            <UpcomingRentComponent houseId='777' userId='Roommate No.1'/>
+            <UpcomingRentComponent houseId='777' userId='7'/>
 
             <SafeAreaView style={styles.scrollContainer}>
-                <DebtListComponent userId='Bob Jones'/>
+                <DebtListComponent userId='7'/>
             </SafeAreaView>
             
             <FloatingActionButton 

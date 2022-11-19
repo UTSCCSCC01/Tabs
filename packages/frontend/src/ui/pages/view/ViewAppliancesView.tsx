@@ -1,22 +1,22 @@
 import { gql, InMemoryCache, useLazyQuery, useQuery } from '@apollo/client';
 import React from 'react';
 import { Button, StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar, RefreshControl} from 'react-native';
-import HeaderComponent from '../../fragments/view/HeaderComponent';
-import OweContainer from '../../fragments/view/OweComponent';
-import UpcomingRentComponent from '../../fragments/view/UpcomingRentComponent';
-import DebtListComponent from '../../fragments/view/DebtListComponent';
-import { FloatingActionButton } from '../../fragments/view/FloatingActionButton';
-import RentListComponent from '../../fragments/view/RentListComponent';
-import AddRentPopUpComponent from '../../fragments/view/AddRentPopUpComponent';
-import UpdateRentPopUpComponent from '../../fragments/view/UpdateRentPopUpComponent';
-import DebtRequestListComponent from '../../fragments/view/DebtRequestListComponent';
+import HeaderComponent from '../../fragments/view/common/HeaderComponent';
+import OweContainer from '../../fragments/view/debt/OweComponent';
+import UpcomingRentComponent from '../../fragments/view/rent/UpcomingRentComponent';
+import DebtListComponent from '../../fragments/view/debt/DebtListComponent';
+import { FloatingActionButton } from '../../fragments/view/common/FloatingActionButton';
+import RentListComponent from '../../fragments/view/rent/RentListComponent';
+import AddRentPopUpComponent from '../../fragments/view/rent/AddRentPopUpComponent';
+import UpdateRentPopUpComponent from '../../fragments/view/rent/UpdateRentPopUpComponent';
+import DebtRequestListComponent from '../../fragments/view/debt/DebtRequestListComponent';
 
-import ViewAppliancesPageItem from '../../fragments/view/view_appliance_page/ViewAppliancesPageItem';
-import ViewAppliancesPageList from '../../fragments/view/view_appliance_page/ViewAppliancesPageList';
-import ApplianceHeaderComponent from '../../fragments/view/ApplianceHeaderComponent';
+import ViewAppliancesPageItem from '../../fragments/view/appliances/ViewAppliancesPageItem';
+import ViewAppliancesPageList from '../../fragments/view/appliances/ViewAppliancesPageList';
+import ApplianceHeaderComponent from '../../fragments/view/appliances/ApplianceHeaderComponent';
 import DebtPopup from './debtPopup';
 import AddAppliancePopup from './addAppliancePopup';
-import { isAdmin } from '../../../data/AdminUtils';
+import { isAdmin } from '../../../controllers/Admin';
 
   
 const a = () => {
@@ -38,7 +38,7 @@ const ViewAppliancesView: React.FC = () => {
     return (
 
       <View style={styles.container}>
-        <ApplianceHeaderComponent screenName='Appliances'/>
+        <HeaderComponent screenName='Appliances'/>
         <ViewAppliancesPageList userId={userId}/>
         
         <FloatingActionButton 
