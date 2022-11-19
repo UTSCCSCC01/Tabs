@@ -238,12 +238,12 @@ const userName: UserProps = {user: 'John Smith'}
 const Home = () => {
     const [loggedIn, setLoggedIn] = useState(false);
 
-    if (!loggedIn && UserServices.currentUser!= "") setLoggedIn(true)
+    console.log("strange behaviour\n\n\n\n :c\n" + JSON.stringify(loggedIn))
 
 
-    if (loggedIn)
+
     return (
-            <Stack.Navigator initialRouteName='HomePage' screenOptions={{headerShown: false}}>
+            <Stack.Navigator initialRouteName='Log In' screenOptions={{headerShown: false}}>
                 <Stack.Screen name = 'Home' component = {HomePage}/>
                 <Stack.Screen name = 'Inventory' component = {FullInvView} />
                 <Stack.Screen name = 'Rent' component = {RentScreen} />
@@ -254,13 +254,12 @@ const Home = () => {
                 <Stack.Screen name = 'User Profile' component = {IndividualProfilePageView} />
                 <Stack.Screen name = 'DebtRequests' component = {DebtRequestsView} />
                 <Stack.Screen name = 'ViewAllProfiles' component = {ViewRoommatesScreen} />
+                <Stack.Screen name = 'Log In' component = {LoginSignUp} />
+
             </Stack.Navigator>
     )
 
-    else return (<Stack.Navigator initialRouteName='Log In' screenOptions={{headerShown: false}}>
-    <Stack.Screen name = 'Home' component = {Home}/>
-    <Stack.Screen name = 'Log In' component = {LoginSignUp} />
-    </Stack.Navigator>)
+
 }
 
 const styles = StyleSheet.create({

@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUpPage from './SignUpPage';
 import homePage from './homePage';
 import { UserServices } from '../../../controllers/UserServices';
+import { Use } from 'react-native-svg';
 
 let windowHeight = Dimensions.get('window').height;
 
@@ -17,6 +18,8 @@ let windowHeight = Dimensions.get('window').height;
 * @returns a login form with two text inputs, username and password. Also includes a button to navigate to signup and a login button
 */
 function LoginPage( {navigation}:{navigation:any} ) {
+
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -38,6 +41,10 @@ function LoginPage( {navigation}:{navigation:any} ) {
 
     const userServices = new UserServices;
 
+    userServices.getCurrentUser().then(value=>{
+        if (value != "") navigation.navigate('Home');
+    })
+
     //backend function for login here, constants for username and password stored in username, password
     const onInput = () => {
         setHasError(false)
@@ -50,11 +57,13 @@ function LoginPage( {navigation}:{navigation:any} ) {
             setHasError(true);
         }
         else {
+            console.log("strange behaviour\n\n\n\n" + JSON.stringify(response))
 
-            userServices.storeCurrentUser(LoginMutationFunctionData.data.user._id)
-            navigation.navigate('HomePg');
+            userServices.storeCurrentUser(response.data.signIn.id)
+            navigation.navigate('Home');
         }
          }).catch(response => {
+            console.log("strange behaviour\n\n\n\n" + JSON.stringify(response))
             setHasError(true);
          });
     }
