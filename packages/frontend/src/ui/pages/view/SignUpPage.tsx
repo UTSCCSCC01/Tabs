@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from 'react-native-gesture-handler';
 import { useHeaderHeight } from '@react-navigation/elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {gql,useMutation} from '@apollo/client'
 
 let windowHeight = Dimensions.get('window').height;
 
@@ -20,8 +21,29 @@ function SignUpPage() {
     const [email, setEmail] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
 
+    const SIGNUP = gql`
+    mutation SignUp($email: String!, $username: String!, $password: String!, $phone: String!) {
+        signUp(email: $email, username: $username, password: $password, phone: $phone) {
+            id
+            email
+            username
+            password
+            phone
+        }
+    }
+    `
+
+    const [SignupMutationFunction, SignupMutationFunctionData] = useMutation(SIGNUP);
+
+    const [hasError, setHasError] = useState(false);
+
     //backend function for login here, constants for username and password stored in username, password
     const onInput = () => {
+        SignupMutationFunction({variables: {"email":email, "username":username, "password":password, "phone":phoneNumber}});
+        setHasError(false)
+        if (SignupMutationFunctionData == null || SignupMutationFunctionData.error) {
+            setHasError(true)
+        }
     }
 
     //Navigate to the signin page
@@ -75,7 +97,10 @@ function SignUpPage() {
                         <Text style={stylesheet.buttonText}> Sign Up </Text>
                     </TouchableOpacity>
                 </View>
-            
+                
+                <View>
+                    {hasError && <Text style={stylesheet.buttonText}>Signup failed</Text>}
+                </View>
                 </View>
         </KeyboardAwareScrollView>
         </SafeAreaView>

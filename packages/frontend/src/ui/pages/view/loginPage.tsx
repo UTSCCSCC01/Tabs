@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Text, View, StyleSheet, Dimensions, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from 'react-native-gesture-handler';
+import {gql,useMutation} from '@apollo/client'
 
 let windowHeight = Dimensions.get('window').height;
 
@@ -15,8 +16,28 @@ function LoginPage() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
+    const LOGIN = gql`
+        mutation SignIn($username: String!, $password: String!) {
+            signIn(username: $username, password: $password) {
+                id
+                email
+                username
+                password
+                phone
+            }
+        }
+    `
+
+    const [LoginMutationFunction, LoginMutationFunctionData] = useMutation(LOGIN);
+    const [hasError, setHasError] = useState(false);
+
     //backend function for login here, constants for username and password stored in username, password
     const onInput = () => {
+        setHasError(false)
+        LoginMutationFunction({variables: {"username":username, "password":password}});
+        if (LoginMutationFunctionData == null || LoginMutationFunctionData.error) {
+            setHasError(true)
+        }
     }
 
     //Navigate to the signin page
@@ -52,9 +73,11 @@ function LoginPage() {
                     <TouchableOpacity style={stylesheet.buttonOutline} onPress={onInput}>
                         <Text style={stylesheet.buttonText}> Log In </Text>
                     </TouchableOpacity>
-
                 </View>
-
+                
+                <View>
+                    {hasError && <Text style={stylesheet.buttonText}>Login failed</Text>}
+                </View>
             </LinearGradient>
         </KeyboardAvoidingView>
     );
