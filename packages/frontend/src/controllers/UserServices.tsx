@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export class UserServices{
 
     static currentUser = "";
-    static currentHouse = "";
+    static currentHouse = "777";
 
 
 
@@ -45,6 +45,7 @@ export class UserServices{
 }
 
  getCurrentUser = async () => {
+    
 
     if (UserServices.currentUser == "")
     try {
