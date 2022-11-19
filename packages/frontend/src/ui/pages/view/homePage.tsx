@@ -21,7 +21,7 @@ import { folderCommonStyles } from '../../fragments/view';
 import { SvgUri } from 'react-native-svg';
 import FullViewTasksAdminPage from './ViewTasksAdminPage';
 import FullViewTasksPage from './ViewTasksPage';
-import IndividualProfilePageView, { UserProps } from './IndividualProfilePageView';
+import IndividualProfilePageView, { setUserToShow, UserProps } from './IndividualProfilePageView';
 import DebtRequestsView from './DebtRequestsView';
 import ViewRoommatesScreen from './ViewRoommatesScreen';
 
@@ -44,7 +44,7 @@ const HomePage = ( {navigation}:{navigation:any} ) => {
                     height: 50
                 }
             ]}
-            onPress={() => navigation.navigate('User Profile')}
+            onPress={() => {setUserToShow('7', true); navigation.navigate('User Profile')}}
             >
                 <SvgUri 
                         uri={"https://cdn.discordapp.com/attachments/852224878185676831/1043107861682724905/Vector.svg"}

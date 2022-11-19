@@ -39,7 +39,6 @@ let lastStatusDisplayed = 'Available'
  */
 const IndividualProfilePageView = () => {
 
-    
     const [initial, setInitial] = React.useState(false);
     let [status, setStatus] = React.useState('Available')
     let [statusColour, setStatusColour] = React.useState('#1adb87')
