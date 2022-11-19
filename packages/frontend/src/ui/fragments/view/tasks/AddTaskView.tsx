@@ -7,6 +7,7 @@ import { FolderBackdropActionButton } from '../common/FolderBackdropActionButton
 import { FolderBackdropTextInputField } from '../common/FolderBackdropTextInputField';
 import { styles } from '../common/mainViewStyles';
 import { MyHeader } from '../common/MyHeader';
+import { GET_ALL_TASKS } from './TaskListComponent';
 
 const CREATE_TASK = gql`
 mutation CreateTask($taskListId: String, $ownerId: String, $taskName: String, $dateDue: String, $houseId: String) {
@@ -50,8 +51,8 @@ const AddTaskComponent = ({userId, houseId, setViewPortId}: {userId: string, hou
     //const [taskId, setTaskId] =
     
 
-    const [createTaskMutation, createTaskMutationData] = useMutation(CREATE_TASK, {refetchQueries: [], awaitRefetchQueries: true})
-    const [creatSubTaskMutation, createSubTaskMutationData] = useMutation(CREATE_SUB_TASK, {refetchQueries: [], awaitRefetchQueries: true})
+    const [createTaskMutation, createTaskMutationData] = useMutation(CREATE_TASK, {refetchQueries: [{query: GET_ALL_TASKS, variables:{userId: userId}},], awaitRefetchQueries: true})
+    const [creatSubTaskMutation, createSubTaskMutationData] = useMutation(CREATE_SUB_TASK, {refetchQueries: [{query: GET_ALL_TASKS, variables:{userId: userId}}], awaitRefetchQueries: true})
 
     const addTaskHandler = () =>{
         

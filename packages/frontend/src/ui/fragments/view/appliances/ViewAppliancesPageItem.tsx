@@ -2,6 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';import { SvgUri } from 'react-native-svg';
 import { isAdmin } from '../../../../controllers/Admin';
+import { UserServices } from '../../../../controllers/UserServices';
 import { ApplianceType, ScheduledTime } from '../../../../models/ApplianceModel';
 import { folderCommonStyles } from '../common/FolderCommonStyles';
 
@@ -80,7 +81,7 @@ const ViewAppliancesPageItem: React.FC<Props> = ({
 
     const [deleteApplianceMutationFunction, deleteApplianceMutationData] = useMutation(DELETE_APPLIANCE,
         {
-            refetchQueries: [{query: FIND_APPLIANCES}, "Query"],
+            refetchQueries: [{query: FIND_APPLIANCES, variables:{houseId: UserServices.currentHouse}}, "FindAppliances"],
             awaitRefetchQueries: true
         })
 
