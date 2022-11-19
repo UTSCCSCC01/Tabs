@@ -6,6 +6,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import { useHeaderHeight } from '@react-navigation/elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {gql,useMutation} from '@apollo/client'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginSignUp from './loginPage';
 
 let windowHeight = Dimensions.get('window').height;
 
@@ -13,7 +15,7 @@ let windowHeight = Dimensions.get('window').height;
 * @name SignUpPage
 * @returns a login form with two text inputs, username and password. Also includes a button to navigate to signup and a login button
 */
-function SignUpPage() {
+function SignUpPage( {navigation}:{navigation:any} ) {
 
     const height = useHeaderHeight()
     const [username, setUsername] = useState("")
@@ -39,15 +41,20 @@ function SignUpPage() {
 
     //backend function for login here, constants for username and password stored in username, password
     const onInput = () => {
-        SignupMutationFunction({variables: {"email":email, "username":username, "password":password, "phone":phoneNumber}});
         setHasError(false)
-        if (SignupMutationFunctionData == null || SignupMutationFunctionData.error) {
+        if (username == '' || password == '' || email == '' || phoneNumber == '') {
+                setHasError(true);
+                return;
+        }
+
+        SignupMutationFunction({variables: {"email":email, "username":username, "password":password, "phone":phoneNumber}});
+        if (SignupMutationFunctionData.data.signUp == null || SignupMutationFunctionData.error) {
             setHasError(true)
         }
     }
-
     //Navigate to the signin page
     const onSwitchToLogIn = () => {
+        navigation.navigate('loginPg');
     }
 
     return (
@@ -108,8 +115,6 @@ function SignUpPage() {
         
     );
 }
-
-export default SignUpPage;
 
 const stylesheet = StyleSheet.create({
     mainView: {
@@ -194,3 +199,17 @@ const stylesheet = StyleSheet.create({
         color: 'white',
     }
 })
+
+const Stack = createNativeStackNavigator();
+
+// TODO: Change FullInvView to the profile page when it's done
+const SignUpLogin = () => {
+    return (
+            <Stack.Navigator initialRouteName='MainView' screenOptions={{headerShown: false}}>
+                <Stack.Screen name = 'MainView' component = {SignUpPage}/>
+                <Stack.Screen name = 'loginPg' component = {LoginSignUp} />
+            </Stack.Navigator>
+    )
+}
+
+export default SignUpLogin;

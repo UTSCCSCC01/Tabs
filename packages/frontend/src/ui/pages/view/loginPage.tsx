@@ -4,6 +4,8 @@ import { Text, View, StyleSheet, Dimensions, KeyboardAvoidingView, TouchableOpac
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from 'react-native-gesture-handler';
 import {gql,useMutation} from '@apollo/client'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SignUpPage from './SignUpPage';
 
 let windowHeight = Dimensions.get('window').height;
 
@@ -11,7 +13,7 @@ let windowHeight = Dimensions.get('window').height;
 * @name LoginPage
 * @returns a login form with two text inputs, username and password. Also includes a button to navigate to signup and a login button
 */
-function LoginPage() {
+function LoginPage( {navigation}:{navigation:any} ) {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -34,6 +36,10 @@ function LoginPage() {
     //backend function for login here, constants for username and password stored in username, password
     const onInput = () => {
         setHasError(false)
+        if (username == '' || password == '') {
+            setHasError(true);
+            return;
+        }
         LoginMutationFunction({variables: {"username":username, "password":password}});
         if (LoginMutationFunctionData.data.signIn == null || LoginMutationFunctionData.error) {
             setHasError(true);
@@ -42,6 +48,7 @@ function LoginPage() {
 
     //Navigate to the signin page
     const onSwitchToSignIn = () => {
+        navigation.navigate('signUpPg');
     }
 
     return (
@@ -82,8 +89,6 @@ function LoginPage() {
         </KeyboardAvoidingView>
     );
 }
-
-export default LoginPage;
 
 const stylesheet = StyleSheet.create({
     mainView: {
@@ -159,3 +164,17 @@ const stylesheet = StyleSheet.create({
         color: 'white',
     }
 })
+
+const Stack = createNativeStackNavigator();
+
+// TODO: Change FullInvView to the profile page when it's done
+const LoginSignUp = () => {
+    return (
+            <Stack.Navigator initialRouteName='MainView' screenOptions={{headerShown: false}}>
+                <Stack.Screen name = 'MainView' component = {LoginPage}/>
+                <Stack.Screen name = 'signUpPg' component = {SignUpPage} />
+            </Stack.Navigator>
+    )
+}
+
+export default LoginSignUp;
