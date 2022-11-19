@@ -49,7 +49,6 @@ const ViewAppliancesPageList: React.FC<Props> = ({
     if (error)
         return <Text>{error.message}</Text>;
     
-    // console.log(data.findAppliances);
     let dataList = data.findAppliances;
     
     dataList.forEach((ele: { type: string; id: string; name: string; }) => {
@@ -75,7 +74,22 @@ const ViewAppliancesPageList: React.FC<Props> = ({
 
         
     });
-    console.log(new Date().toLocaleTimeString());
+    // Mock data, update with backend connection in future sprint
+    // let applianceListStart = [
+    //    new ApplianceModel('1', 'Taco\'s washing machine', new WashingMachine(), [
+    //     new ScheduledTime(1677498639, 1667509639),
+    //     new ScheduledTime(1677798639, 1687599639)
+    //    ]),
+
+    //    new ApplianceModel('2', 'Laco\'s stove', new Stove(), [
+    //     new ScheduledTime(1677118639, 1667509639),
+    //     new ScheduledTime(1677798639, 1687599639)
+    //    ]),
+
+    //    new ApplianceModel('3', 'Waco\'s oven', new Oven(), [
+    //     new ScheduledTime(1177498639, 1867509639)
+    //    ])
+    // ];
 
     if (applianceList.length === 0) {
         setApplianceList(applianceListStart);
