@@ -116,11 +116,11 @@ const resolvers = {
             args: {applianceId: String, name: String}
         ): Promise<Boolean> =>{
             const appliance = await Appliance.findByIdAndUpdate(args.applianceId, {$set: {name: args.name}})
-            .catch(()=>{
+            .then(()=>{
                 console.log("update appliance")
                 return true
             })
-            .then(
+            .catch(
                 ()=>{
                     console.log("failed to create appliance")
                     return false
@@ -132,11 +132,11 @@ const resolvers = {
             args: {applianceId: String}
         ): Promise<Boolean> =>{
             const appliance = await Appliance.findByIdAndRemove(args.applianceId)
-            .catch(()=>{
+            .then(()=>{
                 console.log("deleted appliance")
                 return true
             })
-            .then(
+            .catch(
                 ()=>{
                     console.log("failed to delete appliance")
                     return false
@@ -147,14 +147,16 @@ const resolvers = {
             root,
             args: {applianceId: String, userId: String}
         ): Promise<Boolean> =>{
-            const appliance = await Appliance.findByIdAndUpdate(args.applianceId, {$push: {}})
-            .catch(()=>{
-                console.log("deleted appliance")
+            var queueList = (await Appliance.findOne({ id: args.applianceId })).queue;
+            queueList.push(args.userId);
+            const appliance = await Appliance.findOneAndUpdate({ id: args.applianceId }, { queue: queueList })
+            .then(()=>{
+                console.log("updated appliance queue")
                 return true
             })
-            .then(
+            .catch(
                 ()=>{
-                    console.log("failed to delete appliance")
+                    console.log("failed to update appliance queue")
                     return false
                 })
             return appliance
