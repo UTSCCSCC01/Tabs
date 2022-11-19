@@ -2,7 +2,7 @@ import React from "react"
 import { Platform} from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { registerRootComponent } from 'expo';
-import FullInvView from './ui/pages/view/DEPRECATED/inventoryView'
+import FullInvView from './ui/pages/view/inventoryView'
 import { NavigationContainer } from '@react-navigation/native';
 import HomePage from "./ui/pages/view/homePage";
 
