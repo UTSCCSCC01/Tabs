@@ -1,3 +1,4 @@
+import { gql } from '@apollo/client';
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';import { SvgUri } from 'react-native-svg';
 import { isAdmin } from '../../../../controllers/Admin';

@@ -1,7 +1,8 @@
+import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { SvgUri } from 'react-native-svg';
-import { ApplianceModel, Oven, ScheduledTime, Stove, WashingMachine } from '../../../../models/ApplianceModel';
+import { ApplianceModel, DishWasher, Dryer, OtherAppliance, Oven, ScheduledTime, Stove, WashingMachine } from '../../../../models/ApplianceModel';
 import { folderCommonStyles } from '../common/FolderCommonStyles';
 import ViewAppliancesPageItem from './ViewAppliancesPageItem';
 
@@ -12,6 +13,14 @@ export type Props = {
 export let removeAppliance = (debtId: string) => {
     console.log('No function available yet')
 }
+
+const FIND_APPLIANCES =
+gql`
+query FindAppliances($houseId: String!) {
+    findAppliances(houseId: $houseId) {
+      id, name, type, queue, availability, houseId
+    }
+}`
 
 /**
  * Display the list of inventory items
@@ -24,23 +33,69 @@ const ViewAppliancesPageList: React.FC<Props> = ({
 }) => {
     console.log('Appliance page created')
     
+    // TODO HOUSE ID
+    const { loading, data, refetch, error } = useQuery(FIND_APPLIANCES, {
+        variables: { houseId: '777' },
+    });
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    // const onRefresh = React.useCallback(() => {
+    //     setRefreshing(true);
+    //     refetch();
+    //     wait(1000).then(() => setRefreshing(false));
+    // }, []);
+
+    if (loading)
+        return <Text>Loading ...</Text>;
+    if (error)
+        return <Text>{error.message}</Text>;
+    
+    // console.log(data.findAppliances);
+    let dataList = data.findAppliances;
+    var applianceListStart: any[] | (() => any[]) = [];
+    
+    dataList.forEach((ele: { type: string; id: string; name: string; }) => {
+
+        if (ele.type === "Stove") {
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new Stove(), []));
+        }
+        else if (ele.type === "Oven") {
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new Oven(), []));
+        }
+        else if (ele.type === "Washing Machine") {
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new WashingMachine(), []));
+        }
+        else if (ele.type === "Dish Washer") {
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new DishWasher(), []));
+        }
+        else if (ele.type === "Dryer") {
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new Dryer(), []));
+        }
+        else {
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new OtherAppliance(), []));
+        }
+
+        
+    });
     // Mock data, update with backend connection in future sprint
-    let applianceListStart = [
-       new ApplianceModel('1', 'Taco\'s washing machine', new WashingMachine(), [
-        new ScheduledTime(1677498639, 1667509639),
-        new ScheduledTime(1677798639, 1687599639)
-       ]),
+    // let applianceListStart = [
+    //    new ApplianceModel('1', 'Taco\'s washing machine', new WashingMachine(), [
+    //     new ScheduledTime(1677498639, 1667509639),
+    //     new ScheduledTime(1677798639, 1687599639)
+    //    ]),
 
-       new ApplianceModel('2', 'Laco\'s stove', new Stove(), [
-        new ScheduledTime(1677118639, 1667509639),
-        new ScheduledTime(1677798639, 1687599639)
-       ]),
+    //    new ApplianceModel('2', 'Laco\'s stove', new Stove(), [
+    //     new ScheduledTime(1677118639, 1667509639),
+    //     new ScheduledTime(1677798639, 1687599639)
+    //    ]),
 
-       new ApplianceModel('3', 'Waco\'s oven', new Oven(), [
-        new ScheduledTime(1177498639, 1867509639)
-       ])
-    ];
+    //    new ApplianceModel('3', 'Waco\'s oven', new Oven(), [
+    //     new ScheduledTime(1177498639, 1867509639)
+    //    ])
+    // ];
 
+    console.log(applianceListStart);
     const [applianceList, setApplianceList] = React.useState(applianceListStart)
 
     removeAppliance = (id: string) => {
