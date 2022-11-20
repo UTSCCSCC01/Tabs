@@ -4,6 +4,7 @@ import { shadowType } from 'react-native-floating-action';
 import { TextInput } from 'react-native-gesture-handler';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { gql, useMutation } from '@apollo/client';
+import { UserServices } from '../../../controllers/UserServices';
 
 let windowHeight = Dimensions.get('window').height;
 let popupHeight = 0.5*windowHeight;
@@ -93,7 +94,7 @@ const AddAppliancePopup = (props: {show : boolean, closePopup : (VoidFunction) }
 
     const [addApplianceMutationFunction, addApplianceMutationData] = useMutation(CREATE_APPLIANCE,
         {
-            refetchQueries: [{query: FIND_APPLIANCES}, "Query"],
+            refetchQueries: [{query: FIND_APPLIANCES, variables:{houseId: UserServices.currentHouse}}, "Query"],
             awaitRefetchQueries: true
         })
 

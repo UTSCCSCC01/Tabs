@@ -3,24 +3,99 @@ import { useState } from 'react';
 import { Text, View, StyleSheet, Dimensions, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from 'react-native-gesture-handler';
+import {gql,useMutation} from '@apollo/client'
+import { UserServices } from '../../../controllers/UserServices';
+import Loading from '../../fragments/view/loading';
 
 let windowHeight = Dimensions.get('window').height;
+
+export const FullLoginPage = ({navigation}:{navigation:any}) =>{
+    const userServices = new UserServices;
+
+    const [loading, setLoading] = useState(true);
+
+
+    userServices.getCurrentUser().then(value=>{
+        setLoading(false);
+        console.log("userID is :c: " + value)
+        if (value != "" && value != undefined && value != null){
+        console.log("BY THE BIG RESULT PART 1\n\n\n\n\n\n");
+
+            navigation.navigate('Home');
+        }else{
+            return(
+                <LoginPage navigation={navigation} userServices={userServices}/>
+            )
+        }
+
+        if (value == undefined) return <LoginPage navigation={navigation} userServices={userServices}/>
+        console.log("BY THE BIG RESULT PART 2\n\n\n\n\n\n");
+
+
+    })
+
+    if (loading)
+    return (<Loading/>)
+
+    else return(
+        <LoginPage navigation={navigation} userServices={userServices}/>
+    )
+}
 
 /**
 * @name LoginPage
 * @returns a login form with two text inputs, username and password. Also includes a button to navigate to signup and a login button
 */
-function LoginPage() {
+export const LoginPage = ({navigation, userServices}:{navigation:any, userServices:UserServices}) => {
+
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
+    const LOGIN = gql`
+        mutation SignIn($username: String!, $password: String!) {
+            signIn(username: $username, password: $password) {
+                id
+                email
+                username
+                password
+                phone
+            }
+        }
+    `
+
+    const [LoginMutationFunction, LoginMutationFunctionData] = useMutation(LOGIN);
+    const [hasError, setHasError] = useState(false);
+
+
+
     //backend function for login here, constants for username and password stored in username, password
     const onInput = () => {
+        setHasError(false)
+        if (username == '' || password == '') {
+            setHasError(true);
+            return;
+        }
+        LoginMutationFunction({variables: {"username":username, "password":password}}).then(response => {
+            if (response == null ||response.data == null || response.data.signIn == null || LoginMutationFunctionData.error) {
+            setHasError(true);
+        }
+        else {
+            console.log("strange behaviour\n\n\n\n" + JSON.stringify(response))
+
+            userServices.storeCurrentUser(response.data.signIn.id)
+            navigation.navigate('Home');
+        }
+         }).catch(response => {
+            console.log("strange behaviour\n\n\n\n" + JSON.stringify(response))
+            setHasError(true);
+         });
     }
 
     //Navigate to the signin page
     const onSwitchToSignIn = () => {
+        navigation.navigate('signUpPg');
     }
 
     return (
@@ -52,15 +127,15 @@ function LoginPage() {
                     <TouchableOpacity style={stylesheet.buttonOutline} onPress={onInput}>
                         <Text style={stylesheet.buttonText}> Log In </Text>
                     </TouchableOpacity>
-
                 </View>
-
+                
+                <View>
+                    {hasError && <Text style={stylesheet.buttonText}>Login failed</Text>}
+                </View>
             </LinearGradient>
         </KeyboardAvoidingView>
     );
 }
-
-export default LoginPage;
 
 const stylesheet = StyleSheet.create({
     mainView: {
@@ -136,3 +211,10 @@ const stylesheet = StyleSheet.create({
         color: 'white',
     }
 })
+
+
+
+// TODO: Change FullInvView to the profile page when it's done
+
+
+export default FullLoginPage;

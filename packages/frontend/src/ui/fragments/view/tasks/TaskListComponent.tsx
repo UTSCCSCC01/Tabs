@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, FlatList } from 'react-native';
 import { TaskListItem } from './TaskListItem';
 
-const GET_ALL_TASKS=gql`
+export const GET_ALL_TASKS=gql`
 query GetAllTasks($userId: String!) {
     getAllOwnerTasks(owner: $userId) {
       id
@@ -61,7 +61,7 @@ const TaskListComponent = ({userId, houseId}: {userId: string, houseId: string})
             <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     data={allTasks as readonly any[] | null | undefined}
-                    renderItem={({item}) => <TaskListItem taskDone={item.doneStatus} taskName={item.task} subtasks={item.subtasks} author={item.author} dueDate={item.dueDate} taskId={item.id}/>}
+                    renderItem={({item}) => <TaskListItem userId={item.owner} taskDone={item.doneStatus} taskName={item.task} subtasks={item.subtasks} author={item.author} dueDate={item.dueDate} taskId={item.id}/>}
             />
         );
     }
@@ -75,7 +75,7 @@ const TaskListComponent = ({userId, houseId}: {userId: string, houseId: string})
             <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     data={DATA as readonly any[] | null | undefined}
-                    renderItem={({item}) => <TaskListItem taskDone={item.taskDone} taskName={item.task} subtasks={item.subtasks} author={item.author} dueDate={item.dueDate} taskId={item.taskId}/>}
+                    renderItem={({item}) => <TaskListItem userId={item.owner} taskDone={item.taskDone} taskName={item.task} subtasks={item.subtasks} author={item.author} dueDate={item.dueDate} taskId={item.taskId}/>}
             />
         );
 

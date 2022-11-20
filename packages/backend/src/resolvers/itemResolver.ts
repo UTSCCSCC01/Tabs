@@ -96,7 +96,9 @@ async function createItemfunc(userId:String, categoryId:String, name:String, exp
         return ""
     }
     let x;
+    console.log("expiration is: " + expiration + "\n\n\n\n\n")
     const exp = Number(expiration)
+    console.log("exp is: "+ exp + "\n\n\n\n\n\n\n")
     const res = await Item.create({categoryId:categoryId, name:name, expiration:exp}).then((res)=>{console.log("Created Item"); x=res.id}).catch(()=>{console.log("Failed to create Item"); x=""})
     return x
 

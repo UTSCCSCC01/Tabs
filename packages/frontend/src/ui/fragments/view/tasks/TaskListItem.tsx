@@ -3,14 +3,15 @@ import { Text, View } from 'react-native';
 import { styles } from '../common/mainViewStyles';
 import Checkbox from 'expo-checkbox';
 import { gql, useMutation } from '@apollo/client';
+import { GET_ALL_TASKS } from './TaskListComponent';
 
 export const TOGGLE_COMPLETION =gql`
 mutation ToggleDoneTask($taskId: String, $doneStatus: Boolean) {
     toggleDoneTask(taskId: $taskId, doneStatus: $doneStatus)
 }`
 
-export const TaskListItem = ({taskDone, taskName, dueDate, author, subtasks, taskId}:{taskDone: boolean, 
-  taskName: string, dueDate:string, author:string, taskId: string, 
+export const TaskListItem = ({taskDone, taskName, dueDate, author, subtasks, taskId, userId}:{taskDone: boolean, 
+  taskName: string, dueDate:string, author:string, taskId: string, userId:string,
   subtasks:{taskDone:boolean, taskName:string, dueDate:string, author: string}[]}) => {
   
   console.log("LOADING TASK LIST ITE WITH NAME:" + taskName + "\nWITH ID: " + taskId);
@@ -20,7 +21,7 @@ export const TaskListItem = ({taskDone, taskName, dueDate, author, subtasks, tas
   const [toggleCompletionMutationFunction, toggleCompletionMutationData] = useMutation(
     TOGGLE_COMPLETION,
     {
-      refetchQueries: [],
+      refetchQueries: [{query: GET_ALL_TASKS, variables:{userId: userId}}],
       awaitRefetchQueries: true
       
     }
@@ -29,7 +30,7 @@ export const TaskListItem = ({taskDone, taskName, dueDate, author, subtasks, tas
   //React.useEffect(()=>{toggleDoneTask(!doneTask)}, [toggleCompletionMutationData.called])
   const toggleCompletionHandler = (value:boolean) => {
     console.log("Toggling completion with value: " + value)
-    toggleCompletionMutationFunction({variables: {taskId: taskId, doneTask: value}});
+    toggleCompletionMutationFunction({variables: {taskId: taskId, doneStatus: !value}});
     toggleDoneTask(value);
    }
 

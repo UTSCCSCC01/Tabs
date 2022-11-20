@@ -2,14 +2,16 @@ import { registerRootComponent } from 'expo';
 import React from 'react';
 import {  SafeAreaView,  FlatList,  StatusBar, Text, View, StyleSheet, Button, TextInput, Touchable, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { FolderBackdropListFragment } from '../../fragments/view/common/FolderBackdropFragment';
+import { FolderBackdropListFragment } from '../common/FolderBackdropFragment';
 import FolderBackdropAsset from '../../../assets/images/FolderBackgdrop.svg';
-import { folderCommonStyles } from '../../fragments/view/common/FolderCommonStyles';
+import { folderCommonStyles } from '../common/FolderCommonStyles';
 import { SvgXml } from 'react-native-svg';
-import { BackButton, MyHeader } from '../../fragments/view/common/MyHeader';
-import { FunctionObject } from '../../fragments/view/common/FunctionObject';
+import { BackButton, MyHeader } from '../common/MyHeader';
+import { FunctionObject } from '../common/FunctionObject';
 import { gql, useMutation } from '@apollo/client';
-import { InventoryItem } from '../../fragments/view/inventory/InventoryItem';
+import { InventoryItem } from '../inventory/InventoryItem';
+import { CREATE_ITEM, FIND_ITEM, FIND_ITEMS } from './querySingletons';
+import { foodExpiryScheduleNotification } from '../../notifications';
 
 
 const icon = `<svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,8 +28,46 @@ const icon = `<svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns=
 * @returns Form to add an item to a category previously chosen in main inventory view.
 * @see inventoryView to see where this component is used
 */
-const AddItemView = ({switchViewFunction, submitFunction} : {switchViewFunction:Function, submitFunction:Function}) => {
-  console.log("LOADED ADD ITEM VIEW")
+
+
+
+
+
+
+
+
+const AddItemView2 = ({switchViewFunction, chosenCategoryId,  userId} : {switchViewFunction:Function,  chosenCategoryId:string, userId:string}) => {
+  console.log("LOADED ADD ITEM VIEW");
+
+  const [addItemMutationFunction, addItemMutationData] = useMutation(CREATE_ITEM,
+    {
+    refetchQueries: [{query: FIND_ITEMS, variables: {categoryId: chosenCategoryId}}, "ItemsQuery", {query: FIND_ITEM}, "FindItem"],
+      awaitRefetchQueries: true
+    });
+
+
+
+    const addItemHandler=(item: InventoryItem) => {
+        item.categoryKey=chosenCategoryId
+        console.log("Adding item " + item.name + " to the database");
+        console.log("The category key is: " + item.categoryKey)
+        console.log("The expiration date is: " + item.expirationDate)
+        addItemMutationFunction({variables: {"name":item.name, "categoryId":item.categoryKey, "expiration":item.expirationDate.toString(), userId:userId}});
+       
+    
+        // while (addItemMutationData.loading) {
+        //   console.log("Waiting")
+        // } 
+
+        const date = new Date(item.expirationDate);
+    
+        
+        foodExpiryScheduleNotification(date.toUTCString());
+
+        switchViewFunction(1);
+
+      }
+
   return (
     <View style={{
       backgroundColor: "#85C4CF",
@@ -48,7 +88,7 @@ const AddItemView = ({switchViewFunction, submitFunction} : {switchViewFunction:
           </SvgXml>
         </View>
 
-        <FolderBackdropListFragment submitFunction={submitFunction} goBack={switchViewFunction}>
+        <FolderBackdropListFragment submitFunction={addItemHandler} goBack={switchViewFunction}>
 
         </FolderBackdropListFragment>
     </View>
@@ -63,4 +103,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default AddItemView;
+export default AddItemView2;
