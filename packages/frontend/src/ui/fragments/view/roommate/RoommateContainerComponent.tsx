@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SvgUri } from 'react-native-svg';
+import { setUserToShow } from '../../../pages/view/IndividualProfilePageView';
 
 export type Props = {
+    user: string;
+    setUser: any;
     name: string; // roomate name
     isBusy: boolean; // busy/notbusy
     silentHours: string; // phone number
@@ -11,14 +14,22 @@ export type Props = {
 };
 
 const RoommateContainerComponent: React.FC<Props> = ({
+    user,
+    setUser,
     name,
     isBusy,
     silentHours,
     navigation
 }) => {
 
+    const setUserFunc = () => {
+        var loggedInUserId = '7';
+        var isLocal = (loggedInUserId === user);
+        setUserToShow(user, isLocal);
+    }
+
     return (
-        <Pressable onPress={() => navigation.navigate('User Profile')} style={({ pressed }) => ({
+        <Pressable onPress={() => {setUserFunc(); navigation.navigate('User Profile')}} style={({ pressed }) => ({
             paddingBottom: '3%',
             width: '100%',
             shadowColor: 'grey',

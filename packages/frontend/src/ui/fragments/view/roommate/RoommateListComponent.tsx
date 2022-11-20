@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, FlatList, RefreshControl, Dimensions } from 'react-native';
 import RoommateContainerComponent from './RoommateContainerComponent';
 
@@ -16,7 +16,7 @@ const GET_HOUSEMEMBERS =
 gql`
 query GetHouseMembers($houseId: String!) {
     getHouseMembers(houseId: $houseId) {
-      name, isBusy, silentHours
+      userId, name, isBusy, silentHours
     }
 }`
 
@@ -30,6 +30,13 @@ const RoommateListComponent: React.FC<Props> = ({
     houseId,
     navigation,
 }) => {
+    
+    const [user, setUser] = useState('7');
+
+    const setUserFunc = () => {
+        setUser(user);
+    }
+
     const { loading, data, refetch, error } = useQuery(GET_HOUSEMEMBERS, {
         variables: { houseId: houseId},
     });
@@ -46,7 +53,7 @@ const RoommateListComponent: React.FC<Props> = ({
     if (error)
         return <Text>{error.message}</Text>;
 
-    return data.getHouseMembers.map((element: { name: string, isBusy: Boolean, silentHours: String}) => {
+    return data.getHouseMembers.map((element: { userId: string, name: string, isBusy: Boolean, silentHours: String}) => {
 
         const DATA = data.getHouseMembers;
 
@@ -54,7 +61,7 @@ const RoommateListComponent: React.FC<Props> = ({
             <FlatList style={styles.listContainer}
                     contentContainerStyle={{ paddingBottom: 20 }}
                     data={DATA as readonly any[] | null | undefined}
-                    renderItem={({item}) => <RoommateContainerComponent name={item.name} isBusy={item.isBusy} silentHours={item.silentHours} navigation={navigation}/> }
+                    renderItem={({item}) => <RoommateContainerComponent user={item.userId} setUser={setUser} name={item.name} isBusy={item.isBusy} silentHours={item.silentHours} navigation={navigation}/> }
                     refreshControl={<RefreshControl
                         colors={["#2493A1", "#2493A1"]}
                         refreshing={refreshing}
