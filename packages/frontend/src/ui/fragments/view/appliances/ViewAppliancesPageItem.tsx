@@ -12,13 +12,14 @@ export type Props = {
   name: string;
   type: ApplianceType;
   scheduled: Array<ScheduledTime>;
+  queue: [string];
 };
 
 export type ListProps = {
   scheduled: ScheduledTime;
 };
 
-const FIND_APPLIANCES =
+export const FIND_APPLIANCES =
 gql`
 query FindAppliances($houseId: String!) {
     findAppliances(houseId: $houseId) {
@@ -30,6 +31,12 @@ const DELETE_APPLIANCE =
 gql`
 mutation DeleteAppliance($applianceId: String!) {
     deleteAppliance(applianceId:$applianceId)
+}`
+
+const ADD_QUEUE =
+gql`
+mutation AddQueue($applianceId: String!, $userId: String!) {
+    addQueue(applianceId:$applianceId, userId:$userId)
 }`
 
 /**
@@ -69,6 +76,7 @@ const ViewApplicationPageExtraInfo: React.FC<ListProps> = ({scheduled}) => {
  * @param name
  * @param type
  * @param scheduled
+ * @param queue
  * @returns React element
  */
 const ViewAppliancesPageItem: React.FC<Props> = ({
@@ -76,10 +84,17 @@ const ViewAppliancesPageItem: React.FC<Props> = ({
   userId,
   name,
   type,
-  scheduled
+  scheduled,
+  queue
 }) => {
 
     const [deleteApplianceMutationFunction, deleteApplianceMutationData] = useMutation(DELETE_APPLIANCE,
+        {
+            refetchQueries: [{query: FIND_APPLIANCES, variables:{houseId: UserServices.currentHouse}}, "FindAppliances"],
+            awaitRefetchQueries: true
+        })
+
+    const [addQueueMutationFunction, addQueueMutationData] = useMutation(ADD_QUEUE,
         {
             refetchQueries: [{query: FIND_APPLIANCES, variables:{houseId: UserServices.currentHouse}}, "FindAppliances"],
             awaitRefetchQueries: true
@@ -122,7 +137,7 @@ const ViewAppliancesPageItem: React.FC<Props> = ({
 
   let [extraInfoStyle, setInfoState] = React.useState(setVisible(true));
 
-
+  console.log('hihihihi' + queue);
   
   return (
       <Pressable style={[styles.roundedContainer, folderCommonStyles.column, {
@@ -159,7 +174,8 @@ const ViewAppliancesPageItem: React.FC<Props> = ({
           <Text style= {{
             fontSize: 18
           }}>
-            {'Scheduled for'}
+            {'Scheduled for '}
+            {queue}
           </Text>
           
           <FlatList style={styles.listContainer}
@@ -174,21 +190,14 @@ const ViewAppliancesPageItem: React.FC<Props> = ({
 
           <View style={[folderCommonStyles.row, {
           }]}>
-            <Pressable style ={[{
-              backgroundColor: '#127589',
-              padding: 10,
-              alignSelf: 'flex-start',
-              marginTop: 10,
-              borderRadius: 20,
-              paddingHorizontal: 20
-            }, extraInfoStyle]}>
-              <Text style ={{
-                color: 'white',
-                fontSize: 25
-              }}>
-                {'Reserve'}
-              </Text>
-            </Pressable>
+            <ReserveButton
+                extraInfoStyle={extraInfoStyle}
+                isAdmin={isAdmin(userId)}
+                userId={userId}
+                applianceId= {applianceId}
+                isOpen= {opened}
+                deleteApplianceMutationFunction={addQueueMutationFunction}
+              ></ReserveButton>
 
             <View style ={extraInfoStyle}>
               <DeleteButton
@@ -214,11 +223,20 @@ export type DeleteProps = {
   deleteApplianceMutationFunction: any;
 };
 
+export type ReserveProps = {
+    extraInfoStyle: any;
+    isAdmin: boolean;
+    userId: string;
+    applianceId: string;
+    isOpen: boolean;
+    deleteApplianceMutationFunction: any;
+  };
+
 const DeleteButton: React.FC<DeleteProps> = ({isAdmin, applianceId, isOpen, deleteApplianceMutationFunction}) => {
 
     const onDelete = () => {
         deleteApplianceMutationFunction({ variables: { applianceId } }).catch((error: any) => console.log('error: ', error));
-      }
+    }
         
     if (!isAdmin) {
         return (<View></View>)
@@ -245,6 +263,39 @@ const DeleteButton: React.FC<DeleteProps> = ({isAdmin, applianceId, isOpen, dele
             {'Delete'}
         </Text>
         </Pressable>
+    )
+}
+
+const ReserveButton: React.FC<ReserveProps> = ({extraInfoStyle, isAdmin, userId, applianceId, isOpen, deleteApplianceMutationFunction}) => {
+
+    const onReserve = () => {
+        deleteApplianceMutationFunction({ variables: { applianceId, userId } }).catch((error: any) => console.log('error: ', error));
+    }
+        
+    if (!isAdmin) {
+        return (<View></View>)
+    }
+
+    if (isOpen) {
+        return (<View></View>)
+    }
+
+    return (
+        <Pressable onPress={onReserve} style ={[{
+            backgroundColor: '#127589',
+            padding: 10,
+            alignSelf: 'flex-start',
+            marginTop: 10,
+            borderRadius: 20,
+            paddingHorizontal: 20
+          }, extraInfoStyle]}>
+            <Text style ={{
+              color: 'white',
+              fontSize: 25
+            }}>
+              {'Reserve'}
+            </Text>
+          </Pressable>
     )
 }
 

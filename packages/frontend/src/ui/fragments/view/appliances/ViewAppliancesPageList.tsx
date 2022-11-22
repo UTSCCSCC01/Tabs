@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import { Time } from 'phaser';
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, RefreshControl } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import { ApplianceModel, DishWasher, Dryer, OtherAppliance, Oven, ScheduledTime, Stove, WashingMachine } from '../../../../models/ApplianceModel';
 import { folderCommonStyles } from '../common/FolderCommonStyles';
@@ -22,6 +22,10 @@ query FindAppliances($houseId: String!) {
       id, name, type, queue, availability, houseId
     }
 }`
+
+const wait = (timeout: number | undefined) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 /**
  * Display the list of inventory items
@@ -44,6 +48,16 @@ const ViewAppliancesPageList: React.FC<Props> = ({
 
     const [refreshing, setRefreshing] = React.useState(false);
 
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        applianceListStart = [];
+        refetch();
+        setApplianceList(applianceListStart);
+        wait(1000).then(() => setRefreshing(false));
+    }, []);
+
+
+
     if (loading)
         return <Text>Loading ...</Text>;
     if (error)
@@ -51,25 +65,25 @@ const ViewAppliancesPageList: React.FC<Props> = ({
     
     let dataList = data.findAppliances;
     
-    dataList.forEach((ele: { type: string; id: string; name: string; }) => {
+    dataList.forEach((ele: { type: string; id: string; name: string; queue: [string]}) => {
 
         if (ele.type === "Stove") {
-            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new Stove(), []));
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new Stove(), [], ele.queue));
         }
         else if (ele.type === "Oven") {
-            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new Oven(), []));
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new Oven(), [], ele.queue));
         }
         else if (ele.type === "Washing Machine") {
-            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new WashingMachine(), []));
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new WashingMachine(), [], ele.queue));
         }
         else if (ele.type === "Dish Washer") {
-            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new DishWasher(), []));
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new DishWasher(), [], ele.queue));
         }
         else if (ele.type === "Dryer") {
-            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new Dryer(), []));
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new Dryer(), [], ele.queue));
         }
         else {
-            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new OtherAppliance(), []));
+            (applianceListStart as unknown as any[]).push(new ApplianceModel(ele.id, ele.name, new OtherAppliance(), [], ele.queue));
         }
 
         
@@ -120,6 +134,10 @@ const ViewAppliancesPageList: React.FC<Props> = ({
             <FlatList style={styles.listContainer}
                 contentContainerStyle = {{ paddingBottom: 20 }}
                 data = {applianceList as readonly any[] | null | undefined}
+                refreshControl={<RefreshControl
+                    colors={["#2493A1", "#2493A1"]}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh} />}
                 renderItem = {({item}) => 
                     <ViewAppliancesPageItem 
                         applianceId = {item.id}
@@ -127,6 +145,7 @@ const ViewAppliancesPageList: React.FC<Props> = ({
                         userId = {userId}
                         type = {item.type}
                         scheduled = {item.scheduled}
+                        queue = {item.queue}
                     /> 
                 }
 

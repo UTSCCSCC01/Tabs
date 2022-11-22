@@ -5,12 +5,14 @@ export class ApplianceModel {
     name: string;
     type: ApplianceType;
     scheduled: Array<ScheduledTime> = [];
+    queue: Array<String> = [];
 
-    public constructor(id: string, name: string, type: ApplianceType, scheduled: Array<ScheduledTime>) {
+    public constructor(id: string, name: string, type: ApplianceType, scheduled: Array<ScheduledTime>, queue: Array<String>) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.scheduled = scheduled;
+        this.queue = queue;
     }
 
     public addScheduledTime(time: ScheduledTime) {

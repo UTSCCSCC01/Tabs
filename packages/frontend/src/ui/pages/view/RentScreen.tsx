@@ -33,10 +33,10 @@ const RentScreen: React.FC = (
                 <DebtListComponent userId='7'/>
             </SafeAreaView>
             
-            <FloatingActionButton 
+            {/* <FloatingActionButton 
             name="add item" 
             argument={1} 
-            myFunction={switchView}/>
+            myFunction={switchView}/> */}
 
             
         </View>
