@@ -5,6 +5,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { gql, useMutation } from '@apollo/client';
 import { UserServices } from '../../../controllers/UserServices';
+import { FIND_APPLIANCES } from '../../fragments/view/appliances/ViewAppliancesPageItem';
 
 let windowHeight = Dimensions.get('window').height;
 let popupHeight = 0.5*windowHeight;
@@ -41,13 +42,6 @@ mutation CreateAppliance($houseId: String!, $name: String!, $type: String!) {
     }
 }`
 
-const FIND_APPLIANCES =
-gql`
-query FindAppliances($houseId: String!) {
-    findAppliances(houseId: $houseId) {
-      id, name, type, queue, availability, houseId
-    }
-}`
 
 
 /**
